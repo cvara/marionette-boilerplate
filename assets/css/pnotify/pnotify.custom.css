@@ -1,0 +1,71 @@
+/*
+Author  : Hunter Perrin
+Version : 2.0.1
+Link    : http://sciactive.com/pnotify/
+*/
+/* -- Notice */
+.ui-pnotify {
+	top: 25px;
+	right: 25px;
+	position: absolute;
+	height: auto;
+	/* Ensures notices are above everything */
+	z-index: 9999;
+}
+/* Hides position: fixed from IE6 */
+html > body > .ui-pnotify {
+	position: fixed;
+}
+.ui-pnotify .ui-pnotify-shadow {
+	-webkit-box-shadow: 0 0 10px rgba(50, 50, 50, 0.20);
+	-moz-box-shadow: 0 0 10px rgba(50, 50, 50, 0.20);
+	box-shadow: 0 0 10px rgba(50, 50, 50, 0.20);
+}
+.ui-pnotify-container {
+	background-position: 0 0;
+	padding: 15px 30px !important;
+	height: 100%;
+	margin: 0;
+}
+.ui-pnotify-sharp {
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+.ui-pnotify-title {
+	display: block;
+	margin-bottom: .4em;
+	margin-top: 0;
+	text-transform: capitalize;
+}
+.ui-pnotify-text {
+	display: block;
+}
+.ui-pnotify-icon, .ui-pnotify-icon span {
+	display: block;
+	float: left;
+	margin-right: 0.3em;
+	margin-top: 0.1em;
+}
+/* Alternate stack initial positioning. */
+.ui-pnotify.stack-topleft, .ui-pnotify.stack-bottomleft {
+	left: 25px;
+	right: auto;
+}
+.ui-pnotify.stack-bottomright, .ui-pnotify.stack-bottomleft {
+	bottom: 25px;
+	top: auto;
+}
+.ui-pnotify-closer, .ui-pnotify-sticker {
+	float: right;
+	margin-left: .2em;
+}
+.ui-pnotify.stack-bar-top {
+    right: 0;
+    top: 0;
+    margin-bottom: 0;
+}
+
+.ui-pnotify.stack-bar-top > .ui-pnotify-container {
+	margin-bottom: 0;
+}

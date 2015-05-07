@@ -1,0 +1,72 @@
+//== Layout
+//
+//##
+html, body {
+	height: 100%;
+	min-height: 100%;
+}
+
+#page-wrap {
+	height: 100%;
+	min-height: 100%;
+}
+
+#header-section {
+	position: relative;
+	z-index: 4;
+}
+
+#sidebar-section {
+	display: none;
+
+	#sidebar-container {
+		width: @sidebar-width;
+		min-height: 100%;
+		position: fixed;
+		left: 0;
+		top: 0;
+		padding: (@navbar-height + 28px) 0 15px 0;
+		border-radius: 0;
+		z-index: 2;
+		border-right: 1px solid @navbar-default-border;
+	}
+
+	#page-wrap.sidebar > & {
+		display: block;
+	}
+}
+
+
+#main-region,
+#loading-region {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 0;
+	min-height: 100%;
+	padding: @grid-gutter-width 0;
+	#page-wrap.sidebar > & {
+		padding: (@navbar-height + @grid-gutter-width) 0 28px (@sidebar-width);
+	}
+	#page-wrap.with-header > & {
+		padding: (@navbar-height + @grid-gutter-width) 0 @grid-gutter-width 0;
+	}
+}
+
+#loading-region {
+    height: 100%;
+    position: fixed;
+    background-color: rgba(255,255,255,0.4);
+    z-index: 1;
+    display: none;
+}
+
+#overlay-region {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: @overlay-z-index;
+}
+

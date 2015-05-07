@@ -1,0 +1,251 @@
+//
+// Buttons
+// --------------------------------------------------
+
+
+// Base styles
+// --------------------------------------------------
+
+.btn {
+  display: inline-block;
+  margin-bottom: 0; // For input.btn
+  font-weight: @btn-font-weight;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px solid transparent;
+  white-space: nowrap;
+  .button-size(@padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base; @border-radius-small);
+  .user-select(none);
+
+  &,
+  &:active,
+  &.active {
+    &:focus,
+    &.focus {
+      .tab-focus();
+    }
+  }
+
+  &:hover,
+  &:focus,
+  &.focus {
+    color: @btn-default-color;
+    text-decoration: none;
+  }
+
+  &:active,
+  &.active {
+    outline: 0;
+    background-image: none;
+    .box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
+  }
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    cursor: @cursor-disabled;
+    pointer-events: none; // Future-proof disabling of clicks
+    .opacity(.65);
+    .box-shadow(none);
+  }
+
+  // for icons inside buttons
+  &:not(.btn-icon-only) {
+    .glyphicon, .fa, .icomoon, [class^="icomoon-"], [class*=" icomoon-"] {
+      margin-right: 8px;
+    }
+  }
+  .glyphicon, .fa, .icomoon, [class^="icomoon-"], [class*=" icomoon-"] {
+    position: relative;
+    top: 0.15em;
+  }
+
+  .icomoon, [class^="icomoon-"], [class*=" icomoon-"] {
+    top: 0.05em;
+  }
+
+  .fa {
+    top: 0em;
+  }
+
+  // for spinners inside buttons
+  .spinner {
+    display: none;
+    .animation-name(myfirst);
+    .animation-duration(1s);
+    .animation-timing-function(linear);
+    .animation-delay(0s);
+    .animation-iteration-count(infinite);
+    .animation-direction(normal);
+  }
+  &.spinning {
+    .glyphicon:not(.spinner), .fa:not(.spinner) {
+      display: none !important;
+    }
+    .spinner {
+      display: inline-block;
+    }
+  }
+
+  /* Chrome, Safari, Opera */
+  @-webkit-keyframes myfirst {
+      from { .rotate(0deg); }
+      to { .rotate(360deg); }
+  }
+  /* Standard syntax */
+  @keyframes myfirst {
+      from { .rotate(0deg); }
+      to { .rotate(360deg); }
+  }
+}
+
+// Horizontally space out multiple inline buttons
+&:not([data-toggle]) > .btn:not(:last-child) {
+	margin-right: 5px;
+}
+
+.btn.vertical-margin {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+
+// Alternate buttons
+// --------------------------------------------------
+
+.btn-default {
+  .button-variant(@btn-default-color; @btn-default-bg; @btn-default-border);
+}
+.btn-primary {
+  .button-variant(@btn-primary-color; @btn-primary-bg; @btn-primary-border);
+}
+.btn-secondary {
+  .button-variant(@btn-secondary-color; @btn-secondary-bg; @btn-secondary-border);
+}
+// Success appears as green
+.btn-success {
+  .button-variant(@btn-success-color; @btn-success-bg; @btn-success-border);
+}
+// Info appears as blue-green
+.btn-info {
+  .button-variant(@btn-info-color; @btn-info-bg; @btn-info-border);
+}
+// Warning appears as orange
+.btn-warning {
+  .button-variant(@btn-warning-color; @btn-warning-bg; @btn-warning-border);
+}
+// Danger and error appear as red
+.btn-danger {
+  .button-variant(@btn-danger-color; @btn-danger-bg; @btn-danger-border);
+}
+
+
+
+// Link buttons
+// -------------------------
+
+// Make a button look and behave like a link
+.btn-link {
+  color: @link-color;
+  font-weight: normal;
+  border-radius: 0;
+  cursor: pointer;
+
+  &,
+  &:active,
+  &.active,
+  &[disabled],
+  fieldset[disabled] & {
+    background-color: transparent;
+    .box-shadow(none);
+  }
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    border-color: transparent;
+  }
+  &:hover,
+  &:focus {
+    color: @link-hover-color;
+    text-decoration: underline;
+    background-color: transparent;
+  }
+  &[disabled],
+  fieldset[disabled] & {
+    &:hover,
+    &:focus {
+      color: @btn-link-disabled-color;
+      text-decoration: none;
+    }
+  }
+}
+
+
+// Call to Action buttons
+// --------------------------------------------------
+
+.btn-cta {
+  .button-variant(@btn-secondary-color; @btn-secondary-bg; @btn-secondary-border);
+  border-style: none;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 7px 7px;
+  padding: 16px 50px !important;
+  text-transform: capitalize;
+  letter-spacing: 0.04em;
+  box-shadow: 0 4px 0 @btn-secondary-border;
+  &:hover {
+    background-color: darken(@btn-secondary-bg, 2.5%);
+    box-shadow: 0 4px 0 darken(@btn-secondary-border, 5%);
+  }
+  &:active {
+    box-shadow: 0 2px 0 @btn-secondary-border;
+  }
+}
+
+.btn-learn-more {
+  border-width: 4px;
+  font-size: 0.8em;
+}
+
+// Button Sizes
+// --------------------------------------------------
+
+.btn-lg {
+  // line-height: ensure even-numbered height of button next to large input
+  .button-size(@padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @border-radius-large);
+}
+.btn-sm {
+  // line-height: ensure proper height of button next to small input
+  .button-size(@padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @border-radius-small);
+}
+.btn-xs {
+  .button-size(@padding-xs-vertical; @padding-xs-horizontal; @font-size-small; @line-height-small; @border-radius-small);
+}
+
+
+// Block button
+// --------------------------------------------------
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+// Vertically space out multiple block buttons
+.btn-block + .btn-block {
+  margin-top: 5px;
+}
+
+// Specificity overrides
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  &.btn-block {
+    width: 100%;
+  }
+}

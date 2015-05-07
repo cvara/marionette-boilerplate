@@ -1,0 +1,39 @@
+{
+  "name": "marionette-bootstrap-project",
+  "version": "0.1.0",
+  "author": "Christopher Varakliotis <c.varakliotis@noodio.fm>",
+  "description": "A sample Marionette bootstrap project",
+  "private": false,
+  "contributors": [
+    {
+      "name": "Christopher Varakliotis",
+      "email": "<c.varakliotis@noodio.fm>"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-compress": "^0.9.1",
+    "grunt-contrib-connect": "^0.8.0",
+    "grunt-contrib-copy": "^0.5.0",
+    "grunt-contrib-cssmin": "^0.10.0",
+    "grunt-contrib-imagemin": "^0.7.2",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-less": "^0.12.0",
+    "grunt-contrib-requirejs": "~0.4.*",
+    "grunt-contrib-uglify": "^0.5.1",
+    "grunt-env": "^0.4.1",
+    "grunt-plato": "^1.0.0",
+    "grunt-preprocess": "^4.0.0",
+    "grunt-preprocessor": "^0.4.0",
+    "grunt-strip": "^0.2.1"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.10.26"
+  }
+}

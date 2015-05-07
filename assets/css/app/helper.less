@@ -1,0 +1,106 @@
+//== Helper Classes
+//
+//##
+.page-section {
+	margin-bottom: 20px;
+}
+
+.hidden-input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 0;
+	visibility: hidden;
+	z-index: -1;
+}
+
+.currency-euro:after {
+	content: "\20AC";
+	font-weight: 400;
+	font-size: 0.85em;
+}
+
+.pcnt {
+	&:after {
+		content: "%";
+	}
+}
+
+.vat-pcnt{
+	&:before {
+		color: @gray-light;
+		content: " + ";
+	}
+	&:after {
+		content: "%";
+		font-size: 0.85em;
+		font-weight: 400;
+	}
+}
+.calc-total {
+	&:before {
+		color: @gray-light;
+		content: " = ";
+	}
+}
+
+.max-width-xxs {
+	max-width: (@screen-xs / 2);
+}
+
+.max-width-xs {
+	max-width: @screen-xs;
+}
+
+.max-width-sm {
+	max-width: @screen-sm;
+}
+
+.max-width-md {
+	max-width: @screen-md;
+}
+
+.max-width-lg {
+	max-width: @screen-lg;
+}
+
+.inline {
+	display: inline;
+}
+
+.block {
+	display: block;
+}
+
+.inline-block {
+	display: inline-block;
+}
+
+.faded {
+	opacity: 0.6;
+}
+
+.cs-list-item:not(:last-child):after {
+	content:',';
+}
+
+.font-weight-700 {
+	font-weight: 700 !important;
+}
+
+.font-weight-600 {
+	font-weight: 600 !important;
+}
+
+.font-weight-500 {
+	font-weight: 500 !important;
+}
+
+.font-weight-400 {
+	font-weight: 400 !important;
+}
+
+.font-weight-400 {
+	font-weight: 400 !important;
+}

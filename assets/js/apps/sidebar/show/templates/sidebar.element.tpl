@@ -1,0 +1,1 @@
+<a href="javascript:void(0)"><span class="icon"></span><%= name %></a>

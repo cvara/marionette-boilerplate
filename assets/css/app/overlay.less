@@ -1,0 +1,21 @@
+//== Overlay
+//
+//##
+
+.overlay {
+	width: 100%;
+	height: 100%;
+	background-color: @overlay-bg;
+	padding: @overlay-inner-padding;
+
+	> .overlay-header {
+		text-transform: capitalize;
+		padding: @overlay-header-padding;
+		margin: @overlay-header-margin;
+		> .close {
+			position: relative;
+			top: -6px;
+			font-size: 30px;
+		}
+	}
+}
