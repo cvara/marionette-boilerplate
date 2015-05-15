@@ -14,7 +14,7 @@ define([
 				var staticView = new View.StaticView({
 					view: view
 				});
-				App.mainRegion.show(staticView);
+				App.rootView.showChildView('main', staticView);
 			}
 		};
 	});

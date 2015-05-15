@@ -10,7 +10,7 @@ define([
 
 				var splashView = new View.Splash();
 
-				App.mainRegion.show(splashView);
+				App.rootView.showChildView('main', splashView);
 			}
 		};
 	});

@@ -10,7 +10,7 @@ requirejs.config({
 		'jquery.cookie'              : 'vendor/jquery.cookie', // UMD (AMD + CommonJS) Compatible
 		json2                        : 'vendor/json2',
 		localstorage                 : 'vendor/backbone.localstorage',
-		marionette                   : 'vendor/backbone.marionette.2.2.1', // UMD (AMD + CommonJS) Compatible
+		marionette                   : 'vendor/backbone.marionette.2.4.1', // UMD (AMD + CommonJS) Compatible
 		underscore                   : 'vendor/underscore',
 		'jquery-easing'              : 'vendor/jquery.easing',
 		text                         : 'vendor/text', // AMD Compatible

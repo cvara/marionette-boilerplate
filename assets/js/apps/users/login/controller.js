@@ -31,7 +31,7 @@ define([
 					App.showLanding();
 				});
 
-				App.mainRegion.show(loginView);
+				App.rootView.showChildView('main', loginView);
 			}
 		};
 	});

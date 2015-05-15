@@ -43,40 +43,49 @@ define([
 	// #endif
 
 
-	// Login Indicator
+	// Our custom region classes
 	// -------------------------------------------------------------
-	App.isLoggedIn = false;
-
-
-	// URL Requested By Guest
-	// -------------------------------------------------------------
-	// This is the url requested by current guest user, before
-	// being redirected due to access rights
-	App.requestedGuestUrl = false;
-
-
-	// All regions
-	// -------------------------------------------------------------
-	App.addRegions({
-		headerRegion: Marionette.Region.Header.extend({
-			el: '#header-section'
-		}),
-		sidebarRegion: Marionette.Region.Sidebar.extend({
-			el: '#sidebar-section'
-		}),
-		mainRegion: Marionette.Region.Main.extend({
-			el: '#main-region'
-		}),
-		dialogRegion: Marionette.Region.Dialog.extend({
-			el: '#dialog-region'
-		}),
-		loadingRegion: Marionette.Region.Loading.extend({
-			el: '#loading-region'
-		}),
-		overlayRegion: Marionette.Region.Overlay.extend({
-			el: '#overlay-region'
-		})
+	var headerRegion = Marionette.Region.Header.extend({
+		el: '#header-section'
 	});
+	var sidebarRegion = Marionette.Region.Sidebar.extend({
+		el: '#sidebar-section'
+	});
+	var mainRegion = Marionette.Region.Main.extend({
+		el: '#main-region'
+	});
+	var dialogRegion = Marionette.Region.Dialog.extend({
+		el: '#dialog-region'
+	});
+	var loadingRegion = Marionette.Region.Loading.extend({
+		el: '#loading-region'
+	});
+	var overlayRegion = Marionette.Region.Overlay.extend({
+		el: '#overlay-region'
+	});
+
+
+	// The root LayoutView of our app within the context of 'body'
+	// -------------------------------------------------------------
+	// Our custom region classes are attached to this LayoutView
+	// instead of our app object.
+	var RootView = Marionette.LayoutView.extend({
+		el: 'body',
+
+		regions: {
+			header  : headerRegion,
+			sidebar : sidebarRegion,
+			main    : mainRegion,
+			dialog  : dialogRegion,
+			loading : loadingRegion,
+			overlay : overlayRegion
+		}
+	});
+
+
+	// Attach the rootView to the App object for easier access
+	// -------------------------------------------------------------
+	App.rootView = new RootView();
 
 
 	// Behaviors
@@ -87,6 +96,18 @@ define([
 			return Behaviors;
 		};
 	});
+
+
+	// Login Indicator
+	// -------------------------------------------------------------
+	App.isLoggedIn = false;
+
+
+	// URL Requested By Guest
+	// -------------------------------------------------------------
+	// This is the url requested by current guest user, before
+	// being redirected due to access rights
+	App.requestedGuestUrl = false;
 
 
 	// Helper Functions
@@ -125,7 +146,7 @@ define([
 			return;
 		}
 		// for non-dialog apps, close dialog (if open)
-		App.dialogRegion.closeModal();
+		App.rootView.getRegion('dialog').closeModal();
 		// do nothing more if needed app is already started
 		if (App.currentApp === currentApp) {
 			return;
@@ -310,8 +331,8 @@ define([
 				HeaderApp.start();
 				// Detect browser back/fwd buttons and close dialog & overlay
 				Backbone.history.on('route', function() {
-					App.dialogRegion.closeModal();
-					App.overlayRegion.closeOverlay();
+					App.rootView.getRegion('dialog').closeModal();
+					App.rootView.getRegion('overlay').closeOverlay();
 				});
 				console.info('App: post-start tasks complete.');
 			});

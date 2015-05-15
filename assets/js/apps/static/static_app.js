@@ -44,10 +44,10 @@ define(['app'], function(App) {
 			API.showStaticView(view);
 		});
 
-		App.addInitializer(function() {
-			new UsersAppRouter.Router({
-				controller: API
-			});
+		// Install Router
+		// ------------------
+		new UsersAppRouter.Router({
+			controller: API
 		});
 	});
 

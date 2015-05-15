@@ -8,16 +8,15 @@ define([
         Show.Controller = {
             showMainLoader: function() {
                 var loaderView = new View.Loader();
-                App.loadingRegion.show(loaderView);
+                App.rootView.showChildView('loading', loaderView);
             },
 
             hideMainLoader: function() {
-                App.loadingRegion.empty();
+                App.rootView.getRegion('loading').empty();
             },
 
             hideAllLoaders: function() {
-                App.loadingRegion.empty();
-                App.loadingMoreRegion.empty();
+                App.rootView.getRegion('loading').empty();
             }
         };
     });

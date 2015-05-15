@@ -42,11 +42,10 @@ define(['app'], function(App) {
 			API.showLogin();
 		});
 
-
-		App.addInitializer(function() {
-			new UsersAppRouter.Router({
-				controller: API
-			});
+		// Install Router
+		// ------------------
+		new UsersAppRouter.Router({
+			controller: API
 		});
 	});
 

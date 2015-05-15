@@ -32,7 +32,7 @@ define([
 					}
 				});
 
-				App.sidebarRegion.show(sidebar);
+				App.rootView.showChildView('sidebar', sidebar);
 
 				// Sidebar monitors changes in user model & re-draws everything
 				// in case the `role` property has changed
@@ -44,7 +44,7 @@ define([
 			},
 
 			hideSidebar: function() {
-				App.sidebarRegion.empty();
+				App.rootView.getRegion('sidebar').empty();
 			},
 
 			activateElement: function(trigger) {

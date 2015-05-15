@@ -34,7 +34,7 @@ define([
 					});
 				});
 
-				App.headerRegion.show(header);
+				App.rootView.showChildView('header', header);
 			}
 		};
 	});

@@ -42,10 +42,10 @@ define(['app'], function(App) {
 			API.showSplash();
 		});
 
-		App.addInitializer(function() {
-			new SplashAppRouter.Router({
-				controller: API
-			});
+		// Install Router
+		// ------------------
+		new SplashAppRouter.Router({
+			controller: API
 		});
 	});
 
