@@ -1,3 +1,10 @@
+// Backbone.Syphon, v0.6.0
+// ----------------------------------
+//
+// Copyright (c) 2015 Derick Bailey, Muted Solutions, LLC.
+// Distributed under MIT license
+//
+// http://github.com/marionettejs/backbone.syphon
 (function(root, factory) {
 
   if (typeof define === 'function' && define.amd) {
@@ -20,7 +27,7 @@
 
   var Syphon = Backbone.Syphon = {};
 
-  Syphon.VERSION = '0.5.0';
+  Syphon.VERSION = '0.6.0';
 
   Syphon.noConflict = function() {
     Backbone.Syphon = previousSyphon;
@@ -43,7 +50,7 @@
   // all of the form inputs, in this view.
   // Alternately, pass a form element directly
   // in place of the view.
-  Syphon.serialize = function(view, options){
+  Syphon.serialize = function(view, options) {
     var data = {};
   
     // Build the configuration
@@ -53,7 +60,7 @@
     var elements = getInputElements(view, config);
   
     // Process all of the elements
-    _.each(elements, function(el){
+    _.each(elements, function(el) {
       var $el = $(el);
       var type = getElementType($el);
   
@@ -68,7 +75,7 @@
       // Get the key assignment validator and make sure
       // it's valid before assigning the value to the key
       var validKeyAssignment = config.keyAssignmentValidators.get(type);
-      if (validKeyAssignment($el, key, value)){
+      if (validKeyAssignment($el, key, value)) {
         var keychain = config.keySplitter(key);
         data = assignKeyValue(data, keychain, value);
       }
@@ -82,7 +89,7 @@
   // all of the form inputs, in this view.
   // Alternately, pass a form element directly
   // in place of the view.
-  Syphon.deserialize = function(view, data, options){
+  Syphon.deserialize = function(view, data, options) {
     // Build the configuration
     var config = buildConfig(options);
   
@@ -93,7 +100,7 @@
     var flattenedData = flattenData(config, data);
   
     // Process all of the elements
-    _.each(elements, function(el){
+    _.each(elements, function(el) {
       var $el = $(el);
       var type = getElementType($el);
   
@@ -115,24 +122,26 @@
   
   // Retrieve all of the form inputs
   // from the form
-  var getInputElements = function(view, config){
-    var form = getForm(view);
-    var elements = form.elements;
+  var getInputElements = function(view, config) {
+    var formInputs = getForm(view);
   
-    elements = _.reject(elements, function(el){
+    formInputs = _.reject(formInputs, function(el) {
       var reject;
-      var type = getElementType(el);
-      var extractor = config.keyExtractors.get(type);
+      var myType = getElementType(el);
+      var extractor = config.keyExtractors.get(myType);
       var identifier = extractor($(el));
   
-      var foundInIgnored = _.include(config.ignoredTypes, type);
+      var foundInIgnored = _.find(config.ignoredTypes, function(ignoredTypeOrSelector) {
+        return (ignoredTypeOrSelector === myType) || $(el).is(ignoredTypeOrSelector);
+      });
+  
       var foundInInclude = _.include(config.include, identifier);
       var foundInExclude = _.include(config.exclude, identifier);
   
-      if (foundInInclude){
+      if (foundInInclude) {
         reject = false;
       } else {
-        if (config.include){
+        if (config.include) {
           reject = true;
         } else {
           reject = (foundInExclude || foundInIgnored);
@@ -142,22 +151,22 @@
       return reject;
     });
   
-    return elements;
+    return formInputs;
   };
   
   // Determine what type of element this is. It
   // will either return the `type` attribute of
   // an `<input>` element, or the `tagName` of
   // the element when the element is not an `<input>`.
-  var getElementType = function(el){
+  var getElementType = function(el) {
     var typeAttr;
     var $el = $(el);
     var tagName = $el[0].tagName;
     var type = tagName;
   
-    if (tagName.toLowerCase() === 'input'){
+    if (tagName.toLowerCase() === 'input') {
       typeAttr = $el.attr('type');
-      if (typeAttr){
+      if (typeAttr) {
         type = typeAttr;
       } else {
         type = 'text';
@@ -170,19 +179,19 @@
     return type.toLowerCase();
   };
   
-  // If a form element is given, just return it.
-  // Otherwise, get the form element from the view.
-  var getForm = function(viewOrForm){
-    if (_.isUndefined(viewOrForm.$el) && viewOrForm.tagName.toLowerCase() === 'form'){
-      return viewOrForm;
+  // If a dom element is given, just return the form fields.
+  // Otherwise, get the form fields from the view.
+  var getForm = function(viewOrForm) {
+    if (_.isUndefined(viewOrForm.$el)) {
+      return $(viewOrForm).children(':input');
     } else {
-      return viewOrForm.$el.is('form') ? viewOrForm.el : viewOrForm.$('form')[0];
+      return viewOrForm.$(':input');
     }
   };
   
   // Build a configuration object and initialize
   // default values.
-  var buildConfig = function(options){
+  var buildConfig = function(options) {
     var config = _.clone(options) || {};
   
     config.ignoredTypes = _.clone(Syphon.ignoredTypes);
@@ -218,18 +227,18 @@
   // allowing multiple fields with the same name to be
   // assigned to the array.
   var assignKeyValue = function(obj, keychain, value) {
-    if (!keychain){ return obj; }
+    if (!keychain) { return obj; }
   
     var key = keychain.shift();
   
     // build the current object we need to store data
-    if (!obj[key]){
+    if (!obj[key]) {
       obj[key] = _.isArray(key) ? [] : {};
     }
   
     // if it's the last key in the chain, assign the value directly
-    if (keychain.length === 0){
-      if (_.isArray(obj[key])){
+    if (keychain.length === 0) {
+      if (_.isArray(obj[key])) {
         obj[key].push(value);
       } else {
         obj[key] = value;
@@ -237,7 +246,7 @@
     }
   
     // recursive parsing of the array, depth-first
-    if (keychain.length > 0){
+    if (keychain.length > 0) {
       assignKeyValue(obj[key], keychain, value);
     }
   
@@ -275,22 +284,22 @@
   //  'foo[quux]': ['foo', 'bar']
   // }
   // ```
-  var flattenData = function(config, data, parentKey){
+  var flattenData = function(config, data, parentKey) {
     var flatData = {};
   
-    _.each(data, function(value, keyName){
+    _.each(data, function(value, keyName) {
       var hash = {};
   
       // If there is a parent key, join it with
       // the current, child key.
-      if (parentKey){
+      if (parentKey) {
         keyName = config.keyJoiner(parentKey, keyName);
       }
   
-      if (_.isArray(value)){
+      if (_.isArray(value)) {
         keyName += '[]';
         hash[keyName] = value;
-      } else if (_.isObject(value)){
+      } else if (_.isObject(value)) {
         hash = flattenData(config, value, keyName);
       } else {
         hash[keyName] = value;
@@ -322,8 +331,12 @@
     // Get the registered item by type. If nothing is
     // found for the specified type, the default is
     // returned.
-    get: function(type){
-      return this.registeredTypes[type] || this.registeredTypes['default'];
+    get: function(type) {
+      if (_.has(this.registeredTypes, type)) {
+        return this.registeredTypes[type];
+      } else {
+        return this.registeredTypes['default'];
+      }
     },
   
     // Register a new item for a specified type
@@ -339,7 +352,7 @@
   
     // Remove an item from a given type registration
     unregister: function(type) {
-      if (this.registeredTypes[type]) {
+      if (_.has(this.registeredTypes, type)) {
         delete this.registeredTypes[type];
       }
     }
@@ -373,14 +386,14 @@
   
   // The default input reader, which uses an input
   // element's "value"
-  InputReaders.registerDefault(function($el){
+  InputReaders.registerDefault(function($el) {
     return $el.val();
   });
   
   // Checkbox reader, returning a boolean value for
   // whether or not the checkbox is checked.
   InputReaders.register('checkbox', function($el) {
-    return $el.prop('checked');
+    return ($el.prop('indeterminate')) ? null : $el.prop('checked');
   });
   
   // Input Writers
@@ -402,7 +415,11 @@
   // Checkbox writer, set whether or not the checkbox is checked
   // depending on the boolean value.
   InputWriters.register('checkbox', function($el, value) {
-    $el.prop('checked', value);
+    if (value === null) {
+      $el.prop('indeterminate', true);
+    } else {
+      $el.prop('checked', value);
+    }
   });
   
   // Radio button writer, set whether or not the radio button is
@@ -449,7 +466,7 @@
     var matches = key.match(/[^\[\]]+/g);
     var lastKey;
   
-    if (key.indexOf('[]') === key.length - 2) {
+    if (key.length > 1 && key.indexOf('[]') === key.length - 2) {
       lastKey = matches.pop();
       matches.push([lastKey]);
     }
