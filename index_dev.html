@@ -30,7 +30,7 @@
 		<!-- @endif -->
 
 		<!-- @if NODE_ENV='PRODUCTION' -->
-		<link rel="stylesheet" href="/assets/css/main.css">
+		<link rel="stylesheet" href="/assets/css/main.min.css">
 		<!-- @endif -->
 
 	</head>
@@ -45,11 +45,12 @@
 		</div>
 
 		<!-- @if NODE_ENV='DEVELOPMENT' -->
-		<script data-main="/assets/js/require_main.js" src="/assets/js/vendor/require.js"></script>
+		<script src="/assets/js/config.js"></script>
+		<script data-main="/assets/js/main.js" src="/assets/js/vendor/require.js"></script>
 		<!-- @endif -->
 
 		<!-- @if NODE_ENV='PRODUCTION' -->
-		<script src="/assets/js/main.js"></script>
+		<script src="/assets/js/main.min.js"></script>
 		<!-- @endif -->
 	</body>
 </html>

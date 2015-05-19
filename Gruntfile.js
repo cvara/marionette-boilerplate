@@ -84,7 +84,7 @@ module.exports = function(grunt) {
 			},
 			main: {
 				files: {
-					'<%= buildPath %>/assets/css/main.css': '<%= appRoot %>/css/style.less'
+					'<%= buildPath %>/assets/css/main.min.css': '<%= appRoot %>/css/style.less'
 				}
 			},
 			bootstrap: {
@@ -98,7 +98,7 @@ module.exports = function(grunt) {
 			compile: {
 				options: {
 					// Main conf file, NOT relative to baseUrl
-					mainConfigFile: '<%= appRoot %>/js/require_main.js',
+					mainConfigFile: '<%= appRoot %>/js/config.js',
 					// Output file location, NOT relative to baseUrl
 					out: '<%= buildPath %>/tmp/<%=tempJSOut%>',
 					// Modules root dir. All paths below are relative to this
@@ -111,7 +111,7 @@ module.exports = function(grunt) {
 					// Include our main app file (same as conf file)
 					// nls files are not inlined automatically
 					include: [
-						'require_main',
+						'main',
 						// 'nls/el-gr/core',
 						// 'nls/el-gr/messages',
 						// 'nls/el-gr/artist_intro'
@@ -252,7 +252,7 @@ module.exports = function(grunt) {
 				files: [{
 					expand: false,
 					src: '<%= buildPath %>/tmp/<%=tempJSOut%>',
-					dest: '<%= buildPath %>/assets/js/main.js'
+					dest: '<%= buildPath %>/assets/js/main.min.js'
 				}]
 			},
 			img: {

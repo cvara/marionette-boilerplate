@@ -1,0 +1,1 @@
+define({main:{lines:10,length:18,width:10,radius:26,corners:1,rotate:0,direction:1,color:"#777777",speed:1,trail:60,shadow:!1,hwaccel:!1,className:"main-spinner",zIndex:2e9,top:"30px",left:"auto"}});

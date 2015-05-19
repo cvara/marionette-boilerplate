@@ -1,0 +1,1 @@
+define(["marionette"],function(e){return e.Region.Header=e.Region.extend({pageWrap:$("#page-wrap"),onShow:function(e){this.pageWrap.addClass("with-header")},onEmpty:function(e){this.pageWrap.removeClass("with-header")}}),e.Region.Header});

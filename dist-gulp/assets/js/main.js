@@ -1,0 +1,1 @@
+define("all-polyfills",["rAF-polyfill","date-polyfill","storage-polyfill","trim-polyfill","localstorage-polyfill","json2","console-stub"],function(){}),require(["app","apps/header/header_app","apps/sidebar/sidebar_app","apps/loader/loader_app","all-polyfills","bootstrap","moment"],function(l){console.clear(),l.start(),console.info("App Started.")});

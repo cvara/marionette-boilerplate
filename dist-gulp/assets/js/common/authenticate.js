@@ -1,0 +1,1 @@
+define(["app"],function(o){var t={};return t.loginURL=o.request("setting","RootURL")+"/login",t.logoutURL=o.request("setting","RootURL")+"/logout",t.login=function(o){return o instanceof Backbone.Model&&(o=o.attributes),$.post(t.loginURL,{email:o.user.email,password:o.password})},t.logout=function(){return $.post(t.logoutURL)},t});

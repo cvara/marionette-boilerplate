@@ -18,9 +18,8 @@ var gulp = require('gulp'),
 	del = require('del');
 
 
-var appRoot = 'assets',
-	buildPath = 'dist',
-	staticRoot = 'static';
+var appRoot = './assets',
+	buildPath = './dist-gulp';
 
 // Web server
 gulp.task('connectDev', ['preprocessHtmlDev'], function() {
@@ -32,7 +31,7 @@ gulp.task('connectDev', ['preprocessHtmlDev'], function() {
 
 gulp.task('connectProd', function() {
 	connect.server({
-		root: 'dist',
+		root: buildPath,
 		port: 8080,
 		livereload: false
 	});
@@ -47,16 +46,30 @@ gulp.task('preprocessHtmlDev', function() {
 				DEBUG: true
 			}
 		})) //To set environment variables in-line
-
 		.pipe(rename({
 			basename: 'index'
 		}))
 		.pipe(gulp.dest('./'));
 });
 
+// Preprocess HTML
+gulp.task('preprocessHtmlProd', function() {
+	gulp.src('./index_dev.html')
+		.pipe(preprocess({
+			context: {
+				NODE_ENV: 'PRODUCTION',
+				DEBUG: true
+			}
+		})) //To set environment variables in-line
+		.pipe(rename({
+			basename: 'index'
+		}))
+		.pipe(gulp.dest(buildPath));
+});
+
 // Styles
 gulp.task('styles', function() {
-	return gulp.src('assets/css/style.less')
+	return gulp.src('./assets/css/style.less')
 		.pipe(less())
 		// .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
 		// .pipe(gulp.dest('dist/styles'))
@@ -68,34 +81,28 @@ gulp.task('styles', function() {
 			// extname: '.md'
 		}))
 		.pipe(minifycss())
-		.pipe(gulp.dest(buildPath + '/assets/css'))
-		.pipe(notify({
-			message: 'Styles task complete'
-		}));
+		.pipe(gulp.dest(buildPath + '/assets/css'));
 });
 
 // Scripts
 gulp.task('scripts', function() {
-	return gulp.src('src/scripts/**/*.js')
-		.pipe(jshint('.jshintrc'))
-		.pipe(jshint.reporter('default'))
-		.pipe(concat('main.js'))
-		.pipe(gulp.dest('dist/scripts'))
-		.pipe(rename({
-			suffix: '.min'
-		}))
+	return gulp.src('./assets/js/**/*.js')
+		// .pipe(jshint('.jshintrc'))
+		// .pipe(jshint.reporter('default'))
+		// .pipe(concat('main.js'))
+		// .pipe(gulp.dest(buildPath + '/scripts'))
+		// .pipe(rename({
+		// 	suffix: '.min'
+		// }))
 		.pipe(uglify())
-		.pipe(gulp.dest('dist/scripts'))
-		.pipe(notify({
-			message: 'Scripts task complete'
-		}));
+		.pipe(gulp.dest(buildPath + '/assets/js'));
 });
 
 // Requirejs Build
 gulp.task('requirejsBuild', function() {
 	rjs({
 			// Main conf file, NOT relative to baseUrl
-			mainConfigFile: 'assets/js/require_main.js',
+			mainConfigFile: 'assets/js/config.js',
 			// Output file location, NOT relative to baseUrl
 			out: 'main.js',
 			// Modules root dir. All paths below are relative to this
@@ -108,7 +115,7 @@ gulp.task('requirejsBuild', function() {
 			// Include our main app file (same as conf file)
 			// nls files are not inlined automatically
 			include: [
-				'require_main',
+				'main',
 				// 'nls/el-gr/core',
 				// 'nls/el-gr/messages',
 				// 'nls/el-gr/artist_intro'
@@ -121,7 +128,7 @@ gulp.task('requirejsBuild', function() {
 			// thus forcing their dependencies to load.
 			// NOTE: this is needed for AMD version of Backbone (1.1.2+) to work
 			// NOTE: USE WITH CAUTION as it breaks dependencies for other libraries
-			wrapShim: true,
+			wrapShim: false,
 			// For the dependencies set by nested calls to require()
 			findNestedDependencies: true,
 			// We use a custom optimizer
@@ -129,26 +136,27 @@ gulp.task('requirejsBuild', function() {
 		})
 		.pipe(uglify())
 		.pipe(rename({
-			suffix: '.min',
+			basename: 'main',
+			suffix: '.min'
 		}))
-		.pipe(gulp.dest(buildPath + '/assets/js')) // pipe it to the output DIR
-		.pipe(notify({
-			message: 'Require build task complete'
-		}));
+		.pipe(gulp.dest(buildPath + '/assets/js')); // pipe it to the output DIR
 });
 
 // Images
 gulp.task('images', function() {
-	return gulp.src('assets/img/**/*')
+	return gulp.src('./assets/img/**/*')
 		.pipe(cache(imagemin({
 			optimizationLevel: 3,
 			progressive: true,
 			interlaced: true
 		})))
-		.pipe(gulp.dest('dist/images'))
-		.pipe(notify({
-			message: 'Images task complete'
-		}));
+		.pipe(gulp.dest(buildPath + '/assets/img'));
+});
+
+// Fonts
+gulp.task('fonts', function() {
+	return gulp.src('assets/fonts/**/*')
+		.pipe(gulp.dest(buildPath + '/assets/fonts'));
 });
 
 // Clean
@@ -156,9 +164,14 @@ gulp.task('clean', function(cb) {
 	del([buildPath], cb);
 });
 
-// Build everything task
-gulp.task('buildAll', ['clean'], function() {
-	gulp.start('styles', 'scripts', 'requirejsBuild', 'images');
+// Build everything
+gulp.task('build', ['clean'], function() {
+	gulp.start('styles', 'fonts', 'images', 'requirejsBuild', 'preprocessHtmlProd', 'scripts');
+});
+
+// Run in production mode
+gulp.task('runProd', ['build'], function() {
+	gulp.start('connectProd');
 });
 
 // Default task
@@ -170,18 +183,18 @@ gulp.task('default', function() {
 gulp.task('watch', function() {
 
 	// Watch .less files
-	gulp.watch('assets/css/**/*.less', ['styles']);
+	gulp.watch('./assets/css/**/*.less', ['styles']);
 
 	// Watch .js files
-	gulp.watch('assets/js/**/*.js', ['scripts']);
+	gulp.watch('./assets/js/**/*.js', ['scripts']);
 
 	// Watch image files
-	gulp.watch('assets/img/**/*', ['images']);
+	gulp.watch('./assets/img/**/*', ['images']);
 
 	// Create LiveReload server
 	livereload.listen();
 
 	// Watch any files in dist/, reload on change
-	gulp.watch(['dist/**']).on('change', livereload.changed);
+	gulp.watch([buildPath + '/**']).on('change', livereload.changed);
 
 });

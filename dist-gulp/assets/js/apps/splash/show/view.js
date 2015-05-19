@@ -1,0 +1,1 @@
+define(["app","tpl!apps/splash/show/templates/splash"],function(p,e){return p.module("SplashApp.Show.View",function(p,s,a,l,t,h){p.Splash=l.ItemView.extend({className:"splash-container",template:e})}),p.SplashApp.Show.View});

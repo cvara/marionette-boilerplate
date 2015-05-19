@@ -1,0 +1,1 @@
+define(["app","apps/loader/show/view"],function(o,e){return o.module("LoaderApp.Show",function(o,n,i,r,a,d){o.Controller={showMainLoader:function(){var o=new e.Loader;n.rootView.showChildView("loading",o)},hideMainLoader:function(){n.rootView.getRegion("loading").empty()},hideAllLoaders:function(){n.rootView.getRegion("loading").empty()}}}),o.LoaderApp.Show.Controller});
