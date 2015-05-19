@@ -1,6 +1,7 @@
 // Load plugins
 var gulp = require('gulp'),
 	connect = require('gulp-connect'),
+	preprocess = require('gulp-preprocess'),
 	path = require('path'),
 	less = require('gulp-less'),
 	autoprefixer = require('gulp-autoprefixer'),
@@ -22,9 +23,9 @@ var appRoot = 'assets',
 	staticRoot = 'static';
 
 // Web server
-gulp.task('connectDev', function() {
+gulp.task('connectDev', ['preprocessHtmlDev'], function() {
 	connect.server({
-		port: 8001,
+		port: 8080,
 		livereload: false
 	});
 });
@@ -32,9 +33,25 @@ gulp.task('connectDev', function() {
 gulp.task('connectProd', function() {
 	connect.server({
 		root: 'dist',
-		port: 8001,
+		port: 8080,
 		livereload: false
 	});
+});
+
+// Preprocess HTML
+gulp.task('preprocessHtmlDev', function() {
+	gulp.src('./index_dev.html')
+		.pipe(preprocess({
+			context: {
+				NODE_ENV: 'DEVELOPMENT',
+				DEBUG: true
+			}
+		})) //To set environment variables in-line
+
+		.pipe(rename({
+			basename: 'index'
+		}))
+		.pipe(gulp.dest('./'));
 });
 
 // Styles
