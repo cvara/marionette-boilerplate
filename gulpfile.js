@@ -4,18 +4,17 @@ var gulp = require('gulp'),
 	preprocess = require('gulp-preprocess'),
 	path = require('path'),
 	less = require('gulp-less'),
-	autoprefixer = require('gulp-autoprefixer'),
 	minifycss = require('gulp-minify-css'),
 	jshint = require('gulp-jshint'),
 	rjs = require('gulp-requirejs'),
 	uglify = require('gulp-uglify'),
 	imagemin = require('gulp-imagemin'),
 	rename = require('gulp-rename'),
-	concat = require('gulp-concat'),
 	notify = require('gulp-notify'),
 	cache = require('gulp-cache'),
 	livereload = require('gulp-livereload'),
-	del = require('del');
+	del = require('del'),
+	runSequence = require('run-sequence');
 
 
 var appRoot = './assets',
@@ -39,13 +38,13 @@ gulp.task('connectProd', function() {
 
 // Preprocess HTML
 gulp.task('preprocessHtmlDev', function() {
-	gulp.src('./index_dev.html')
+	return gulp.src('./index_dev.html')
 		.pipe(preprocess({
 			context: {
 				NODE_ENV: 'DEVELOPMENT',
 				DEBUG: true
 			}
-		})) //To set environment variables in-line
+		}))
 		.pipe(rename({
 			basename: 'index'
 		}))
@@ -54,13 +53,13 @@ gulp.task('preprocessHtmlDev', function() {
 
 // Preprocess HTML
 gulp.task('preprocessHtmlProd', function() {
-	gulp.src('./index_dev.html')
+	return gulp.src('./index_dev.html')
 		.pipe(preprocess({
 			context: {
 				NODE_ENV: 'PRODUCTION',
 				DEBUG: true
 			}
-		})) //To set environment variables in-line
+		}))
 		.pipe(rename({
 			basename: 'index'
 		}))
@@ -71,14 +70,9 @@ gulp.task('preprocessHtmlProd', function() {
 gulp.task('styles', function() {
 	return gulp.src('./assets/css/style.less')
 		.pipe(less())
-		// .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-		// .pipe(gulp.dest('dist/styles'))
 		.pipe(rename({
-			// dirname: 'main/text/ciao',
 			basename: 'main',
-			// prefix: 'bonjour-',
 			suffix: '.min',
-			// extname: '.md'
 		}))
 		.pipe(minifycss())
 		.pipe(gulp.dest(buildPath + '/assets/css'));
@@ -87,13 +81,6 @@ gulp.task('styles', function() {
 // Scripts
 gulp.task('scripts', function() {
 	return gulp.src('./assets/js/**/*.js')
-		// .pipe(jshint('.jshintrc'))
-		// .pipe(jshint.reporter('default'))
-		// .pipe(concat('main.js'))
-		// .pipe(gulp.dest(buildPath + '/scripts'))
-		// .pipe(rename({
-		// 	suffix: '.min'
-		// }))
 		.pipe(uglify())
 		.pipe(gulp.dest(buildPath + '/assets/js'));
 });
@@ -165,13 +152,18 @@ gulp.task('clean', function(cb) {
 });
 
 // Build everything
-gulp.task('build', ['clean'], function() {
-	gulp.start('styles', 'fonts', 'images', 'requirejsBuild', 'preprocessHtmlProd', 'scripts');
+gulp.task('build', function(callback) {
+	var start = new Date().getTime();
+	runSequence(
+		'clean',
+		['styles', 'requirejsBuild', 'fonts', 'images', 'preprocessHtmlProd'],
+		'scripts',
+		callback);
 });
 
 // Run in production mode
-gulp.task('runProd', ['build'], function() {
-	gulp.start('connectProd');
+gulp.task('runProd', function(callback) {
+	runSequence('build', 'connectProd',	callback);
 });
 
 // Default task
