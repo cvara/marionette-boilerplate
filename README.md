@@ -1,4 +1,4 @@
-# Marionette Bootstrap Project
+# Marionette Boilerplate Project
 
 This is a sample project to be used as a starting point for new Marionette based projects. The architecture, directory structure and libraries used reflect my personal mindset and workflow and are not -by any means- intended to be used as "best practices".
 
