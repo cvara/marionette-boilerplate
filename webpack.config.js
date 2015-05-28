@@ -1,27 +1,23 @@
-// webpack.config.js
-
-/* global __dirname:false */
-
-// var webpack = require('webpack');
+var webpack = require('webpack');
 
 module.exports = {
 	context: __dirname + '/assets/js',
 	entry:  './main',
 	output: {
-		path: __dirname + '/webpack',
+		path: __dirname,
 		filename: 'bundle.js'
 	},
-	// loaders: [
-	// 	{
-	// 		test: /\.tpl/,
-	// 		loader: 'ejs'
-	// 	}
-	// ],
-	// plugins: [
-	// 	new webpack.ProvidePlugin({
-	// 		_: 'underscore'
-	// 	})
-	// ],
+	// This replaces shim stuff in RequireJS.
+	plugins: [
+		new webpack.ProvidePlugin({
+			_: 'underscore',
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery',
+            'Marionette': 'marionette',
+            'Mn': 'marionette'
+		})
+	],
 
 	resolve: {
 		root: [
@@ -57,7 +53,7 @@ module.exports = {
 			'pnotify.buttons': 'vendor/pnotify.buttons',
 			'pnotify.confirm': 'vendor/pnotify.confirm',
 			'pnotify.nonblock': 'vendor/pnotify.nonblock',
-			moment: 'vendor/moment', // UMD (AMD + CommonJS) Compatible
+			moment: 'vendor/moment.min', // UMD (AMD + CommonJS) Compatible
 			'bootstrap-datetimepicker': 'vendor/bootstrap-datetimepicker',
 		}
 	}
