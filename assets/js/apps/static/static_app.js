@@ -1,6 +1,4 @@
-// The controller is a NOT a top level requirement, since we must wait before
-// the user navigates to a page managed by this app until we 'require' it
-define(['app'], function(App) {
+define(['app', 'apps/static/show/controller'], function(App, ShowController) {
 
 	App.module('StaticApp', function(StaticApp, App, Backbone, Marionette, $, _) {
 		StaticApp.startWithParent = false;
@@ -28,12 +26,10 @@ define(['app'], function(App) {
 		// ------------------
 		var API = {
 			showStaticView: function(view) {
-				require(['apps/static/show/controller'], function(Controller) {
-					App.executeAction('StaticApp', Controller.showStaticView, {
-						view: view
-					});
-					App.execute('sidebar:deactivate:all');
+				App.executeAction('StaticApp', ShowController.showStaticView, {
+					view: view
 				});
+				App.execute('sidebar:deactivate:all');
 			}
 		};
 

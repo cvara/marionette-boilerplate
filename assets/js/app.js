@@ -1,6 +1,6 @@
 define([
 	'marionette',
-	'common/ajax.utility',
+	'common/behaviors',
 	'apps/config/spinner/options',
 	'apps/config/marionette/regions/header',
 	'apps/config/marionette/regions/sidebar',
@@ -9,7 +9,7 @@ define([
 	'apps/config/marionette/regions/loading',
 	'apps/config/marionette/regions/overlay',
 	'apps/config/validator/validator'
-], function(Marionette, AjaxUtility, spinnerOpts) {
+], function(Marionette, Behaviors, spinnerOpts) {
 
 
 	// Initialize Marionette Application
@@ -91,11 +91,9 @@ define([
 	// Behaviors
 	// -------------------------------------------------------------
 	// Point to our Behaviors object
-	require(['common/behaviors'], function(Behaviors) {
-		Marionette.Behaviors.behaviorsLookup = function() {
-			return Behaviors;
-		};
-	});
+	Marionette.Behaviors.behaviorsLookup = function() {
+		return Behaviors;
+	};
 
 
 	// Login Indicator
@@ -159,14 +157,6 @@ define([
 		App.currentApp = currentApp;
 		if (currentApp) {
 			currentApp.start(args);
-		}
-	};
-
-	// Stop sub-application needed by dialog (usually called by dialog region when dialog closes)
-	App.stopDialogApp = function() {
-		if (App.dialogApp && App.dialogApp !== App.currentApp) {
-			App.dialogApp.stop();
-			delete App.dialogApp;
 		}
 	};
 
@@ -271,72 +261,6 @@ define([
 
 	App.reqres.setHandler('setting', function(which) {
 		return Settings[which];
-	});
-
-	App.on('before:start', function() {
-		// AjaxUtility.setupCSRFToken();
-		if (Settings.EnableCORS) {
-			AjaxUtility.enableCORS();
-		}
-		console.info('App: pre-start tasks complete.');
-	});
-
-	// Core init routine -> will result in the triggering of a route
-	App.on('start', function() {
-		if (!Backbone.history) {
-			return;
-		}
-		// Require all App sub-applications before history starts
-		// because we need routers and navigation handlers to be registered
-		require([
-			'apps/header/header_app',
-			'apps/sidebar/sidebar_app',
-			'apps/splash/splash_app',
-			'apps/users/users_app',
-			'apps/static/static_app',
-			'common/notify',
-			'mailer/mailer',
-			'cache/cache'
-		], function(
-			HeaderApp,
-			SidebarApp,
-			SplashApp,
-			UsersApp,
-			StaticApp,
-			Notify,
-			Mailer,
-			Cache
-		) {
-
-			var fetchingLoggedUser = App.request('cache:fetch:logged:user');
-
-			// Fetch logged user before anything else
-			fetchingLoggedUser.done(function(user) {
-				// User was found
-				if (Boolean(user)) {
-					App.initForMember(user);
-				}
-				// User is a guest
-				else {
-					App.initForGuest();
-				}
-			});
-
-			fetchingLoggedUser.fail(function() {
-				App.initForGuest();
-			});
-
-			fetchingLoggedUser.always(function() {
-				// Manually start header app
-				HeaderApp.start();
-				// Detect browser back/fwd buttons and close dialog & overlay
-				Backbone.history.on('route', function() {
-					App.rootView.getRegion('dialog').closeModal();
-					App.rootView.getRegion('overlay').closeOverlay();
-				});
-				console.info('App: post-start tasks complete.');
-			});
-		});
 	});
 
 	return App;

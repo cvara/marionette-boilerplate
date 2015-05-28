@@ -1,4 +1,4 @@
-define(['app', 'marionette'], function(App, Marionette) {
+define(['marionette'], function(Marionette) {
 
 	var Behaviors = {};
 

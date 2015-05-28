@@ -48,11 +48,6 @@ define(['marionette', 'bootstrap'], function(Marionette) {
 					// opening of a modal while another is still active
 					// NOTE: the 2 modals still won't overlap
 					// self.$el.empty();
-
-					// stop modal app
-					require(['app'], function(App) {
-						App.stopDialogApp();
-					});
 				});
 		},
 

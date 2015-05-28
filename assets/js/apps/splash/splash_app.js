@@ -1,6 +1,4 @@
-// The controller is a NOT a top level requirement, since we must wait before
-// the user navigates to a page managed by this app until we 'require' it
-define(['app'], function(App) {
+define(['app', 'apps/splash/show/controller'], function(App, ShowController) {
 
 	App.module('SplashApp', function(SplashApp, App, Backbone, Marionette, $, _) {
 		SplashApp.startWithParent = false;
@@ -28,10 +26,8 @@ define(['app'], function(App) {
 		// ------------------
 		var API = {
 			showSplash: function() {
-				require(['apps/splash/show/controller'], function(Controller) {
-					App.executeAction('SplashApp', Controller.showSplash);
-					App.execute('sidebar:deactivate:all');
-				});
+				App.executeAction('SplashApp', ShowController.showSplash);
+				App.execute('sidebar:deactivate:all');
 			}
 		};
 

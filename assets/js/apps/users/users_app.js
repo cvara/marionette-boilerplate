@@ -1,6 +1,4 @@
-// The controller is a NOT a top level requirement, since we must wait before
-// the user navigates to a page managed by this app until we 'require' it
-define(['app'], function(App) {
+define(['app', 'apps/users/login/controller'], function(App, LoginController) {
 
 	App.module('UsersApp', function(UsersApp, App, Backbone, Marionette, $, _) {
 		UsersApp.startWithParent = false;
@@ -28,10 +26,8 @@ define(['app'], function(App) {
 		// ------------------
 		var API = {
 			showLogin: function(user) {
-				require(['apps/users/login/controller'], function(Controller) {
-					App.executeAction('UsersApp', Controller.showLogin);
-					App.execute('sidebar:deactivate:all');
-				});
+				App.executeAction('UsersApp', LoginController.showLogin);
+				App.execute('sidebar:deactivate:all');
 			}
 		};
 
