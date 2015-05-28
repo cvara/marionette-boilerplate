@@ -1,7 +1,7 @@
 define([
 	'app',
 	'common/utility',
-	'tpl!common/templates/common'
+	'ejs!common/templates/common'
 ], function(
 	App,
 	Utility,

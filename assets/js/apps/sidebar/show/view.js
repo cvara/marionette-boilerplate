@@ -1,7 +1,7 @@
 define([
 	'app',
-	'tpl!apps/sidebar/show/templates/sidebar',
-	'tpl!apps/sidebar/show/templates/sidebar.element'
+	'ejs!apps/sidebar/show/templates/sidebar',
+	'ejs!apps/sidebar/show/templates/sidebar.element'
 ], function(App, sidebarTpl, sidebarElementTpl) {
 
 	App.module('SidebarApp.Show.View', function(View, App, Backbone, Marionette, $, _) {

@@ -1,7 +1,7 @@
 define([
 	'app',
 	'common/form.view',
-	'tpl!apps/users/login/templates/login'
+	'ejs!apps/users/login/templates/login'
 ], function(App, FormBase, loginTpl) {
 
 	App.module('UsersApp.Login.View', function(View, App, Backbone, Marionette, $, _) {
