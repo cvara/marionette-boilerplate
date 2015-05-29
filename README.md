@@ -31,9 +31,9 @@ There are several Gulp tasks that allow running & building of the project, each 
 As of now, these are the most useful tasks:
 
 
-* `gulp run`: The default task, builds runs the project in dev mode (uncompressed webpack chunks & livereload)
+* `gulp run`: The default task, builds runs the project in dev mode (**uncompressed** webpack chunks & **livereload**)
 
-* `gulp runProd`: Builds project for production (compressed webpack chunks)
+* `gulp runProd`: Builds project for production (**compressed** webpack chunks)
 
 
 ### Cleaning npm cache
