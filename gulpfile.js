@@ -1,30 +1,27 @@
 // Load plugins
 var gulp = require('gulp');
 var gutil = require('gulp-util');
-
 var webpack = require('gulp-webpack');
 var webpackConfig = require('./webpack.config');
+var connect = require('gulp-connect');
+var preprocess = require('gulp-preprocess');
+var path = require('path');
+var less = require('gulp-less');
+var minifycss = require('gulp-minify-css');
+var jshint = require('gulp-jshint');
+var uglify = require('gulp-uglify');
+var imagemin = require('gulp-imagemin');
+var rename = require('gulp-rename');
+var notify = require('gulp-notify');
+var cache = require('gulp-cache');
+var livereload = require('gulp-livereload');
+var del = require('del');
+var runSequence = require('run-sequence');
 
-var	connect = require('gulp-connect');
-var	preprocess = require('gulp-preprocess');
-var	path = require('path');
-var	less = require('gulp-less');
-var	minifycss = require('gulp-minify-css');
-var	jshint = require('gulp-jshint');
-var	uglify = require('gulp-uglify');
-var	imagemin = require('gulp-imagemin');
-var	rename = require('gulp-rename');
-var	notify = require('gulp-notify');
-var	cache = require('gulp-cache');
-var	livereload = require('gulp-livereload');
-var	del = require('del');
-var	runSequence = require('run-sequence');
+var appRoot = __dirname + '/assets';
+var buildPath = __dirname + '/dist';
 
-
-var appRoot = __dirname +  '/assets',
-	buildPath = __dirname + '/dist';
-
-
+// Connect server
 gulp.task('connect', function() {
 	connect.server({
 		root: buildPath,
@@ -117,8 +114,7 @@ gulp.task('clean', function(cb) {
 gulp.task('buildDev', function(callback) {
 	var start = new Date().getTime();
 	runSequence(
-		'webpack',
-		['styles', 'fonts', 'images', 'copyHtml'],
+		'webpack', ['styles', 'fonts', 'images', 'copyHtml'],
 		callback);
 });
 
