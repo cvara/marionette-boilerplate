@@ -1,21 +1,29 @@
 var webpack = require('webpack');
 
 module.exports = {
-	context: __dirname + '/assets/js',
-	entry:  './main',
+	entry: [
+		__dirname + '/assets/js/main'
+	],
+
 	output: {
-		path: __dirname,
+		path: __dirname + '/dist/assets/js',
+		publicPath: '/assets/js/',
 		filename: 'bundle.js'
 	},
-	// This replaces shim stuff in RequireJS.
+
 	plugins: [
+		// This replaces shim stuff in RequireJS.
 		new webpack.ProvidePlugin({
 			_: 'underscore',
-            $: 'jquery',
-            jQuery: 'jquery',
-            'window.jQuery': 'jquery',
-            'Marionette': 'marionette',
-            'Mn': 'marionette'
+			$: 'jquery',
+			jQuery: 'jquery',
+			'window.jQuery': 'jquery',
+			'Marionette': 'marionette',
+			'Mn': 'marionette'
+		}),
+		// Force the generation of 1 output file
+		new webpack.optimize.LimitChunkCountPlugin({
+			maxChunks: 3
 		})
 	],
 

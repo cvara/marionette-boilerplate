@@ -1,1 +1,0 @@
-define(["marionette"],function(n){return n.Region.Loading=n.Region.extend({loadingRegion:!0,onShow:function(n){this.$el.show()},onEmpty:function(n){this.$el.hide()}}),n.Region.Loading});

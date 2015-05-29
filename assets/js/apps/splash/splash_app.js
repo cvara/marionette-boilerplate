@@ -1,4 +1,4 @@
-define(['app', 'apps/splash/show/controller'], function(App, ShowController) {
+define(['app'], function(App) {
 
 	App.module('SplashApp', function(SplashApp, App, Backbone, Marionette, $, _) {
 		SplashApp.startWithParent = false;
@@ -26,8 +26,12 @@ define(['app', 'apps/splash/show/controller'], function(App, ShowController) {
 		// ------------------
 		var API = {
 			showSplash: function() {
-				App.executeAction('SplashApp', ShowController.showSplash);
-				App.execute('sidebar:deactivate:all');
+				require(['apps/splash/show/controller'], function(ShowController) {
+				// require.ensure(['apps/splash/show/controller'], function(require) {
+					// var ShowController = require('apps/splash/show/controller');
+					App.executeAction('SplashApp', ShowController.showSplash);
+					App.execute('sidebar:deactivate:all');
+				});
 			}
 		};
 

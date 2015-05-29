@@ -1,59 +1,46 @@
 // Load plugins
-var gulp = require('gulp'),
-	connect = require('gulp-connect'),
-	preprocess = require('gulp-preprocess'),
-	path = require('path'),
-	less = require('gulp-less'),
-	minifycss = require('gulp-minify-css'),
-	jshint = require('gulp-jshint'),
-	rjs = require('gulp-requirejs'),
-	uglify = require('gulp-uglify'),
-	imagemin = require('gulp-imagemin'),
-	rename = require('gulp-rename'),
-	notify = require('gulp-notify'),
-	cache = require('gulp-cache'),
-	livereload = require('gulp-livereload'),
-	del = require('del'),
-	runSequence = require('run-sequence');
+var gulp = require('gulp');
+var gutil = require('gulp-util');
+
+var webpack = require('gulp-webpack');
+var webpackConfig = require('./webpack.config');
+
+var	connect = require('gulp-connect');
+var	preprocess = require('gulp-preprocess');
+var	path = require('path');
+var	less = require('gulp-less');
+var	minifycss = require('gulp-minify-css');
+var	jshint = require('gulp-jshint');
+var	uglify = require('gulp-uglify');
+var	imagemin = require('gulp-imagemin');
+var	rename = require('gulp-rename');
+var	notify = require('gulp-notify');
+var	cache = require('gulp-cache');
+var	livereload = require('gulp-livereload');
+var	del = require('del');
+var	runSequence = require('run-sequence');
 
 
-var appRoot = './assets',
-	buildPath = './dist-gulp';
+var appRoot = __dirname +  '/assets',
+	buildPath = __dirname + '/dist';
 
-// Web server
-gulp.task('connectDev', ['preprocessHtmlDev'], function() {
-	connect.server({
-		port: 8080,
-		livereload: false
-	});
-});
 
-gulp.task('connectProd', function() {
+gulp.task('connect', function() {
 	connect.server({
 		root: buildPath,
 		port: 8080,
-		livereload: false
+		livereload: true
 	});
 });
 
-// Preprocess HTML
-gulp.task('preprocessHtmlDev', function() {
-	return gulp.src('./index_dev.html')
-		.pipe(preprocess({
-			context: {
-				NODE_ENV: 'DEVELOPMENT',
-				DEBUG: true
-			}
-		}))
-		.pipe(rename({
-			basename: 'index'
-		}))
-		.pipe(gulp.dest('./'));
+// Copy HTML
+gulp.task('copyHtml', function() {
+	return gulp.src('./index.html').pipe(gulp.dest(buildPath));
 });
 
 // Preprocess HTML
-gulp.task('preprocessHtmlProd', function() {
-	return gulp.src('./index_dev.html')
+gulp.task('preprocessHtml', function() {
+	return gulp.src('./index.html')
 		.pipe(preprocess({
 			context: {
 				NODE_ENV: 'PRODUCTION',
@@ -75,58 +62,32 @@ gulp.task('styles', function() {
 			suffix: '.min',
 		}))
 		.pipe(minifycss())
-		.pipe(gulp.dest(buildPath + '/assets/css'));
+		.pipe(gulp.dest(buildPath + '/assets/css'))
+		.pipe(connect.reload());
 });
 
 // Scripts
 gulp.task('scripts', function() {
 	return gulp.src('./assets/js/**/*.js')
 		.pipe(uglify())
-		.pipe(gulp.dest(buildPath + '/assets/js'));
+		.pipe(gulp.dest(buildPath + '/assets/js'))
+		.pipe(connect.reload());
 });
 
-// Requirejs Build
-gulp.task('requirejsBuild', function() {
-	rjs({
-			// Main conf file, NOT relative to baseUrl
-			mainConfigFile: 'assets/js/config.js',
-			// Output file location, NOT relative to baseUrl
-			out: 'main.js',
-			// Modules root dir. All paths below are relative to this
-			baseUrl: 'assets/js',
-			// Use (lightweight) almond.js instead of require.js
-			// NOTE 1: defining name results in single optimized file
-			// NOTE 2: almond.js does NOT work with require 'async' plugin
-			// name: 'vendor/almond',
-			name: 'vendor/require',
-			// Include our main app file (same as conf file)
-			// nls files are not inlined automatically
-			include: [
-				'main',
-				// 'nls/el-gr/core',
-				// 'nls/el-gr/messages',
-				// 'nls/el-gr/artist_intro'
-			],
-			// For shimmed dependencies that depend on AMD modules with dependencies of their own
-			// (e.g. Marionette depends on Backbone(AMD) which depends on jQuery)
-			// In Require.js 2.0+ defining a module will not result in loading it. Require will load
-			// it (and execute its callback function) when it is explicitly needed by another *module*.
-			// wrapShim converts all shimmed libraries to require modules (wrapping them inside define()),
-			// thus forcing their dependencies to load.
-			// NOTE: this is needed for AMD version of Backbone (1.1.2+) to work
-			// NOTE: USE WITH CAUTION as it breaks dependencies for other libraries
-			wrapShim: false,
-			// For the dependencies set by nested calls to require()
-			findNestedDependencies: true,
-			// We use a custom optimizer
-			optimize: 'none'
-		})
+// Webpack
+gulp.task('webpack', function() {
+	return gulp.src(appRoot + '/js/main.js')
+		.pipe(webpack(webpackConfig))
+		.pipe(gulp.dest(buildPath + '/assets/js'))
+		.pipe(connect.reload());
+});
+
+// Uglify bundle
+gulp.task('uglifyBundle', function() {
+	return gulp.src(buildPath + '/assets/js/*.js')
 		.pipe(uglify())
-		.pipe(rename({
-			basename: 'main',
-			suffix: '.min'
-		}))
-		.pipe(gulp.dest(buildPath + '/assets/js')); // pipe it to the output DIR
+		.pipe(gulp.dest(buildPath + '/assets/js'))
+		.pipe(connect.reload());
 });
 
 // Images
@@ -143,7 +104,8 @@ gulp.task('images', function() {
 // Fonts
 gulp.task('fonts', function() {
 	return gulp.src('assets/fonts/**/*')
-		.pipe(gulp.dest(buildPath + '/assets/fonts'));
+		.pipe(gulp.dest(buildPath + '/assets/fonts'))
+		.pipe(connect.reload());
 });
 
 // Clean
@@ -151,25 +113,25 @@ gulp.task('clean', function(cb) {
 	del([buildPath], cb);
 });
 
-// Build everything
-gulp.task('build', function(callback) {
+// Build for dev
+gulp.task('buildDev', function(callback) {
 	var start = new Date().getTime();
 	runSequence(
-		'clean',
-		['styles', 'requirejsBuild', 'fonts', 'images', 'preprocessHtmlProd'],
-		'scripts',
+		'webpack',
+		['styles', 'fonts', 'images', 'copyHtml'],
 		callback);
 });
 
-// Run in production mode
-gulp.task('runProd', function(callback) {
-	runSequence('build', 'connectProd',	callback);
+// Build for prod
+gulp.task('buildProd', function(callback) {
+	var start = new Date().getTime();
+	runSequence(
+		'clean',
+		'buildDev',
+		'uglifyBundle',
+		callback);
 });
 
-// Default task
-gulp.task('default', function() {
-	gulp.start('connectDev');
-});
 
 // Watch
 gulp.task('watch', function() {
@@ -178,15 +140,31 @@ gulp.task('watch', function() {
 	gulp.watch('./assets/css/**/*.less', ['styles']);
 
 	// Watch .js files
-	gulp.watch('./assets/js/**/*.js', ['scripts']);
+	gulp.watch('./assets/js/**/*', ['webpack']);
 
 	// Watch image files
 	gulp.watch('./assets/img/**/*', ['images']);
 
-	// Create LiveReload server
-	livereload.listen();
+	// Watch font files
+	gulp.watch('./assets/fonts/**/*', ['fonts']);
 
-	// Watch any files in dist/, reload on change
-	gulp.watch([buildPath + '/**']).on('change', livereload.changed);
+	// // Watch any files in dist/, reload on change
+	// gulp.watch([buildPath + '/**']).on('change', function() {
+	// 	// console.log('livereload.changed');
+	// });
+});
 
+// Run in development mode
+gulp.task('run', function(callback) {
+	runSequence('buildDev', 'connect', 'watch', callback);
+});
+
+// Run in production mode
+gulp.task('runProd', function(callback) {
+	runSequence('buildProd', 'connect', callback);
+});
+
+// Default task
+gulp.task('default', function() {
+	gulp.start('run');
 });

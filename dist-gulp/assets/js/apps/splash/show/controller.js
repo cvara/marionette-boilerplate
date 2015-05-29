@@ -1,1 +1,0 @@
-define(["app","apps/splash/show/view"],function(o,p){return o.module("SplashApp.Show",function(o,n,h,l,e,s){o.Controller={showSplash:function(){var o=new p.Splash;n.rootView.showChildView("main",o)}}}),o.SplashApp.Show.Controller});
