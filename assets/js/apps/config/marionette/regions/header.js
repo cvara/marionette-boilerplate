@@ -1,17 +1,14 @@
-define(['marionette'], function(Marionette) {
+var Marionette = require('marionette');
 
-    Marionette.Region.Header = Marionette.Region.extend({
+module.exports = Marionette.Region.extend({
 
-    	pageWrap: $('#page-wrap'),
+	pageWrap: $('#page-wrap'),
 
-        onShow: function(view) {
-        	this.pageWrap.addClass('with-header');
-        },
+	onShow: function(view) {
+		this.pageWrap.addClass('with-header');
+	},
 
-        onEmpty: function(view) {
-        	this.pageWrap.removeClass('with-header');
-        }
-    });
-
-    return Marionette.Region.Header;
+	onEmpty: function(view) {
+		this.pageWrap.removeClass('with-header');
+	}
 });

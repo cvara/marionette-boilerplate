@@ -1,14 +1,15 @@
 var App = require('app');
-var AjaxUtility = require('common/ajax.utility');
 var HeaderApp = require('apps/header/header_app');
-require('apps/sidebar/sidebar_app');
-require('apps/splash/splash_app');
-require('apps/users/users_app');
-require('apps/static/static_app');
-require('apps/loader/loader_app');
-require('common/notify');
-require('mailer/mailer');
-require('cache/cache');
+var SidebarApp = require('apps/sidebar/sidebar_app');
+var SplashApp = require('apps/splash/splash_app');
+var UsersApp = require('apps/users/users_app');
+var StaticApp = require('apps/static/static_app');
+var LoaderApp = require('apps/loader/loader_app');
+var Notify = require('common/notify');
+var Mailer = require('mailer/mailer');
+var Cache = require('cache/cache');
+var Moment = require('moment');
+var AjaxUtility = require('common/ajax.utility');
 require('rAF-polyfill');
 require('date-polyfill');
 require('storage-polyfill');
@@ -16,7 +17,6 @@ require('trim-polyfill');
 require('localstorage-polyfill');
 require('json2');
 require('bootstrap');
-require('moment');
 
 
 console.clear();

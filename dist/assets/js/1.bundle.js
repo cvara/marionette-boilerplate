@@ -1,52 +1,48 @@
 webpackJsonp([1],{
 
-/***/ 40:
+/***/ 39:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-		__webpack_require__(2),
-		__webpack_require__(54)
-	], __WEBPACK_AMD_DEFINE_RESULT__ = function(App, View) {
+	var App = __webpack_require__(2);
+	var View = __webpack_require__(54);
 
-		App.module('SplashApp.Show', function(Show, App, Backbone, Marionette, $, _) {
 
-			Show.Controller = {
-				showSplash: function() {
+	App.module('SplashApp.Show', function(Show, App, Backbone, Marionette, $, _) {
 
-					var splashView = new View.Splash();
+		Show.Controller = {
+			showSplash: function() {
 
-					App.rootView.showChildView('main', splashView);
-				}
-			};
-		});
+				var splashView = new View.Splash();
 
-		return App.SplashApp.Show.Controller;
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+				App.rootView.showChildView('main', splashView);
+			}
+		};
+	});
+
+	module.exports = App.SplashApp.Show.Controller;
 
 /***/ },
 
 /***/ 54:
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-		__webpack_require__(2),
-		__webpack_require__(66)
-	], __WEBPACK_AMD_DEFINE_RESULT__ = function(App, splashTpl) {
+	var App = __webpack_require__(2);
+	var splashTpl = __webpack_require__(70);
 
-		App.module('SplashApp.Show.View', function(View, App, Backbone, Marionette, $, _) {
 
-			View.Splash = Marionette.ItemView.extend({
-				className: 'splash-container',
-				template: splashTpl
-			});
+	App.module('SplashApp.Show.View', function(View, App, Backbone, Marionette, $, _) {
+
+		View.Splash = Marionette.ItemView.extend({
+			className: 'splash-container',
+			template: splashTpl
 		});
+	});
 
-		return App.SplashApp.Show.View;
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	module.exports = App.SplashApp.Show.View;
 
 /***/ },
 
-/***/ 66:
+/***/ 70:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function (obj) {

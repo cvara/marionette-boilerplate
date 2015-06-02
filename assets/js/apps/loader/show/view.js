@@ -1,31 +1,29 @@
-define([
-	'app',
-	'apps/config/spinner/options',
-	'apps/loader/show/templates/loader.main',
-	'spin.jquery'
-], function(App, SpinnerOptions, loaderMainTpl) {
+var App = require('app');
+var SpinnerOptions = require('apps/config/spinner/options');
+var loaderMainTpl = require('apps/loader/show/templates/loader.main');
+var spinJquery = require('spin.jquery');
 
-	App.module('LoaderApp.Show.View', function(View, App, Backbone, Marionette, $, _) {
 
-		View.Loader = Marionette.ItemView.extend({
-			template: loaderMainTpl,
-			// isLoading: true, // mark the view so that regions can recognize it
-			className: 'main-loading-container',
+App.module('LoaderApp.Show.View', function(View, App, Backbone, Marionette, $, _) {
 
-			ui: {
-				jsPreloader: '.js-preloader'
-			},
+	View.Loader = Marionette.ItemView.extend({
+		template: loaderMainTpl,
+		// isLoading: true, // mark the view so that regions can recognize it
+		className: 'main-loading-container',
 
-			onShow: function() {
-				this.ui.jsPreloader.removeClass('hidden').spin(SpinnerOptions.main);
-			},
+		ui: {
+			jsPreloader: '.js-preloader'
+		},
 
-			onBeforeDestroy: function() {
-				this.ui.jsPreloader.addClass('hidden').spin(false);
-			}
-		});
+		onShow: function() {
+			this.ui.jsPreloader.removeClass('hidden').spin(SpinnerOptions.main);
+		},
 
+		onBeforeDestroy: function() {
+			this.ui.jsPreloader.addClass('hidden').spin(false);
+		}
 	});
 
-	return App.LoaderApp.Show.View;
 });
+
+module.exports = App.LoaderApp.Show.View;

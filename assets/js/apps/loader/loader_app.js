@@ -1,32 +1,32 @@
-// The controller is a top level requirement
-define(['app', 'apps/loader/show/controller'], function(App, ShowController) {
+var App = require('app');
+var ShowController = require('apps/loader/show/controller');
 
-    App.module('LoaderApp', function(LoaderApp, App, Backbone, Marionette, $, _) {
 
-        var API = {
-            showMainLoader: function() {
-                ShowController.showMainLoader();
-            },
-            hideMainLoader: function() {
-                ShowController.hideMainLoader();
-            },
-            hideAllLoaders: function() {
-                ShowController.hideAllLoaders();
-            }
-        };
+App.module('LoaderApp', function(LoaderApp, App, Backbone, Marionette, $, _) {
 
-        App.on('loader:main:show', function() {
-            API.showMainLoader();
-        });
+    var API = {
+        showMainLoader: function() {
+            ShowController.showMainLoader();
+        },
+        hideMainLoader: function() {
+            ShowController.hideMainLoader();
+        },
+        hideAllLoaders: function() {
+            ShowController.hideAllLoaders();
+        }
+    };
 
-        App.on('loader:main:hide', function() {
-            API.hideMainLoader();
-        });
-
-        App.on('loader:all:hide', function() {
-            API.hideAllLoaders();
-        });
+    App.on('loader:main:show', function() {
+        API.showMainLoader();
     });
 
-    return App.LoaderApp;
+    App.on('loader:main:hide', function() {
+        API.hideMainLoader();
+    });
+
+    App.on('loader:all:hide', function() {
+        API.hideAllLoaders();
+    });
 });
+
+module.exports = App.LoaderApp;

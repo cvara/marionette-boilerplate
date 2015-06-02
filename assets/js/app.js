@@ -1,14 +1,12 @@
-/* global Marionette:true */
 var Marionette = require('marionette');
 var Behaviors = require('common/behaviors');
-var spinnerOpts = require('apps/config/spinner/options');
-require('apps/config/marionette/regions/header');
-require('apps/config/marionette/regions/sidebar');
-require('apps/config/marionette/regions/main');
-require('apps/config/marionette/regions/dialog');
-require('apps/config/marionette/regions/loading');
-require('apps/config/marionette/regions/overlay');
-require('apps/config/validator/validator');
+var HeaderRegion = require('apps/config/marionette/regions/header');
+var SidebarRegion = require('apps/config/marionette/regions/sidebar');
+var MainRegion = require('apps/config/marionette/regions/main');
+var DialogRegion = require('apps/config/marionette/regions/dialog');
+var LoadingRegion = require('apps/config/marionette/regions/loading');
+var OverlayRegion = require('apps/config/marionette/regions/overlay');
+var ValidatorConfig = require('apps/config/validator/validator');
 
 
 
@@ -45,22 +43,22 @@ Settings.RootURL = '';
 
 // Our custom region classes
 // -------------------------------------------------------------
-var headerRegion = Marionette.Region.Header.extend({
+var headerRegion = HeaderRegion.extend({
 	el: '#header-section'
 });
-var sidebarRegion = Marionette.Region.Sidebar.extend({
+var sidebarRegion = SidebarRegion.extend({
 	el: '#sidebar-section'
 });
-var mainRegion = Marionette.Region.Main.extend({
+var mainRegion = MainRegion.extend({
 	el: '#main-region'
 });
-var dialogRegion = Marionette.Region.Dialog.extend({
+var dialogRegion = DialogRegion.extend({
 	el: '#dialog-region'
 });
-var loadingRegion = Marionette.Region.Loading.extend({
+var loadingRegion = LoadingRegion.extend({
 	el: '#loading-region'
 });
-var overlayRegion = Marionette.Region.Overlay.extend({
+var overlayRegion = OverlayRegion.extend({
 	el: '#overlay-region'
 });
 

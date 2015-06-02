@@ -1,15 +1,12 @@
-define(['marionette'], function(Marionette) {
+var Marionette = require('marionette');
 
-	Marionette.Region.Main = Marionette.Region.extend({
+module.exports = Marionette.Region.extend({
 
-		initialize: function() {
+	initialize: function() {
 
-		},
+	},
 
-		onShow: function() {
-			window.scrollTo(0, 0);
-		}
-	});
-
-	return Marionette.Region.Main;
+	onShow: function() {
+		window.scrollTo(0, 0);
+	}
 });
