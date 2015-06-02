@@ -28,9 +28,13 @@ module.exports = {
 			'Marionette': 'marionette',
 			'Mn': 'marionette'
 		}),
-		// Force the generation of 1 output file
+		// Limit the number of generated chunks
 		new webpack.optimize.LimitChunkCountPlugin({
-			maxChunks: 3
+			maxChunks: 10
+		}),
+		// Force min chunk size (to merge entry chunk with other chunks)
+		new webpack.optimize.MinChunkSizePlugin({
+			minChunkSize: 20 * 1024 // 20 KB
 		})
 	],
 
