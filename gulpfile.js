@@ -110,24 +110,11 @@ gulp.task('clean', function(cb) {
 	del([buildPath], cb);
 });
 
-// Build for dev
-gulp.task('buildDev', function(callback) {
+// Build
+gulp.task('build', function(callback) {
 	var start = new Date().getTime();
-	runSequence(
-		'webpack', ['styles', 'fonts', 'images', 'copyHtml'],
-		callback);
+	runSequence('clean', 'webpack', ['styles', 'fonts', 'images', 'copyHtml'], callback);
 });
-
-// Build for prod
-gulp.task('buildProd', function(callback) {
-	var start = new Date().getTime();
-	runSequence(
-		'clean',
-		'buildDev',
-		'uglifyBundle',
-		callback);
-});
-
 
 // Watch
 gulp.task('watch', function() {
@@ -152,12 +139,12 @@ gulp.task('watch', function() {
 
 // Run in development mode
 gulp.task('run', function(callback) {
-	runSequence('buildDev', 'connect', 'watch', callback);
+	runSequence('build', 'connect', 'watch', callback);
 });
 
 // Run in production mode
 gulp.task('runProd', function(callback) {
-	runSequence('buildProd', 'connect', callback);
+	runSequence('clean', 'build', 'uglifyBundle', 'connect', callback);
 });
 
 // Default task

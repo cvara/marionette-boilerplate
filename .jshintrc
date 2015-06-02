@@ -19,7 +19,6 @@
     "predef": [ // Custom globals.
         "_",
         "Backbone",
-        "Marionette",
         "define",
         "require",
         "requirejs",

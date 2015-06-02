@@ -26,7 +26,8 @@ module.exports = {
 			jQuery: 'jquery',
 			'window.jQuery': 'jquery',
 			'Marionette': 'marionette',
-			'Mn': 'marionette'
+			'Mn': 'marionette',
+			'pnotify': 'PNotify'
 		}),
 		// Limit the number of generated chunks
 		new webpack.optimize.LimitChunkCountPlugin({
