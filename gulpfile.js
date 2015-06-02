@@ -144,7 +144,7 @@ gulp.task('run', function(callback) {
 
 // Run in production mode
 gulp.task('runProd', function(callback) {
-	runSequence('clean', 'build', 'uglifyBundle', 'connect', callback);
+	runSequence('build', 'uglifyBundle', 'connect', callback);
 });
 
 // Default task
