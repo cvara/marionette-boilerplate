@@ -1,6 +1,6 @@
 define([
 	'app',
-	'ejs!apps/splash/show/templates/splash'
+	'apps/splash/show/templates/splash'
 ], function(App, splashTpl) {
 
 	App.module('SplashApp.Show.View', function(View, App, Backbone, Marionette, $, _) {

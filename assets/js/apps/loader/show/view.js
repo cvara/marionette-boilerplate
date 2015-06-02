@@ -1,7 +1,7 @@
 define([
 	'app',
 	'apps/config/spinner/options',
-	'ejs!apps/loader/show/templates/loader.main',
+	'apps/loader/show/templates/loader.main',
 	'spin.jquery'
 ], function(App, SpinnerOptions, loaderMainTpl) {
 

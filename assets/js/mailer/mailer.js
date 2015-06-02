@@ -1,7 +1,7 @@
 define([
 	'app',
-	'ejs!mailer/templates/_global',
-	'ejs!mailer/templates/sample.email'
+	'mailer/templates/_global',
+	'mailer/templates/sample.email'
 ], function(
 	App,
 	_globalTpl,

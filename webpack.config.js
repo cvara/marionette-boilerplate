@@ -11,6 +11,13 @@ module.exports = {
 		filename: 'bundle.js'
 	},
 
+	module: {
+		loaders: [{
+			test: /\.tpl$/,
+			loader: 'ejs'
+		}]
+	},
+
 	plugins: [
 		// This replaces shim stuff in RequireJS.
 		new webpack.ProvidePlugin({

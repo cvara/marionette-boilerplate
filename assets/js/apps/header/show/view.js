@@ -1,6 +1,6 @@
 define([
 	'app',
-	'ejs!apps/header/show/templates/header',
+	'apps/header/show/templates/header',
 ], function(App, headerTpl) {
 
 	App.module('HeaderApp.Show.View', function(View, App, Backbone, Marionette, $, _) {

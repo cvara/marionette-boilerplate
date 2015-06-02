@@ -1,7 +1,7 @@
 define([
 	'app',
 	'common/utility',
-	'ejs!common/templates/common'
+	'common/templates/common'
 ], function(
 	App,
 	Utility,

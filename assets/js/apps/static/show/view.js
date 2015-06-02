@@ -1,12 +1,12 @@
 define([
 	'app',
-	'ejs!apps/static/show/templates/about',
-	'ejs!apps/static/show/templates/faq',
-	'ejs!apps/static/show/templates/terms',
-	'ejs!apps/static/show/templates/terms.service',
-	'ejs!apps/static/show/templates/terms.website',
-	'ejs!apps/static/show/templates/terms.privacy',
-	'ejs!apps/static/show/templates/terms.cookies'
+	'apps/static/show/templates/about',
+	'apps/static/show/templates/faq',
+	'apps/static/show/templates/terms',
+	'apps/static/show/templates/terms.service',
+	'apps/static/show/templates/terms.website',
+	'apps/static/show/templates/terms.privacy',
+	'apps/static/show/templates/terms.cookies'
 ], function(
 	App,
 	aboutTpl,
