@@ -1,10 +1,10 @@
 webpackJsonp([3],{
 
-/***/ 42:
+/***/ 41:
 /***/ function(module, exports, __webpack_require__) {
 
 	var App = __webpack_require__(2);
-	var View = __webpack_require__(56);
+	var View = __webpack_require__(55);
 
 
 	App.module('StaticApp.Show', function(Show, App, Backbone, Marionette, $, _) {
@@ -24,13 +24,13 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 56:
+/***/ 55:
 /***/ function(module, exports, __webpack_require__) {
 
 	var App = __webpack_require__(2);
-	var aboutTpl = __webpack_require__(67);
-	var faqTpl = __webpack_require__(68);
-	var termsTpl = __webpack_require__(69);
+	var aboutTpl = __webpack_require__(68);
+	var faqTpl = __webpack_require__(69);
+	var termsTpl = __webpack_require__(70);
 
 
 	App.module('StaticApp.Show.View', function(View, App, Backbone, Marionette, $, _) {
@@ -70,7 +70,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 67:
+/***/ 68:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function (obj) {
@@ -85,7 +85,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 68:
+/***/ 69:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function (obj) {
@@ -100,7 +100,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 69:
+/***/ 70:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function (obj) {

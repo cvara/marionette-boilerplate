@@ -565,8 +565,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var App = __webpack_require__(2);
-	var _globalTpl = __webpack_require__(46);
-	var sampleEmailTpl = __webpack_require__(47);
+	var _globalTpl = __webpack_require__(45);
+	var sampleEmailTpl = __webpack_require__(46);
 
 
 	App.module('MailerApp', function(MailerApp, App, Backbone, Marionette, $, _) {
@@ -1826,7 +1826,7 @@
 		var API = {
 			showStaticView: function(view) {
 				__webpack_require__.e/* nsure */(3, function(require) {
-					var ShowController = __webpack_require__(42);
+					var ShowController = __webpack_require__(41);
 					App.executeAction('StaticApp', ShowController.showStaticView, {
 						view: view
 					});
@@ -1856,7 +1856,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var App = __webpack_require__(2);
-	var ShowController = __webpack_require__(41);
+	var ShowController = __webpack_require__(42);
 
 
 	App.module('LoaderApp', function(LoaderApp, App, Backbone, Marionette, $, _) {
@@ -1915,7 +1915,7 @@
 
 	  /* istanbul ignore next */
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(45), __webpack_require__(28)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Backbone, _) {
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(47), __webpack_require__(28)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Backbone, _) {
 	      return (root.Marionette = root.Mn = factory(root, Backbone, _));
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if (typeof exports !== 'undefined') {
@@ -18175,11 +18175,12 @@
 /***/ },
 /* 39 */,
 /* 40 */,
-/* 41 */
+/* 41 */,
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var App = __webpack_require__(2);
-	var View = __webpack_require__(55);
+	var View = __webpack_require__(56);
 
 
 	App.module('LoaderApp.Show', function(Show, App, Backbone, Marionette, $, _) {
@@ -18203,7 +18204,6 @@
 	module.exports = App.LoaderApp.Show.Controller;
 
 /***/ },
-/* 42 */,
 /* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -18326,6 +18326,36 @@
 
 /***/ },
 /* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function (obj) {
+	obj || (obj = {});
+	var __t, __p = '';
+	with (obj) {
+	__p += '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\r\n<html xmlns="http://www.w3.org/1999/xhtml">\r\n	<head>\r\n		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />\r\n		<title>App Mailer</title>\r\n		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>\r\n	</head>\r\n	<body style="margin: 0; padding: 0;">\r\n\r\n		<table style="color: #555555; font-family: Trebuchet MS, Geneva, sans-serif; font-size: 15px; line-height: 20px;" border="0" cellpadding="0" cellspacing="0" width="100%">\r\n			<tr>\r\n				<td>\r\n					<table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">\r\n						<tr>\r\n							<td bgcolor="#ffffff" align="left" style="padding: 15px 20px 15px 20px; border-bottom: 1px solid #dddddd;">\r\n								<a href="https://App.net/"><img src="https://App.net/assets/img/email/logo.png" height="20" width="auto" alt="App" style="display: inline; color: #333" /></a>\r\n							</td>\r\n						</tr>\r\n						<tr>\r\n							<td bgcolor="#ffffff" style="padding: 20px 20px 20px 20px;">\r\n								<table width="100%" cellspacing="0" cellpadding="0" border="0" align="left" style="color: #555555; font-size: 15px;">\r\n									' +
+	((__t = ( emailBody )) == null ? '' : __t) +
+	'\r\n									<tr>\r\n										<td height="20"></td>\r\n									</tr>\r\n								</table>\r\n							</td>\r\n						</tr>\r\n						<tr>\r\n							<td bgcolor="#ffffff" style="padding: 10px 20px 10px 20px; border-top: 1px solid #dddddd;">\r\n								<table border="0" cellpadding="0" cellspacing="0" width="100%">\r\n									<tr>\r\n										<td width="50%">\r\n											<table>\r\n												<tr>\r\n													<td style="padding: 0 0 0 0; color:#555555; font-size: 14px;">&copy; App 2015</td>\r\n												</tr>\r\n												<tr>\r\n													<td style="padding: 0 0 0 0; color:#aaaaaa; font-size: 12px;">6/9 Trinity Street, Dublin 2 Ireland</td>\r\n												</tr>\r\n												<tr>\r\n													<td style="padding: 0 0 0 0; color:#aaaaaa; font-size: 12px;">Contact us at: <a style="color:#999999" href="mailto:editor@App.net">editor@App.net</a></td>\r\n												</tr>\r\n											</table>\r\n										</td>\r\n									</tr>\r\n								</table>\r\n							</td>\r\n						</tr>\r\n					</table>\r\n				</td>\r\n			</tr>\r\n		</table>\r\n\r\n	</body>\r\n</html>';
+
+	}
+	return __p
+	}
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function (obj) {
+	obj || (obj = {});
+	var __t, __p = '';
+	with (obj) {
+	__p += '<tr>\r\n	<td style="padding: 20px 0 10px 0;">\r\n		Hello!\r\n	</td>\r\n</tr>\r\n\r\n<tr>\r\n	<td style="padding: 20px 0 10px 0;">\r\n		This is a sample email. You can modify it as you see fit.\r\n	</td>\r\n</tr>\r\n\r\n<tr>\r\n	<td style="padding: 20px 0 10px 0;">\r\n		Best wishes,<br/>\r\n		The App\r\n	</td>\r\n</tr>\r\n';
+
+	}
+	return __p
+	}
+
+/***/ },
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {//     Backbone.js 1.2.0
@@ -20200,36 +20230,6 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 46 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function (obj) {
-	obj || (obj = {});
-	var __t, __p = '';
-	with (obj) {
-	__p += '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\r\n<html xmlns="http://www.w3.org/1999/xhtml">\r\n	<head>\r\n		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />\r\n		<title>App Mailer</title>\r\n		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>\r\n	</head>\r\n	<body style="margin: 0; padding: 0;">\r\n\r\n		<table style="color: #555555; font-family: Trebuchet MS, Geneva, sans-serif; font-size: 15px; line-height: 20px;" border="0" cellpadding="0" cellspacing="0" width="100%">\r\n			<tr>\r\n				<td>\r\n					<table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">\r\n						<tr>\r\n							<td bgcolor="#ffffff" align="left" style="padding: 15px 20px 15px 20px; border-bottom: 1px solid #dddddd;">\r\n								<a href="https://App.net/"><img src="https://App.net/assets/img/email/logo.png" height="20" width="auto" alt="App" style="display: inline; color: #333" /></a>\r\n							</td>\r\n						</tr>\r\n						<tr>\r\n							<td bgcolor="#ffffff" style="padding: 20px 20px 20px 20px;">\r\n								<table width="100%" cellspacing="0" cellpadding="0" border="0" align="left" style="color: #555555; font-size: 15px;">\r\n									' +
-	((__t = ( emailBody )) == null ? '' : __t) +
-	'\r\n									<tr>\r\n										<td height="20"></td>\r\n									</tr>\r\n								</table>\r\n							</td>\r\n						</tr>\r\n						<tr>\r\n							<td bgcolor="#ffffff" style="padding: 10px 20px 10px 20px; border-top: 1px solid #dddddd;">\r\n								<table border="0" cellpadding="0" cellspacing="0" width="100%">\r\n									<tr>\r\n										<td width="50%">\r\n											<table>\r\n												<tr>\r\n													<td style="padding: 0 0 0 0; color:#555555; font-size: 14px;">&copy; App 2015</td>\r\n												</tr>\r\n												<tr>\r\n													<td style="padding: 0 0 0 0; color:#aaaaaa; font-size: 12px;">6/9 Trinity Street, Dublin 2 Ireland</td>\r\n												</tr>\r\n												<tr>\r\n													<td style="padding: 0 0 0 0; color:#aaaaaa; font-size: 12px;">Contact us at: <a style="color:#999999" href="mailto:editor@App.net">editor@App.net</a></td>\r\n												</tr>\r\n											</table>\r\n										</td>\r\n									</tr>\r\n								</table>\r\n							</td>\r\n						</tr>\r\n					</table>\r\n				</td>\r\n			</tr>\r\n		</table>\r\n\r\n	</body>\r\n</html>';
-
-	}
-	return __p
-	}
-
-/***/ },
-/* 47 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function (obj) {
-	obj || (obj = {});
-	var __t, __p = '';
-	with (obj) {
-	__p += '<tr>\r\n	<td style="padding: 20px 0 10px 0;">\r\n		Hello!\r\n	</td>\r\n</tr>\r\n\r\n<tr>\r\n	<td style="padding: 20px 0 10px 0;">\r\n		This is a sample email. You can modify it as you see fit.\r\n	</td>\r\n</tr>\r\n\r\n<tr>\r\n	<td style="padding: 20px 0 10px 0;">\r\n		Best wishes,<br/>\r\n		The App\r\n	</td>\r\n</tr>\r\n';
-
-	}
-	return __p
-	}
-
-/***/ },
 /* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -20533,7 +20533,7 @@
 	// http://thedersen.com/projects/backbone-validation
 	(function (factory) {
 	  if (true) {
-	    module.exports = factory(__webpack_require__(45), __webpack_require__(28));
+	    module.exports = factory(__webpack_require__(47), __webpack_require__(28));
 	  } else if (typeof define === 'function' && define.amd) {
 	    define(['backbone', 'underscore'], factory);
 	  }
@@ -21171,7 +21171,8 @@
 /***/ },
 /* 53 */,
 /* 54 */,
-/* 55 */
+/* 55 */,
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var App = __webpack_require__(2);
@@ -21205,7 +21206,6 @@
 	module.exports = App.LoaderApp.Show.View;
 
 /***/ },
-/* 56 */,
 /* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -21358,7 +21358,7 @@
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(root, factory) {
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(45), __webpack_require__(28)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Backbone, _) {
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(47), __webpack_require__(28)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Backbone, _) {
 	      factory(Backbone, _);
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if (typeof exports !== 'undefined') {

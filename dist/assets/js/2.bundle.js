@@ -4,7 +4,7 @@ webpackJsonp([2],{
 /***/ function(module, exports, __webpack_require__) {
 
 	var App = __webpack_require__(2);
-	var View = __webpack_require__(53);
+	var View = __webpack_require__(54);
 	var Authenticate = __webpack_require__(49);
 	var Cache = __webpack_require__(6);
 	var Notify = __webpack_require__(3);
@@ -44,12 +44,12 @@ webpackJsonp([2],{
 
 /***/ },
 
-/***/ 53:
+/***/ 54:
 /***/ function(module, exports, __webpack_require__) {
 
 	var App = __webpack_require__(2);
 	var FormBase = __webpack_require__(60);
-	var loginTpl = __webpack_require__(66);
+	var loginTpl = __webpack_require__(67);
 
 
 	App.module('UsersApp.Login.View', function(View, App, Backbone, Marionette, $, _) {
@@ -636,7 +636,7 @@ webpackJsonp([2],{
 
 /***/ },
 
-/***/ 66:
+/***/ 67:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function (obj) {
@@ -668,7 +668,7 @@ webpackJsonp([2],{
 	(function(root, factory) {
 
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(28), __webpack_require__(45), __webpack_require__(27)], __WEBPACK_AMD_DEFINE_RESULT__ = function(_, Backbone, $) {
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(28), __webpack_require__(47), __webpack_require__(27)], __WEBPACK_AMD_DEFINE_RESULT__ = function(_, Backbone, $) {
 	      return factory(_, Backbone, $);
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if (typeof exports !== 'undefined') {
