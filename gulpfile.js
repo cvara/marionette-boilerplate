@@ -1,18 +1,17 @@
 // Load plugins
 var gulp = require('gulp');
-var gutil = require('gulp-util');
+var notifier = require('node-notifier');
+var util = require('gulp-util');
 var webpack = require('gulp-webpack');
 var webpackConfig = require('./webpack.config');
 var connect = require('gulp-connect');
 var preprocess = require('gulp-preprocess');
-var path = require('path');
 var less = require('gulp-less');
 var minifycss = require('gulp-minify-css');
 var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
 var imagemin = require('gulp-imagemin');
 var rename = require('gulp-rename');
-var notify = require('gulp-notify');
 var cache = require('gulp-cache');
 var livereload = require('gulp-livereload');
 var del = require('del');
@@ -21,11 +20,35 @@ var runSequence = require('run-sequence');
 var appRoot = __dirname + '/assets';
 var buildPath = __dirname + '/dist';
 
+// Error handler
+function errorHandler(err) {
+	// Native notification
+	notifier.notify({
+		'title':'Build Error:',
+		'message': err.message
+	});
+	// Log to console
+	util.log(util.colors.red('Error'), err.message);
+	// Manually end the stream, so that it can re-run
+	this.emit('end');
+}
+
+// Connect dev server
+gulp.task('connectDev', function() {
+	connect.server({
+		root: './',
+		port: 8181,
+		hostname: '*', // to allow access to server from outside
+		livereload: false
+	});
+});
+
 // Connect server
 gulp.task('connect', function() {
 	connect.server({
 		root: buildPath,
-		port: 8080,
+		port: 8888,
+		hostname: '*', // to allow access to server from outside
 		livereload: true
 	});
 });
@@ -54,6 +77,7 @@ gulp.task('preprocessHtml', function() {
 gulp.task('styles', function() {
 	return gulp.src('./assets/css/style.less')
 		.pipe(less())
+		.on('error', errorHandler)
 		.pipe(rename({
 			basename: 'main',
 			suffix: '.min',
@@ -139,7 +163,7 @@ gulp.task('watch', function() {
 
 // Run in development mode
 gulp.task('run', function(callback) {
-	runSequence('build', 'connect', 'watch', callback);
+	runSequence(['build', 'connect', 'watch'], callback);
 });
 
 // Run in production mode
