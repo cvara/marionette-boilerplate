@@ -163,7 +163,7 @@ gulp.task('watch', function() {
 
 // Run in development mode
 gulp.task('run', function(callback) {
-	runSequence(['build', 'connect', 'watch'], callback);
+	runSequence('build', 'connect', 'watch', callback);
 });
 
 // Run in production mode
