@@ -476,7 +476,9 @@ module.exports = Marionette.ItemView.extend({
 		self._handleFileDeletion(previewList, inputName);
 	},
 
-	showExistingFiles: function(attrs, rootUrl) {
+	// Looks for attributes that are files, and appends them to a list for preview
+	showExistingFiles: function(rootUrl, attributes) {
+		var attrs = attributes || this.model.toJSON();
 		var self = this;
 		_.each(attrs, function(value, key, list) {
 			var input = self.ui.fileInput.filter('[name="' + key + '"]');
