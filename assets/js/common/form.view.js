@@ -387,8 +387,13 @@ module.exports = Marionette.ItemView.extend({
 		var self = this;
 		this.ui.datetimeInput.each(function() {
 			var name = $(this).attr('name');
-			if (!!name && name in data) {
-				parsed[name] = moment.utc(parsed[name]).format();
+			if (!!name && name in parsed) {
+				// don't parse invalid dates
+				if (moment.utc(parsed[name]).isValid()) {
+					parsed[name] = moment.utc(parsed[name]).format();
+				} else {
+					parsed[name] = null;
+				}
 			}
 		});
 		return parsed;
