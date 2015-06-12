@@ -483,20 +483,24 @@ module.exports = Marionette.ItemView.extend({
 
 	// Looks for attributes that are files, and appends them to a list for preview
 	showExistingFiles: function(rootUrl, attributes) {
-		var attrs = attributes || this.model.toJSON();
+		var attrs = attributes || this.model.attributes;
 		var self = this;
-		_.each(attrs, function(value, key, list) {
-			var input = self.ui.fileInput.filter('[name="' + key + '"]');
-			if (input.length > 0) {
-				if (value instanceof Array) {
-					for(var i=0, j; j=value[i]; i++) {
-						self.addExistingFile(value[i], key, rootUrl);
+		for (var key in attrs) {
+			if (attrs.hasOwnProperty(key)) {
+				var value = attrs[key];
+				var input = self.ui.fileInput.filter('[name="' + key + '"]');
+				if (input.length > 0) {
+					if (value instanceof Array) {
+						for(var i=0, j; j=value[i]; i++) {
+							console.log(value[i], key);
+							self.addExistingFile(value[i], key, rootUrl);
+						}
+					} else {
+						self.addExistingFile(value, key, rootUrl);
 					}
-				} else {
-					self.addExistingFile(value, key, rootUrl);
 				}
 			}
-		});
+		}
 	},
 
 	addExistingFile: function(fileUrl, inputName, rootUrl) {
