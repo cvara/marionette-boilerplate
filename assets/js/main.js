@@ -15,6 +15,7 @@ require('date-polyfill');
 require('storage-polyfill');
 require('trim-polyfill');
 require('localstorage-polyfill');
+require('console-stub');
 require('json2');
 require('bootstrap');
 
