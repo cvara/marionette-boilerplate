@@ -1,10 +1,10 @@
 webpackJsonp([1],{
 
-/***/ 39:
+/***/ 41:
 /***/ function(module, exports, __webpack_require__) {
 
 	var App = __webpack_require__(2);
-	var View = __webpack_require__(53);
+	var View = __webpack_require__(55);
 
 
 	App.module('SplashApp.Show', function(Show, App, Backbone, Marionette, $, _) {
@@ -23,11 +23,11 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 53:
+/***/ 55:
 /***/ function(module, exports, __webpack_require__) {
 
 	var App = __webpack_require__(2);
-	var splashTpl = __webpack_require__(66);
+	var splashTpl = __webpack_require__(154);
 
 
 	App.module('SplashApp.Show.View', function(View, App, Backbone, Marionette, $, _) {
@@ -42,7 +42,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 66:
+/***/ 154:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function (obj) {

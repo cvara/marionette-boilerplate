@@ -73,7 +73,6 @@ module.exports = {
 			'pnotify.buttons': 'vendor/pnotify.buttons',
 			'pnotify.confirm': 'vendor/pnotify.confirm',
 			'pnotify.nonblock': 'vendor/pnotify.nonblock',
-			moment: 'vendor/moment.min', // UMD (AMD + CommonJS) Compatible
 			'bootstrap-datetimepicker': 'vendor/bootstrap-datetimepicker',
 		}
 	}

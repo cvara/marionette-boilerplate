@@ -9,7 +9,9 @@
     "type": "git",
     "url": ""
   },
-  "dependencies": {},
+  "dependencies": {
+    "moment": "^2.10.6"
+  },
   "license": "MIT",
   "engines": {
     "node": ">=0.10.26"

@@ -4,8 +4,8 @@ webpackJsonp([2],{
 /***/ function(module, exports, __webpack_require__) {
 
 	var App = __webpack_require__(2);
-	var View = __webpack_require__(54);
-	var Authenticate = __webpack_require__(49);
+	var View = __webpack_require__(52);
+	var Authenticate = __webpack_require__(51);
 	var Cache = __webpack_require__(6);
 	var Notify = __webpack_require__(3);
 
@@ -44,12 +44,12 @@ webpackJsonp([2],{
 
 /***/ },
 
-/***/ 54:
+/***/ 52:
 /***/ function(module, exports, __webpack_require__) {
 
 	var App = __webpack_require__(2);
-	var FormBase = __webpack_require__(60);
-	var loginTpl = __webpack_require__(67);
+	var FormBase = __webpack_require__(146);
+	var loginTpl = __webpack_require__(151);
 
 
 	App.module('UsersApp.Login.View', function(View, App, Backbone, Marionette, $, _) {
@@ -63,7 +63,7 @@ webpackJsonp([2],{
 
 /***/ },
 
-/***/ 60:
+/***/ 146:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($, _) {// Form View
@@ -80,10 +80,10 @@ webpackJsonp([2],{
 	// The View's main purpose is to be extended by child views, but can also used as a
 	// standalone constructor.
 	//
-	var Marionette = __webpack_require__(21);
+	var Marionette = __webpack_require__(22);
 	var App = __webpack_require__(2);
-	var syphon = __webpack_require__(72);
-	var bootstrapDatetimepicker = __webpack_require__(73);
+	var syphon = __webpack_require__(159);
+	var bootstrapDatetimepicker = __webpack_require__(160);
 
 
 	// Useful data attributes
@@ -455,8 +455,13 @@ webpackJsonp([2],{
 			var self = this;
 			this.ui.datetimeInput.each(function() {
 				var name = $(this).attr('name');
-				if (!!name && name in data) {
-					parsed[name] = moment.utc(parsed[name]).format();
+				if (!!name && name in parsed) {
+					// don't parse invalid dates
+					if (moment.utc(parsed[name]).isValid()) {
+						parsed[name] = moment.utc(parsed[name]).format();
+					} else {
+						parsed[name] = null;
+					}
 				}
 			});
 			return parsed;
@@ -544,20 +549,26 @@ webpackJsonp([2],{
 			self._handleFileDeletion(previewList, inputName);
 		},
 
-		showExistingFiles: function(attrs, rootUrl) {
+		// Looks for attributes that are files, and appends them to a list for preview
+		showExistingFiles: function(rootUrl, attributes) {
+			var attrs = attributes || this.model.attributes;
 			var self = this;
-			_.each(attrs, function(value, key, list) {
-				var input = self.ui.fileInput.filter('[name="' + key + '"]');
-				if (input.length > 0) {
-					if (value instanceof Array) {
-						for(var i=0, j; j=value[i]; i++) {
-							self.addExistingFile(value[i], key, rootUrl);
+			for (var key in attrs) {
+				if (attrs.hasOwnProperty(key)) {
+					var value = attrs[key];
+					var input = self.ui.fileInput.filter('[name="' + key + '"]');
+					if (input.length > 0) {
+						if (value instanceof Array) {
+							for(var i=0, j; j=value[i]; i++) {
+								console.log(value[i], key);
+								self.addExistingFile(value[i], key, rootUrl);
+							}
+						} else {
+							self.addExistingFile(value, key, rootUrl);
 						}
-					} else {
-						self.addExistingFile(value, key, rootUrl);
 					}
 				}
-			});
+			}
 		},
 
 		addExistingFile: function(fileUrl, inputName, rootUrl) {
@@ -632,11 +643,11 @@ webpackJsonp([2],{
 			}
 		}
 	});
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27), __webpack_require__(28)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28), __webpack_require__(29)))
 
 /***/ },
 
-/***/ 67:
+/***/ 151:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function (obj) {
@@ -655,7 +666,7 @@ webpackJsonp([2],{
 
 /***/ },
 
-/***/ 72:
+/***/ 159:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Backbone.Syphon, v0.6.0
@@ -668,7 +679,7 @@ webpackJsonp([2],{
 	(function(root, factory) {
 
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(28), __webpack_require__(47), __webpack_require__(27)], __WEBPACK_AMD_DEFINE_RESULT__ = function(_, Backbone, $) {
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(29), __webpack_require__(48), __webpack_require__(28)], __WEBPACK_AMD_DEFINE_RESULT__ = function(_, Backbone, $) {
 	      return factory(_, Backbone, $);
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if (typeof exports !== 'undefined') {
@@ -1162,7 +1173,7 @@ webpackJsonp([2],{
 
 /***/ },
 
-/***/ 73:
+/***/ 160:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -1197,7 +1208,7 @@ webpackJsonp([2],{
 	    'use strict';
 	    if (true) {
 	        // AMD is used - Register as an anonymous module.
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(27), __webpack_require__(7)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(28), __webpack_require__(21)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === 'object') {
 	        factory(require('jquery'), require('moment'));
 	    }
