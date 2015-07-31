@@ -34,9 +34,9 @@ var attributes = {
 	dateTime      : 'data-datetime'
 };
 
-// Common selectors gathered here for convenient customizing
+// Common selectors gathered here for convenience
 var selectors = {
-	formGroup       : '.form-group',
+	formGroup       : '.form-group, .form-group-sm, .form-group-lg',
 	submitButton    : '.btn-submit',
 	cancelButton    : '.btn-cancel',
 	fileButton      : '.file-upload',
