@@ -136,8 +136,12 @@ gulp.task('clean', function(cb) {
 
 // Build
 gulp.task('build', function(callback) {
-	var start = new Date().getTime();
 	runSequence('clean', 'webpack', ['styles', 'fonts', 'images', 'copyHtml'], callback);
+});
+
+// Build Plus
+gulp.task('buildPlus', function(callback) {
+	runSequence('build', 'uglifyBundle', callback);
 });
 
 // Watch
@@ -168,7 +172,7 @@ gulp.task('run', function(callback) {
 
 // Run in production mode
 gulp.task('runProd', function(callback) {
-	runSequence('build', 'uglifyBundle', 'connect', callback);
+	runSequence('buildPlus', 'connect', callback);
 });
 
 // Default task
