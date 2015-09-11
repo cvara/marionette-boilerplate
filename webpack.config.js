@@ -18,6 +18,8 @@ module.exports = {
 		}]
 	},
 
+	devtool: 'cheap-source-map',
+
 	plugins: [
 		// This replaces shim stuff in RequireJS.
 		new webpack.ProvidePlugin({
