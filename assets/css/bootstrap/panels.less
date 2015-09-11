@@ -8,7 +8,6 @@
   margin-bottom: @line-height-computed;
   background-color: @panel-bg;
   border: 1px solid transparent;
-  border-left: 3px solid transparent;
   border-radius: @panel-border-radius;
   .box-shadow(0 1px 1px rgba(0,0,0,.05));
 }
@@ -37,15 +36,12 @@
   font-size: ceil((@font-size-base * 1.125));
   color: inherit;
 
-  > a {
+  > a,
+  > small,
+  > .small,
+  > small > a,
+  > .small > a {
     color: inherit;
-  }
-
-  // for icons in panels
-  > .glyphicon,
-  > .fa,
-  > .icomoon, > [class^="icomoon-"], > [class*=" icomoon-"] {
-  	margin-right: 10px;
   }
 }
 
@@ -80,12 +76,18 @@
         .border-top-radius((@panel-border-radius - 1));
       }
     }
+
     // Add border bottom radius for last one
     &:last-child {
       .list-group-item:last-child {
         border-bottom: 0;
         .border-bottom-radius((@panel-border-radius - 1));
       }
+    }
+  }
+  > .panel-heading + .panel-collapse > .list-group {
+    .list-group-item:first-child {
+      .border-top-radius(0);
     }
   }
 }
@@ -212,38 +214,6 @@
 }
 
 
-// Action buttons in panels
-//
-// Place lists with each li being a specific action
-
-.panel {
-
-  .panel-actions {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 -1px -3px;
-    min-height: 40px;
-    // border-top: 1px solid @gray-lighter;
-    .action {
-      // float: left;
-      display: inline-block;
-      margin: 0px 1px 0px 0px;
-      .btn {
-        border-radius: @panel-border-radius;
-        border-width: 0px;
-        border-top-width: 1px;
-        border-top-color: @gray-lighter;
-        border-right-width: 1px;
-        border-right-color: @gray-lighter;
-        background-color: @gray-lighter;
-        &:hover {
-          background-color: darken(@gray-lighter, 2%);
-        }
-      }
-    }
-  }
-}
-
 // Collapsable panels (aka, accordion)
 //
 // Wrap a series of panels in `.panel-group` to turn them into an accordion with
@@ -279,11 +249,6 @@
   }
 }
 
-
-// Border-less panel
-.panel-borderless {
-	border-color: transparent !important;
-}
 
 // Contextual variations
 .panel-default {

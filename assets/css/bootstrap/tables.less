@@ -34,27 +34,6 @@ th {
         line-height: @line-height-base;
         vertical-align: top;
         border-top: 1px solid @table-border-color;
-
-        // icons inside tabels
-        > .glyphicon, > .fa, > .icomoon, > [class^="icomoon-"], > [class*=" icomoon-"] {
-          margin-right: 7px;
-        }
-
-        // action buttons inside tables
-        .btn-action {
-          border-radius: @border-radius-large;
-          border-width: 0px;
-          border-top-width: 1px;
-          border-top-color: @gray-lighter;
-          border-right-width: 1px;
-          border-right-color: @gray-lighter;
-          background-color: @gray-lighter;
-          margin-left: 7px;
-          padding: 4px 9px;
-          &:hover {
-            background-color: darken(@gray-lighter, 2%);
-          }
-        }
       }
     }
   }
@@ -82,20 +61,6 @@ th {
   // Nesting
   .table {
     background-color: @body-bg;
-  }
-
-  // Table inside panel
-  .panel > & {
-    margin-top: 0;
-    > thead > tr > th,
-    > tbody > tr > td {
-      padding-left: 46px !important;
-      border-color: @gray-lighter !important;
-    }
-    > thead > tr > th {
-      // border-bottom: 1px solid @table-border-color;
-      border-bottom: 1px solid @gray-lighter;
-    }
   }
 }
 
@@ -146,7 +111,7 @@ th {
 // Default zebra-stripe styles (alternating gray and transparent backgrounds)
 
 .table-striped {
-  > tbody > tr:nth-child(odd) {
+  > tbody > tr:nth-of-type(odd) {
     background-color: @table-bg-accent;
   }
 }
@@ -168,7 +133,7 @@ th {
 // Reset default table behavior
 
 table col[class*="col-"] {
-  position: static; // Prevent border hiding in Firefox and IE9/10 (see https://github.com/twbs/bootstrap/issues/11623)
+  position: static; // Prevent border hiding in Firefox and IE9-11 (see https://github.com/twbs/bootstrap/issues/11623)
   float: none;
   display: table-column;
 }
@@ -176,7 +141,7 @@ table {
   td,
   th {
     &[class*="col-"] {
-      position: static; // Prevent border hiding in Firefox and IE9/10 (see https://github.com/twbs/bootstrap/issues/11623)
+      position: static; // Prevent border hiding in Firefox and IE9-11 (see https://github.com/twbs/bootstrap/issues/11623)
       float: none;
       display: table-cell;
     }

@@ -2,12 +2,11 @@
 
 .panel-variant(@border; @heading-text-color; @heading-bg-color; @heading-border) {
   border-color: @border;
-  border-left-color: @heading-text-color;
 
   & > .panel-heading {
     color: @heading-text-color;
-    background-color: #fff;
-    border-style: none;
+    background-color: @heading-bg-color;
+    border-color: @heading-border;
 
     + .panel-collapse > .panel-body {
       border-top-color: @border;
@@ -20,16 +19,6 @@
   & > .panel-footer {
     + .panel-collapse > .panel-body {
       border-bottom-color: @border;
-    }
-  }
-
-  &.clickable {
-    &:hover {
-      & > .panel-heading {
-        background-color: lighten(@border, 7%);
-      }
-      background-color: lighten(@border, 7%);
-      box-shadow: 0 0 5px 2px @border;
     }
   }
 }

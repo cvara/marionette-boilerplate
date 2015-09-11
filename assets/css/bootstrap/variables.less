@@ -14,12 +14,11 @@
 @gray-light:             lighten(@gray-base, 46.7%); // #777
 @gray-lighter:           lighten(@gray-base, 93.5%); // #eee
 
-@brand-primary:         darken(#428bca, 6.5%); // blue
-@brand-secondary:       #ff9800;               // orange
-@brand-success:         #1ABC9C;
-@brand-info:            #3598DB;
-@brand-warning:         #F39C12;
-@brand-danger:          #EE4C50;
+@brand-primary:         darken(#428bca, 6.5%); // #337ab7
+@brand-success:         #5cb85c;
+@brand-info:            #5bc0de;
+@brand-warning:         #f0ad4e;
+@brand-danger:          #d9534f;
 
 
 //== Scaffolding
@@ -27,9 +26,9 @@
 //## Settings for some of the most global styles.
 
 //** Background color for `<body>`.
-@body-bg:               #f9f9f9;
+@body-bg:               #fff;
 //** Global text color on `<body>`.
-@text-color:            @gray-light;
+@text-color:            @gray-dark;
 
 //** Global textual link color.
 @link-color:            @brand-primary;
@@ -43,7 +42,7 @@
 //
 //## Font, line-height, and color for body text, headings, and more.
 
-@font-family-sans-serif:  "Open Sans", sans-serif;
+@font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif;
 @font-family-serif:       Georgia, "Times New Roman", Times, serif;
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
 @font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
@@ -66,7 +65,7 @@
 @line-height-computed:    floor((@font-size-base * @line-height-base)); // ~20px
 
 //** By default, this inherits from the `<body>`.
-@headings-font-family:    @font-family-sans-serif;
+@headings-font-family:    inherit;
 @headings-font-weight:    500;
 @headings-line-height:    1.1;
 @headings-color:          inherit;
@@ -88,11 +87,11 @@
 //
 //## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
 
-@padding-base-vertical:     10px;
-@padding-base-horizontal:   15px;
+@padding-base-vertical:     6px;
+@padding-base-horizontal:   12px;
 
-@padding-large-vertical:    15px;
-@padding-large-horizontal:  20px;
+@padding-large-vertical:    10px;
+@padding-large-horizontal:  16px;
 
 @padding-small-vertical:    5px;
 @padding-small-horizontal:  10px;
@@ -100,15 +99,12 @@
 @padding-xs-vertical:       1px;
 @padding-xs-horizontal:     5px;
 
-@line-height-large:         1.33;
+@line-height-large:         1.3333333; // extra decimals for Win 8.1 Chrome
 @line-height-small:         1.5;
 
 @border-radius-base:        4px;
 @border-radius-large:       6px;
 @border-radius-small:       3px;
-
-
-
 
 //** Global color for active items (e.g., navs or dropdowns).
 @component-active-color:    #fff;
@@ -126,12 +122,12 @@
 //## Customizes the `.table` component with basic values, each used across all table variations.
 
 //** Padding for `<th>`s and `<td>`s.
-@table-cell-padding:            12px 12px;
+@table-cell-padding:            8px;
 //** Padding for cells in `.table-condensed`.
 @table-condensed-cell-padding:  5px;
 
 //** Default background color used for all tables.
-@table-bg:                      #fff;
+@table-bg:                      transparent;
 //** Background color used for `.table-striped`.
 @table-bg-accent:               #f9f9f9;
 //** Background color used for `.table-hover`.
@@ -148,17 +144,13 @@
 
 @btn-font-weight:                normal;
 
-@btn-default-color:              @gray;
+@btn-default-color:              #333;
 @btn-default-bg:                 #fff;
 @btn-default-border:             #ccc;
 
 @btn-primary-color:              #fff;
 @btn-primary-bg:                 @brand-primary;
 @btn-primary-border:             darken(@btn-primary-bg, 5%);
-
-@btn-secondary-color:            #fff;
-@btn-secondary-bg:               @brand-secondary;
-@btn-secondary-border:           darken(@btn-secondary-bg, 5%);
 
 @btn-success-color:              #fff;
 @btn-success-bg:                 @brand-success;
@@ -178,6 +170,11 @@
 
 @btn-link-disabled-color:        @gray-light;
 
+// Allows for customizing button radius independently from global border radius
+@btn-border-radius-base:         @border-radius-base;
+@btn-border-radius-large:        @border-radius-large;
+@btn-border-radius-small:        @border-radius-small;
+
 
 //== Forms
 //
@@ -195,6 +192,7 @@
 
 // TODO: Rename `@input-border-radius` to `@input-border-radius-base` in v4
 //** Default `.form-control` border radius
+// This has no effect on `<select>`s in some browsers, due to the limited stylability of `<select>`s in CSS.
 @input-border-radius:            @border-radius-base;
 //** Large `.form-control` border radius
 @input-border-radius-large:      @border-radius-large;
@@ -213,6 +211,9 @@
 @input-height-large:             (ceil(@font-size-large * @line-height-large) + (@padding-large-vertical * 2) + 2);
 //** Small `.form-control` height
 @input-height-small:             (floor(@font-size-small * @line-height-small) + (@padding-small-vertical * 2) + 2);
+
+//** `.form-group` margin
+@form-group-margin-bottom:       15px;
 
 @legend-color:                   @gray-dark;
 @legend-border-color:            #e5e5e5;
@@ -273,14 +274,8 @@
 @zindex-popover:           1060;
 @zindex-tooltip:           1070;
 @zindex-navbar-fixed:      1030;
-@zindex-modal:             1040;
-
-
-//== Sidebar Width
-//
-//## Define the sidebar width which also affects media queries breakpoints
-
-@sidebar-width: 179px;
+@zindex-modal-background:  1040;
+@zindex-modal:             1050;
 
 
 //== Media queries breakpoints
@@ -289,7 +284,7 @@
 
 // Extra small screen / phone
 //** Deprecated `@screen-xs` as of v3.0.1
-@screen-xs:                  (480px + @sidebar-width);
+@screen-xs:                  480px;
 //** Deprecated `@screen-xs-min` as of v3.2.0
 @screen-xs-min:              @screen-xs;
 //** Deprecated `@screen-phone` as of v3.0.1
@@ -297,21 +292,21 @@
 
 // Small screen / tablet
 //** Deprecated `@screen-sm` as of v3.0.1
-@screen-sm:                  (768px + @sidebar-width + 5px);
+@screen-sm:                  768px;
 @screen-sm-min:              @screen-sm;
 //** Deprecated `@screen-tablet` as of v3.0.1
 @screen-tablet:              @screen-sm-min;
 
 // Medium screen / desktop
 //** Deprecated `@screen-md` as of v3.0.1
-@screen-md:                  (992px + @sidebar-width);
+@screen-md:                  992px;
 @screen-md-min:              @screen-md;
 //** Deprecated `@screen-desktop` as of v3.0.1
 @screen-desktop:             @screen-md-min;
 
 // Large screen / wide desktop
 //** Deprecated `@screen-lg` as of v3.0.1
-@screen-lg:                  (1200px + @sidebar-width);
+@screen-lg:                  1200px;
 @screen-lg-min:              @screen-lg;
 //** Deprecated `@screen-lg-desktop` as of v3.0.1
 @screen-lg-desktop:          @screen-lg-min;
@@ -362,15 +357,15 @@
 //##
 
 // Basics of a navbar
-@navbar-height:                    60px;
+@navbar-height:                    50px;
 @navbar-margin-bottom:             @line-height-computed;
-@navbar-border-radius:             0;
+@navbar-border-radius:             @border-radius-base;
 @navbar-padding-horizontal:        floor((@grid-gutter-width / 2));
 @navbar-padding-vertical:          ((@navbar-height - @line-height-computed) / 2);
 @navbar-collapse-max-height:       340px;
 
 @navbar-default-color:             #777;
-@navbar-default-bg:                #fff;
+@navbar-default-bg:                #f8f8f8;
 @navbar-default-border:            darken(@navbar-default-bg, 6.5%);
 
 // Navbar links
@@ -393,7 +388,7 @@
 @navbar-default-toggle-border-color:       #ddd;
 
 
-// Inverted navbar
+//=== Inverted navbar
 // Reset inverted navbar basics
 @navbar-inverse-color:                      lighten(@gray-light, 15%);
 @navbar-inverse-bg:                         #222;
@@ -441,8 +436,6 @@
 
 @nav-tabs-justified-link-border-color:            #ddd;
 @nav-tabs-justified-active-link-border-color:     @body-bg;
-
-@nav-tabs-tab-content-padding:              25px 0 10px;
 
 //== Pills
 @nav-pills-border-radius:                   @border-radius-base;
@@ -496,26 +489,27 @@
 @jumbotron-bg:                   @gray-lighter;
 @jumbotron-heading-color:        inherit;
 @jumbotron-font-size:            ceil((@font-size-base * 1.5));
+@jumbotron-heading-font-size:    ceil((@font-size-base * 4.5));
 
 
 //== Form states and alerts
 //
 //## Define colors for form feedback states and, by default, alerts.
 
-@state-success-text:             #1ABC9C;
-@state-success-bg:               #E9F8F5;
+@state-success-text:             #3c763d;
+@state-success-bg:               #dff0d8;
 @state-success-border:           darken(spin(@state-success-bg, -10), 5%);
 
-@state-info-text:                #3598DB;
-@state-info-bg:                  #EBF5FB;
+@state-info-text:                #31708f;
+@state-info-bg:                  #d9edf7;
 @state-info-border:              darken(spin(@state-info-bg, -10), 7%);
 
-@state-warning-text:             #F39C12;
-@state-warning-bg:               #FEF5E8;
+@state-warning-text:             #8a6d3b;
+@state-warning-bg:               #fcf8e3;
 @state-warning-border:           darken(spin(@state-warning-bg, -10), 5%);
 
-@state-danger-text:              #E74C3C;
-@state-danger-bg:                #FDEDEC;
+@state-danger-text:              #a94442;
+@state-danger-bg:                #f2dede;
 @state-danger-border:            darken(spin(@state-danger-bg, -10), 5%);
 
 
@@ -594,7 +588,7 @@
 //##
 
 //** Padding applied to the modal body
-@modal-inner-padding:         15px 15px 35px 15px;
+@modal-inner-padding:         15px;
 
 //** Padding applied to the modal title
 @modal-title-padding:         15px;
@@ -602,16 +596,16 @@
 @modal-title-line-height:     @line-height-base;
 
 //** Background color of modal content area
-@modal-content-bg:                             @body-bg;
+@modal-content-bg:                             #fff;
 //** Modal content border color
 @modal-content-border-color:                   rgba(0,0,0,.2);
 //** Modal content border color **for IE8**
 @modal-content-fallback-border-color:          #999;
 
 //** Modal backdrop background color
-@modal-backdrop-bg:           rgba(0,0,0,0.5);
+@modal-backdrop-bg:           #000;
 //** Modal backdrop opacity
-@modal-backdrop-opacity:      0.5;
+@modal-backdrop-opacity:      .5;
 //** Modal header border color
 @modal-header-border-color:   #e5e5e5;
 //** Modal footer border color
@@ -622,33 +616,12 @@
 @modal-sm:                    300px;
 
 
-//== Overlay
-//
-//##
-
-//** Background color of overlay
-@overlay-bg:                    #fff;
-
-//** Padding applied to the overlay body
-@overlay-inner-padding:         0;
-
-//** Padding & margin applied to the overlay title
-@overlay-header-padding:         0 30px;
-@overlay-header-margin:          0 0 15px 0;
-
-//** overlay title line-height
-@overlay-header-line-height:     @line-height-base;
-
-//** Overlay z-index
-@overlay-z-index:               1000;
-
-
 //== Alerts
 //
 //## Define alert colors, border radius, and padding.
 
 @alert-padding:               15px;
-@alert-border-radius:         0;
+@alert-border-radius:         @border-radius-base;
 @alert-link-font-weight:      bold;
 
 @alert-success-bg:            @state-success-bg;
@@ -730,16 +703,16 @@
 //##
 
 @panel-bg:                    #fff;
-@panel-body-padding:          15px 15px 20px 15px;
-@panel-heading-padding:       20px 15px 0 15px;
+@panel-body-padding:          15px;
+@panel-heading-padding:       10px 15px;
 @panel-footer-padding:        @panel-heading-padding;
-@panel-border-radius:         0; //@border-radius-base;
+@panel-border-radius:         @border-radius-base;
 
 //** Border color for elements within panels
 @panel-inner-border:          #ddd;
 @panel-footer-bg:             #f5f5f5;
 
-@panel-default-text:          @gray-light;
+@panel-default-text:          @gray-dark;
 @panel-default-border:        #ddd;
 @panel-default-heading-bg:    #f5f5f5;
 
@@ -887,7 +860,7 @@
 //** Blockquote border color
 @blockquote-border-color:     @gray-lighter;
 //** Page header border color
-@page-header-border-color:    #ddd;
+@page-header-border-color:    @gray-lighter;
 //** Width of horizontal description list titles
 @dl-horizontal-offset:        @component-offset-horizontal;
 //** Horizontal line color.

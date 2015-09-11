@@ -34,11 +34,6 @@
     .transition-transform(~"0.3s ease-out");
   }
   &.in .modal-dialog { .translate(0, 0) }
-
-  background-color: @modal-backdrop-bg;
-  // Fade for backdrop
-  &.fade { .opacity(0); }
-  &.in { .opacity(1); }
 }
 .modal-open .modal {
   overflow-x: hidden;
@@ -67,31 +62,28 @@
 
 // Modal background
 .modal-backdrop {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
+  bottom: 0;
   left: 0;
-  // background-color: @modal-backdrop-bg;
-  // // Fade for backdrop
-  // &.fade { .opacity(0); }
-  // &.in { .opacity(@modal-backdrop-opacity); }
+  z-index: @zindex-modal-background;
+  background-color: @modal-backdrop-bg;
+  // Fade for backdrop
+  &.fade { .opacity(0); }
+  &.in { .opacity(@modal-backdrop-opacity); }
 }
 
 // Modal header
 // Top section of the modal w/ title and dismiss
 .modal-header {
   padding: @modal-title-padding;
-  // border-bottom: 1px solid @modal-header-border-color;
+  border-bottom: 1px solid @modal-header-border-color;
   min-height: (@modal-title-padding + @modal-title-line-height);
-  position: relative;
 }
 // Close icon
 .modal-header .close {
-  font-size: 32px;
-  position: absolute;
-  right: 20px;
-  top: 10px;
-  z-index: 10;
+  margin-top: -2px;
 }
 
 // Title text within header
