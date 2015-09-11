@@ -7,7 +7,7 @@ var DialogRegion = require('apps/config/marionette/regions/dialog');
 var LoadingRegion = require('apps/config/marionette/regions/loading');
 var OverlayRegion = require('apps/config/marionette/regions/overlay');
 var ValidatorConfig = require('apps/config/validator/validator');
-
+var Settings = require('settings');
 
 
 // Initialize Marionette Application
@@ -15,30 +15,6 @@ var ValidatorConfig = require('apps/config/validator/validator');
 // The application is also registered as a global variable,
 // so that it can be referenced from inside Underscore templates
 var App = window.App = new Marionette.Application();
-
-
-// Global Application Settings
-// -------------------------------------------------------------
-// Accessible via App.request('setting', <setting_name>);
-var Settings = {};
-// Enable CORS client-side
-Settings.EnableCORS = true;
-// Landing page triggers for each user role
-Settings.landingTrigger = {
-	'admin' : 'some:trigger',
-	'user'  : 'some:other:trigger',
-	'guest' : 'splash:show'
-};
-// Routes accessible by guests
-Settings.unprotectedURL = /splash|login|register|^static/;
-// Global file size limit
-Settings.FileSizeLimit = 2 * 1024 * 1024; // 2mb
-
-// Location of the API
-Settings.RootURL = '';
-// #ifndef PRODUCTION
-// Settings.RootURL = 'https://App.herokuapp.com'; // heroku
-// #endif
 
 
 // Our custom region classes
