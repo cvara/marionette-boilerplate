@@ -82,18 +82,60 @@ App.isLoggedIn = false;
 App.requestedGuestUrl = false;
 
 
+// Navigate History Stack
+// -------------------------------------------------------------
+// We manually store new history states on 'route' events to be
+// able to go back when needed. Useful for updating state (via
+// App.navigate) when closing a stateful overlay.
+// NOTE: it would be redundant to maintain our own history stack
+// if the only way to move out of a stateful overlay was the browser
+// back button (the browser maintains its own history stack). Overlays
+// close with custom events as well, and this is why this is needed.
+App.NavigateHistory = [];
+
+
 // Helper Functions
 // -------------------------------------------------------------
+
+// Adds a new history entry at the bottom of the stack
+App.prependHistoryState = function(route) {
+	App.NavigateHistory.unshift({
+		route: route,
+		options: null
+	});
+};
 
 // Navigates to route
 App.navigate = function(route, opts) {
 	var options = opts || {};
 	Backbone.history.navigate(route, options);
+
+	// In case of replace, remove last history entry before adding the new one
+	if (options.replace) {
+		App.NavigateHistory.pop();
+	}
+
+	App.NavigateHistory.push({
+		route: route,
+		options:  options
+	});
 };
 
 // Returns current application state (route)
 App.getCurrentRoute = function() {
 	return Backbone.history.fragment;
+};
+
+// Navigates to previous route
+App.navigatePrevious = function() {
+	if (App.NavigateHistory.length < 2) {
+		App.showLanding();
+		return;
+	}
+	var previous = App.NavigateHistory[App.NavigateHistory.length - 2];
+	var route = typeof previous.route === 'string' ? previous.route : previous ;
+	console.log('Navigating to previous route: ', route);
+	App.navigate(route, previous.options);
 };
 
 // Centralized controller method (action) call
@@ -188,7 +230,6 @@ App.initForMember = function(user) {
 
 // Inits app for guest
 App.initForGuest = function() {
-	console.log('initForGuest');
 	Backbone.history.start({silent: true});
 	// Are they accessing a protected URL?
 	if (!Settings.unprotectedURL.test(App.getCurrentRoute())) {
@@ -201,6 +242,8 @@ App.initForGuest = function() {
 		Backbone.history.start({silent: false});
 		if (App.getCurrentRoute() === '') {
 			App.showLanding();
+		} else {
+			App.NavigateHistory.push(App.getCurrentRoute());
 		}
 	}
 };
@@ -233,6 +276,18 @@ App.on('logout', function() {
 	// App.execute('refresh:mainRegion');
 });
 
+// Close overlapping interfaces (like overlays and modals)
+App.on('close:overlapping:interfaces', function(maintainState) {
+	App.rootView.getRegion('dialog').closeModal();
+	App.rootView.getRegion('overlay').closeOverlay(maintainState);  // close without changing state
+});
+
+// Listen to 'history:back' events fired from overlay region
+App.listenTo(App.rootView.getRegion('overlay'), 'history:back', function() {
+	App.navigatePrevious();
+});
+
+// Setting getter via request handling
 App.reqres.setHandler('setting', function(which) {
 	return Settings[which];
 });

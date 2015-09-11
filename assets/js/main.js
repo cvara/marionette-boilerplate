@@ -64,6 +64,15 @@ App.on('start', function(options) {
 		});
 		console.info('App: post-start tasks complete.');
 	});
+
+	// Detect browser back/fwd buttons and close dialog & overlay
+	Backbone.history.on('route', function(route, params) {
+		// Update our history stack
+		App.NavigateHistory.push({
+			route: App.getCurrentRoute(),
+			options: route.options
+		});
+	});
 });
 
 App.start();
