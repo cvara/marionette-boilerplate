@@ -50,7 +50,7 @@ function lessVerboseErrorHandler(err) {
 // Connect dev server
 gulp.task('connectDev', function() {
 	connect.server({
-		root: './',
+		root: [__dirname],
 		port: 8181,
 		hostname: '*', // to allow access to server from outside
 		livereload: false
@@ -201,6 +201,11 @@ gulp.task('run', function(callback) {
 // Run in production mode
 gulp.task('runProd', function(callback) {
 	runSequence('buildPlus', 'connect', callback);
+});
+
+// connectDev task alias
+gulp.task('sandbox', function() {
+	gulp.start('connectDev');
 });
 
 // Default task
