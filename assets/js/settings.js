@@ -13,7 +13,7 @@ var Settings = {
 	landingTrigger: {
 		'admin' : 'some:trigger',
 		'user'  : 'some:other:trigger',
-		'guest' : 'issues:show'
+		'guest' : 'splash:show'
 	},
 
 	// Routes accessible by guests
