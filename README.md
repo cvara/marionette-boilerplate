@@ -4,9 +4,6 @@ This is a sample project to be used as a starting point for new Marionette based
 
 The workflow relies on the following tools & libraries:
 
-* Underscore
-* jQuery
-* Backbone
 * Marionette
 * Webpack
 * Gulp
@@ -30,6 +27,7 @@ There are several Gulp tasks that allow running & building of the project, each 
 
 As of now, these are the most useful tasks:
 
+* `gulp sandbox`: Runs development server, without live reload
 
 * `gulp run`: The default task, builds runs the project in dev mode (**uncompressed** webpack chunks & **livereload**)
 
