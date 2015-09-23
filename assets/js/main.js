@@ -36,6 +36,15 @@ App.on('start', function(options) {
 		return;
 	}
 
+	// Detect browser back/fwd buttons and update Navigate History
+	Backbone.history.on('route', function(route, params) {
+		// Update our history stack
+		App.NavigateHistory.push({
+			route: App.getCurrentRoute(),
+			options: route.options
+		});
+	});
+
 	var fetchingLoggedUser = App.request('cache:fetch:logged:user');
 
 	// Fetch logged user before anything else

@@ -94,10 +94,10 @@ App.requestedGuestUrl = false;
 App.NavigateHistory = [];
 
 
+
 // Helper Functions
 // -------------------------------------------------------------
 
-// Adds a new history entry at the bottom of the stack
 App.prependHistoryState = function(route) {
 	App.NavigateHistory.unshift({
 		route: route,
@@ -119,23 +119,36 @@ App.navigate = function(route, opts) {
 		route: route,
 		options:  options
 	});
+
+	// Notify the rest of the app that a navigate happened
+	// NOTE: 'route' events are fired by backbone only when
+	// the trigger:true option is passed
+	App.trigger('navigate', route, opts);
 };
+
+// Navigates to previous route
+App.navigatePrevious = function(options) {
+	// There is no previous route
+	if (App.NavigateHistory.length < 2) {
+		// Show landing & exit
+		App.showLanding();
+		return;
+	}
+	// Get previous state
+	var previous = App.NavigateHistory[App.NavigateHistory.length - 2];
+	// Extract route from previous state
+	var route = typeof previous.route === 'string' ? previous.route : previous;
+	// Extract options from previous state, allowing overrides by arg options
+	var opts = _.extend({}, previous.options, options || {});
+	// Navigate to previous route
+	App.navigate(route, opts);
+	console.log('Navigating to previous route: ', route);
+};
+
 
 // Returns current application state (route)
 App.getCurrentRoute = function() {
 	return Backbone.history.fragment;
-};
-
-// Navigates to previous route
-App.navigatePrevious = function() {
-	if (App.NavigateHistory.length < 2) {
-		App.showLanding();
-		return;
-	}
-	var previous = App.NavigateHistory[App.NavigateHistory.length - 2];
-	var route = typeof previous.route === 'string' ? previous.route : previous ;
-	console.log('Navigating to previous route: ', route);
-	App.navigate(route, previous.options);
 };
 
 // Centralized controller method (action) call
@@ -185,7 +198,9 @@ App.showLanding = function(user) {
 
 // Goes to previous history state
 App.goBack = function() {
-	window.history.back();
+	App.navigatePrevious({
+		trigger: true
+	});
 };
 
 // Encodes value (double utf-8)
@@ -225,7 +240,10 @@ App.initForMember = function(user) {
 	// Redirect empty route to landing page
 	if (App.getCurrentRoute() === '') {
 		App.showLanding(user);
+	} else {
+		App.NavigateHistory.push(App.getCurrentRoute());
 	}
+
 };
 
 // Inits app for guest
@@ -276,7 +294,7 @@ App.on('logout', function() {
 	// App.execute('refresh:mainRegion');
 });
 
-// Close overlapping interfaces (like overlays and modals)
+// Get notified when user logs out
 App.on('close:overlapping:interfaces', function(maintainState) {
 	App.rootView.getRegion('dialog').closeModal();
 	App.rootView.getRegion('overlay').closeOverlay(maintainState);  // close without changing state
