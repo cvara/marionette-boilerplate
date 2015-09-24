@@ -1,5 +1,6 @@
 var Marionette = require('marionette');
-require('bootstrap');
+var Env = require('common/environment');
+
 
 module.exports = Marionette.Region.extend({
 
@@ -32,10 +33,15 @@ module.exports = Marionette.Region.extend({
 		$('body').css('overflow-y', 'hidden');
 		$('#main-region').addClass('shadowed');
 		this.$el.addClass('open');
-		this.$el.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function() {
+		if (Env.enableTransitions) {
+			this.$el.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function() {
+				view.triggerMethod('overlay:open');
+				this.$el.off();
+			}.bind(this));
+		} else {
 			view.triggerMethod('overlay:open');
 			this.$el.off();
-		}.bind(this));
+		}
 	},
 
 	_gracefullyHide: function(maintainState) {
@@ -44,12 +50,20 @@ module.exports = Marionette.Region.extend({
 			this.trigger('history:back');
 		}
 		this.$el.removeClass('open');
-		this.$el.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function() {
+		if (Env.enableTransitions) {
+			this.$el.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function() {
+				console.info('transition end');
+				this.empty();
+				this.$el.empty();
+				this.$el.off();
+			}.bind(this));
+		} else {
 			console.info('transition end');
 			this.empty();
 			this.$el.empty();
 			this.$el.off();
-		}.bind(this));
+		}
+
 		$('body').css('overflow-y', 'auto');
 		$('#main-region').removeClass('shadowed');
 	},
