@@ -4,10 +4,12 @@ var gulp = require('gulp');
 var notifier = require('node-notifier');
 var util = require('gulp-util');
 
-var LessPluginCleanCss = require('less-plugin-clean-css'),
-	cleanCss = new LessPluginCleanCss({
-		keepSpecialComments: 0
-	});
+var LessPluginCleanCss = require('less-plugin-clean-css');
+var cleanCss = new LessPluginCleanCss({
+	keepSpecialComments: 0,
+	advanced: true,
+	aggressiveMerging: true
+});
 
 var webpack = require('gulp-webpack');
 var webpackConfig = require('./webpack.config');
@@ -22,6 +24,7 @@ var rename = require('gulp-rename');
 var livereload = require('gulp-livereload');
 var del = require('del');
 var runSequence = require('run-sequence');
+var shell = require('gulp-shell');
 
 var appRoot = __dirname + '/assets';
 var buildPath = __dirname + '/dist';
@@ -50,7 +53,7 @@ function lessVerboseErrorHandler(err) {
 // Connect dev server
 gulp.task('connectDev', function() {
 	connect.server({
-		root: [__dirname],
+		root: './',
 		port: 8181,
 		hostname: '*', // to allow access to server from outside
 		livereload: false
@@ -63,19 +66,15 @@ gulp.task('connect', function() {
 		root: buildPath,
 		port: 8080,
 		hostname: '*', // to allow access to server from outside
-		livereload: true
+		livereload: {
+			port: 35729
+		}
 	});
 });
 
 // Copy HTML
 gulp.task('copyHtml', function() {
 	return gulp.src('./index.html')
-		.pipe(preprocess({
-			context: {
-				NODE_ENV: 'development',
-				DEV: true
-			}
-		}))
 		.pipe(gulp.dest(buildPath));
 });
 
@@ -88,7 +87,7 @@ gulp.task('preprocessHtml', function() {
 				PROD: true
 			}
 		}))
-		.pipe(inlinesource())
+		// .pipe(inlinesource())
 		.pipe(gulp.dest(buildPath));
 });
 
@@ -102,6 +101,22 @@ gulp.task('styles', function() {
 		.on('error', errorHandler)
 		.pipe(rename({
 			basename: 'main',
+			suffix: '.min',
+		}))
+		.pipe(gulp.dest(buildPath + '/assets/css'))
+		.pipe(connect.reload());
+});
+
+// Styles for Static Pages
+gulp.task('stylesStatic', function() {
+	return gulp.src('./assets/css/style.static.less')
+		// Run the transformation from LESS to CSS & minify
+		.pipe(less({
+			plugins: [cleanCss]
+		}))
+		.on('error', errorHandler)
+		.pipe(rename({
+			basename: 'static',
 			suffix: '.min',
 		}))
 		.pipe(gulp.dest(buildPath + '/assets/css'))
@@ -155,28 +170,51 @@ gulp.task('fonts', function() {
 		.pipe(connect.reload());
 });
 
+// Static
+gulp.task('staticHtml', function() {
+	return gulp.src('./static/**/*')
+		.pipe(gulp.dest(buildPath));
+});
+
 // Clean
 gulp.task('clean', function(cb) {
 	del([buildPath], cb);
 });
 
-// Build (for dev)
+// Mocha
+gulp.task('test', shell.task([
+	'mocha test/unit',
+	// 'karma start'
+]));
+
+// Build (base build tasks, for dev)
 gulp.task('build', function(callback) {
 	var start = new Date().getTime();
-	runSequence('clean', 'webpack', 'styles', ['fonts', 'favicons', 'images'], 'copyHtml', callback);
+	runSequence('clean', 'webpack', 'styles', 'fonts', 'favicons', 'images', 'copyHtml', callback);
 });
 
-// Build Plus (for prod - takes more time)
+// Build Static (for dev - builds static pages as well - takes more time than dev)
+gulp.task('buildStatic', function(callback) {
+	var start = new Date().getTime();
+	runSequence('build', 'stylesStatic', 'staticHtml', callback);
+});
+
+// Build Plus (for prod - builds everything - takes the most time)
 gulp.task('buildPlus', function(callback) {
 	var start = new Date().getTime();
-	runSequence('clean', 'webpack', 'styles', ['fonts', 'favicons', 'images'], 'preprocessHtml', 'uglifyBundle', callback);
+	runSequence('test', 'buildStatic', 'uglifyBundle', callback);
 });
+
+
 
 // Watch
 gulp.task('watch', function() {
 
 	// Watch .less files
-	gulp.watch('./assets/css/**/*.less', ['styles']);
+	gulp.watch([
+		'./assets/css/**/*.less',
+		'!./assets/css/static/**/*.less'
+	], ['styles']);
 
 	// Watch .js files
 	gulp.watch('./assets/js/**/*', ['webpack']);
@@ -186,11 +224,12 @@ gulp.task('watch', function() {
 
 	// Watch font files
 	gulp.watch('./assets/fonts/**/*', ['fonts']);
+});
 
-	// // Watch any files in dist/, reload on change
-	// gulp.watch([buildPath + '/**']).on('change', function() {
-	// 	// console.log('livereload.changed');
-	// });
+// Watch
+gulp.task('watchStatic', function() {
+	// Watch static .less files
+	gulp.watch('./assets/css/static/**/*.less', ['stylesStatic']);
 });
 
 // Run in development mode
@@ -198,13 +237,18 @@ gulp.task('run', function(callback) {
 	runSequence('build', 'connect', 'watch', callback);
 });
 
+// Run for static page testing
+gulp.task('runStatic', function(callback) {
+	runSequence('buildStatic', 'connect', 'watch', 'watchStatic', callback);
+});
+
 // Run in production mode
 gulp.task('runProd', function(callback) {
 	runSequence('buildPlus', 'connect', callback);
 });
 
-// connectDev task alias
-gulp.task('sandbox', function() {
+// Run connect dev server - sandbox mode
+gulp.task('sandbox', function(callback) {
 	gulp.start('connectDev');
 });
 

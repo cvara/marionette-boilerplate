@@ -10,7 +10,10 @@
     "url": ""
   },
   "dependencies": {
-    "moment": "^2.10.6"
+    "backbone.cocktail": "~0.5.10",
+    "fastclick": "~1.0.6",
+    "moment": "~2.10.6",
+    "node-polyglot": "~0.4.3"
   },
   "license": "MIT",
   "engines": {

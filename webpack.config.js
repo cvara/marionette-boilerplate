@@ -1,20 +1,21 @@
 var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
-	entry: [
-		__dirname + '/assets/js/main'
-	],
+	entry: {
+		main: __dirname + '/assets/js/main'
+	},
 
 	output: {
 		path: __dirname + '/dist/assets/js',
 		publicPath: '/assets/js/',
-		filename: 'bundle.js'
+		filename: '[name].bundle.js'
 	},
 
 	module: {
 		loaders: [{
 			test: /\.tpl$/,
-			loader: 'ejs'
+			loader: 'ejs',
 		}]
 	},
 
@@ -33,13 +34,17 @@ module.exports = {
 		}),
 		// Limit the number of generated chunks
 		new webpack.optimize.LimitChunkCountPlugin({
-			maxChunks: 10
+			maxChunks: 1 // no limit
 		}),
 		// Force min chunk size (to merge entry chunk with other chunks)
 		new webpack.optimize.MinChunkSizePlugin({
 			minChunkSize: 20 * 1024 // 20 KB
 		})
 	],
+
+	externals: {
+		fb: 'var FB'
+	},
 
 	resolve: {
 		root: [
