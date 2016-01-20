@@ -31,7 +31,7 @@ Utility.enableCORS = function() {
 	// enable CORS requests & attach cookies to them
 	jquery.ajaxSetup({
 		xhrFields: {
-			withCredentials: true
+			withCredentials: false
 		},
 		crossDomain: true
 	});

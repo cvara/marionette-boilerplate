@@ -18,9 +18,20 @@ LocationModule.reverseGeocode = function(latitute, longitude) {
             'latLng': latlng
         }, function(results, status) {
             if (status === gmaps.GeocoderStatus.OK) {
+                // try to get locality type result
                 var location = _.find(results, function(result) {
                     return _.difference(result.types, ['locality', 'political']).length === 0;
                 });
+                // fallback to administrative_area_level_3
+                if (!location) {
+                    location = _.find(results, function(result) {
+                        return result.types.indexOf('administrative_area_level_3') !== -1;
+                    });
+                }
+                // fallback to last result
+                if (!location) {
+                    var location = results[results.length - 2] || results[results.length - 1];
+                }
                 deferred.resolve(location.formatted_address);
             } else {
                 console.warn('Geocoder failed due to:' + status);
