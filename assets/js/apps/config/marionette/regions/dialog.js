@@ -1,5 +1,7 @@
 var Marionette = require('marionette');
+var Env = require('common/environment');
 require('bootstrap');
+
 
 module.exports = Marionette.Region.extend({
 
@@ -21,7 +23,7 @@ module.exports = Marionette.Region.extend({
 		var emptyHeader = modalTitle.length === 0;
 
 		el.addClass('modal-body')
-			.wrap('<div id="' + this.modalId + '" class="modal fade" tabindex="-1" role="dialog"></div>')
+			.wrap('<div id="' + this.modalId + '" class="modal ' + (Env.isMobile.any() ? '' : 'fade') + '" tabindex="-1" role="dialog"></div>')
 			.wrap('<div class="modal-dialog ' + modalClass + '"></div>')
 			.wrap('<div class="modal-content"></div>');
 
@@ -29,9 +31,9 @@ module.exports = Marionette.Region.extend({
 		modalHeader.push(
 			'<div class="modal-header">',
 			'<button type="button" class="close" data-dismiss="modal">',
-			'<span aria-hidden="true"><i class="icomoon-cross2"></i></span><span class="sr-only">Close</span>',
+			'<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>',
 			'</button>',
-			'<h4 class="modal-title" id="exampleModalLabel">', modalTitle, '</h4>',
+			'<h4 class="modal-title" id="modal-label">', modalTitle, '</h4>',
 			'</div>'
 		);
 		var headerEl = $(modalHeader.join(''));
@@ -45,6 +47,9 @@ module.exports = Marionette.Region.extend({
 		var self = this;
 		$('#' + this.modalId)
 			.modal()
+			.on('shown.bs.modal', function() {
+				$('body').addClass('modal-open');
+			})
 			.on('hidden.bs.modal', function() {
 				// Purge listeners on view 'close' events
 				self.stopListening(view);
