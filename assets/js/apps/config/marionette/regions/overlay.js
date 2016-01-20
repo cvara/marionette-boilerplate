@@ -4,6 +4,8 @@ var Env = require('common/environment');
 
 module.exports = Marionette.Region.extend({
 
+	isOpen: false,
+
 	_addOverlayMarkup: function(view) {
 		var self = this;
 		var el = view.$el;
@@ -36,10 +38,12 @@ module.exports = Marionette.Region.extend({
 		if (Env.enableTransitions) {
 			this.$el.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function() {
 				view.triggerMethod('overlay:open');
+				this.triggerMethod('overlay:open');
 				this.$el.off();
 			}.bind(this));
 		} else {
 			view.triggerMethod('overlay:open');
+			this.triggerMethod('overlay:open');
 			this.$el.off();
 		}
 	},
@@ -56,12 +60,14 @@ module.exports = Marionette.Region.extend({
 				this.empty();
 				this.$el.empty();
 				this.$el.off();
+				this.triggerMethod('overlay:close');
 			}.bind(this));
 		} else {
 			console.info('transition end');
 			this.empty();
 			this.$el.empty();
 			this.$el.off();
+			this.triggerMethod('overlay:close');
 		}
 
 		$('body').css('overflow-y', 'auto');
@@ -89,11 +95,29 @@ module.exports = Marionette.Region.extend({
 		this.$el.empty();
 	},
 
+	onOverlayOpen: function() {
+		this.isOpen = true;
+	},
+
+	onOverlayClose: function() {
+		this.isOpen = false;
+	},
+
 	// This method is used when other modules wish
 	// to close the dialog they have opened
 	closeOverlay: function(maintainState) {
 		if (!!this.currentView) {
 			this._gracefullyHide(maintainState);
 		}
+	},
+
+	hasDescendant: function(view) {
+		if (view.$el === this.$el) {
+			return true;
+		}
+		if (!view._parent) {
+			return false;
+		}
+		return this.hasDescendant(view._parent);
 	}
 });
