@@ -23,7 +23,8 @@
         "require",
         "requirejs",
         "i18n",
-        "moment"
+        "moment",
+        "t"
     ],
 
     // Development.
