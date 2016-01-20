@@ -25,7 +25,7 @@ var Settings = {
 	// Check if running as mobile app
 	MobileApp: document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1,
 
-	ArchiveStart: '1-8-2015',
+	DefaultLocale: 'en',
 
 	// Location of the API
 	// RootURL: 'http://localhost:3000',

@@ -10,11 +10,13 @@ var ValidatorConfig = require('apps/config/validator/validator');
 var Settings = require('settings');
 
 
+
 // Initialize Marionette Application
 // -------------------------------------------------------------
 // The application is also registered as a global variable,
 // so that it can be referenced from inside Underscore templates
 var App = window.App = new Marionette.Application();
+
 
 
 // Our custom region classes
@@ -236,7 +238,7 @@ App.initForMember = function(user) {
 	// Notify all modules that user logged in
 	App.trigger('login', user, false);
 	// Initialize history and cause the triggering of a route
-	Backbone.history.start();
+	Backbone.history.start({pushState: App.request('setting', 'HTML5History')});
 	// Redirect empty route to landing page
 	if (App.getCurrentRoute() === '') {
 		App.showLanding(user);
@@ -248,7 +250,7 @@ App.initForMember = function(user) {
 
 // Inits app for guest
 App.initForGuest = function() {
-	Backbone.history.start({silent: true});
+	Backbone.history.start({silent: true, pushState: App.request('setting', 'HTML5History')});
 	// Are they accessing a protected URL?
 	if (!Settings.unprotectedURL.test(App.getCurrentRoute())) {
 		// store their intended destination
