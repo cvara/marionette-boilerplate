@@ -76,11 +76,15 @@ module.exports = {
 			'localstorage-polyfill': 'vendor/localstorage-polyfill',
 			'console-stub': 'vendor/console.stub',
 			bootstrap: 'vendor/bootstrap.min',
+			'bootstrap-datetimepicker': 'vendor/bootstrap-datetimepicker',
 			pnotify: 'vendor/pnotify.core',
 			'pnotify.buttons': 'vendor/pnotify.buttons',
-			'pnotify.confirm': 'vendor/pnotify.confirm',
 			'pnotify.nonblock': 'vendor/pnotify.nonblock',
-			'bootstrap-datetimepicker': 'vendor/bootstrap-datetimepicker',
+			'pnotify.desktop': 'vendor/pnotify.desktop',
+			'pnotify.mobile': 'vendor/pnotify.mobile',
+			'pnotify.callbacks': 'vendor/pnotify.callbacks',
+			'pnotify.confirm': 'vendor/pnotify.confirm'	,
+			'pnotify.animations': 'vendor/pnotify.animations'			
 		}
 	}
 };
