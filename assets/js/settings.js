@@ -2,8 +2,6 @@
 // -------------------------------------------------------------
 // Accessible via App.request('setting', <setting_name>);
 
-require('jquery.cookie');
-
 var Settings = {
 
 	// Enable CORS client-side
