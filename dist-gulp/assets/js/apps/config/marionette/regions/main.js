@@ -1,1 +1,0 @@
-define(["marionette"],function(n){return n.Region.Main=n.Region.extend({initialize:function(){},onShow:function(){window.scrollTo(0,0)}}),n.Region.Main});

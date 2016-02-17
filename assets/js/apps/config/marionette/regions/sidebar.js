@@ -1,15 +1,12 @@
-define(['marionette'], function(Marionette) {
+var Marionette = require('marionette');
 
-    Marionette.Region.Sidebar = Marionette.Region.extend({
+module.exports = Marionette.Region.extend({
 
-        onShow: function(view) {
+	onShow: function(view) {
 
-        },
+	},
 
-        onEmpty: function(view) {
+	onEmpty: function(view) {
 
-        }
-    });
-
-    return Marionette.Region.Sidebar;
+	}
 });

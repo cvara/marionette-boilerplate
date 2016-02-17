@@ -1,25 +1,23 @@
-define([
-    'app',
-    'apps/loader/show/view'
-], function(App, View) {
+var App = require('app');
+var View = require('apps/loader/show/view');
 
-    App.module('LoaderApp.Show', function(Show, App, Backbone, Marionette, $, _) {
 
-        Show.Controller = {
-            showMainLoader: function() {
-                var loaderView = new View.Loader();
-                App.rootView.showChildView('loading', loaderView);
-            },
+App.module('LoaderApp.Show', function(Show, App, Backbone, Marionette, $, _) {
 
-            hideMainLoader: function() {
-                App.rootView.getRegion('loading').empty();
-            },
+    Show.Controller = {
+        showMainLoader: function() {
+            var loaderView = new View.Loader();
+            App.rootView.showChildView('loading', loaderView);
+        },
 
-            hideAllLoaders: function() {
-                App.rootView.getRegion('loading').empty();
-            }
-        };
-    });
+        hideMainLoader: function() {
+            App.rootView.getRegion('loading').empty();
+        },
 
-    return App.LoaderApp.Show.Controller;
+        hideAllLoaders: function() {
+            App.rootView.getRegion('loading').empty();
+        }
+    };
 });
+
+module.exports = App.LoaderApp.Show.Controller;

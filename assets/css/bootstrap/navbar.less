@@ -14,11 +14,6 @@
   margin-bottom: @navbar-margin-bottom;
   border: 1px solid transparent;
 
-  // no margin variation
-  &.no-margin {
-    margin-bottom: 0;
-  }
-
   // Prevent floats from breaking the navbar
   &:extend(.clearfix all);
 
@@ -27,22 +22,6 @@
   }
 }
 
-// Add shadow instead of border
-.navbar.with-shadow {
-  border-color: transparent;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-}
-
-// Use navbar as footer
-.navbar.footer {
-  margin-bottom: 0;
-  border-color: transparent;
-}
-
-
-.navbar.navbar-half-height {
-   min-height: (@navbar-height / 2);
-}
 
 // Navbar heading
 //
@@ -88,7 +67,6 @@
 
     &.collapse {
       display: block !important;
-      visibility: visible !important;
       height: auto !important;
       padding-bottom: 0; // Override default setting
       overflow: visible !important;
@@ -189,25 +167,13 @@
   line-height: @line-height-computed;
   height: @navbar-height;
 
-  &.small {
-    font-size: @font-size-base !important;
-    padding-top: @navbar-padding-vertical + ( (@font-size-large - @font-size-base) / 2 );
-  }
-
-  &.logo {
-    padding: 16px @navbar-padding-horizontal;
-    > img {
-      height: 28px;
-    }
-  }
-
   &:hover,
   &:focus {
     text-decoration: none;
   }
 
   > img {
-    display: inline-block;
+    display: block;
   }
 
   @media (min-width: @grid-float-breakpoint) {
@@ -364,6 +330,7 @@
 }
 // Menu position and menu caret support for dropups via extra dropup class
 .navbar-fixed-bottom .navbar-nav > li > .dropdown-menu {
+  margin-bottom: 0;
   .border-top-radius(@navbar-border-radius);
   .border-bottom-radius(0);
 }
@@ -392,15 +359,6 @@
 .navbar-text {
   .navbar-vertical-align(@line-height-computed);
 
-  .navbar.footer & {
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .navbar-half-height & {
-    .navbar-vertical-align-half-height(@line-height-computed);
-  }
-
   @media (min-width: @grid-float-breakpoint) {
     float: left;
     margin-left: @navbar-padding-horizontal;
@@ -421,7 +379,7 @@
   .navbar-left  { .pull-left(); }
   .navbar-right {
     .pull-right();
-    // margin-right: -@navbar-padding-horizontal;
+    margin-right: -@navbar-padding-horizontal;
 
     ~ .navbar-right {
       margin-right: 0;
@@ -567,11 +525,6 @@
 }
 
 // Inverse navbar
-
-.navbar-inverse.navbar-inverse-light {
-  background-color: lighten(@navbar-inverse-bg, 2.5%);
-  border-color: lighten(@navbar-inverse-border, 2.5%);
-}
 
 .navbar-inverse {
   background-color: @navbar-inverse-bg;

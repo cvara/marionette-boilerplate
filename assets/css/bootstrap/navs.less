@@ -10,7 +10,6 @@
   margin-bottom: 0;
   padding-left: 0; // Override default ul/ol
   list-style: none;
-  font-family: @headings-font-family;
   &:extend(.clearfix all);
 
   > li {
@@ -222,14 +221,11 @@
 
 // Hide tabbable panes to start, show them when `.active`
 .tab-content {
-  padding: @nav-tabs-tab-content-padding;
   > .tab-pane {
     display: none;
-    visibility: hidden;
   }
   > .active {
     display: block;
-    visibility: visible;
   }
 }
 
@@ -243,11 +239,4 @@
   margin-top: -1px;
   // Remove the top rounded corners here since there is a hard edge above the menu
   .border-top-radius(0);
-}
-
-
-// Sidebar variation
-.nav-sidebar {
-  // @font-weight-normal, @font-weight-active, @link-color, @link-color-hover, @link-color-active, @bg-color-hover, @bg-color-active
-  .nav-variant(400, 500, @gray-light, @gray-light, @brand-primary, @body-bg, @body-bg);
 }

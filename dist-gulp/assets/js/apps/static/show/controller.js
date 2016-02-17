@@ -1,1 +1,0 @@
-define(["app","apps/static/show/view"],function(i,t){return i.module("StaticApp.Show",function(i,o,e,w,n,a){i.Controller={showStaticView:function(i){var e=i.view,w=new t.StaticView({view:e});o.rootView.showChildView("main",w)}}}),i.StaticApp.Show.Controller});

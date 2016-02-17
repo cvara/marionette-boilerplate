@@ -1,19 +1,17 @@
-define([
-	'app',
-	'apps/splash/show/view'
-], function(App, View) {
+var App = require('app');
+var View = require('apps/splash/show/view');
 
-	App.module('SplashApp.Show', function(Show, App, Backbone, Marionette, $, _) {
 
-		Show.Controller = {
-			showSplash: function() {
+App.module('SplashApp.Show', function(Show, App, Backbone, Marionette, $, _) {
 
-				var splashView = new View.Splash();
+	Show.Controller = {
+		showSplash: function() {
 
-				App.rootView.showChildView('main', splashView);
-			}
-		};
-	});
+			var splashView = new View.Splash();
 
-	return App.SplashApp.Show.Controller;
+			App.rootView.showChildView('main', splashView);
+		}
+	};
 });
+
+module.exports = App.SplashApp.Show.Controller;

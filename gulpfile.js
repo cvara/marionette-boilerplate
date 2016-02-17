@@ -1,149 +1,179 @@
 // Load plugins
-var gulp = require('gulp'),
-	connect = require('gulp-connect'),
-	preprocess = require('gulp-preprocess'),
-	path = require('path'),
-	less = require('gulp-less'),
-	minifycss = require('gulp-minify-css'),
-	jshint = require('gulp-jshint'),
-	rjs = require('gulp-requirejs'),
-	uglify = require('gulp-uglify'),
-	imagemin = require('gulp-imagemin'),
-	rename = require('gulp-rename'),
-	notify = require('gulp-notify'),
-	cache = require('gulp-cache'),
-	livereload = require('gulp-livereload'),
-	del = require('del'),
-	runSequence = require('run-sequence');
+var gulp = require('gulp');
 
+var notifier = require('node-notifier');
+var util = require('gulp-util');
 
-var appRoot = './assets',
-	buildPath = './dist-gulp';
+var LessPluginCleanCss = require('less-plugin-clean-css');
+var cleanCss = new LessPluginCleanCss({
+	keepSpecialComments: 0,
+	advanced: true,
+	aggressiveMerging: true
+});
 
-// Web server
-gulp.task('connectDev', ['preprocessHtmlDev'], function() {
+var webpack = require('gulp-webpack');
+var webpackConfig = require('./webpack.config');
+var connect = require('gulp-connect');
+var preprocess = require('gulp-preprocess');
+var less = require('gulp-less');
+var inlinesource = require('gulp-inline-source');
+var jshint = require('gulp-jshint');
+var uglify = require('gulp-uglify');
+var imagemin = require('gulp-imagemin');
+var rename = require('gulp-rename');
+var livereload = require('gulp-livereload');
+var del = require('del');
+var runSequence = require('run-sequence');
+var shell = require('gulp-shell');
+
+var appRoot = __dirname + '/assets';
+var buildPath = __dirname + '/dist';
+
+// Error handler
+function errorHandler(err) {
+	// Native notification
+	notifier.notify({
+		'title':'Build Error:',
+		'message': err.message
+	});
+	// Log to console
+	util.log(util.colors.red('Error'), err.message);
+	// Manually end the stream, so that it can re-run
+	this.emit('end');
+}
+
+// Error handler
+function lessVerboseErrorHandler(err) {
+	// Log to console
+	util.log(util.colors.red('Error'), err.message);
+	// Manually end the stream, so that it can re-run
+	this.emit('end');
+}
+
+// Connect dev server
+gulp.task('connectDev', function() {
 	connect.server({
-		port: 8080,
+		root: './',
+		port: 8181,
+		hostname: '*', // to allow access to server from outside
 		livereload: false
 	});
 });
 
-gulp.task('connectProd', function() {
+// Connect server
+gulp.task('connect', function() {
 	connect.server({
 		root: buildPath,
 		port: 8080,
-		livereload: false
+		hostname: '*', // to allow access to server from outside
+		livereload: {
+			port: 35729
+		}
 	});
 });
 
-// Preprocess HTML
-gulp.task('preprocessHtmlDev', function() {
-	return gulp.src('./index_dev.html')
-		.pipe(preprocess({
-			context: {
-				NODE_ENV: 'DEVELOPMENT',
-				DEBUG: true
-			}
-		}))
-		.pipe(rename({
-			basename: 'index'
-		}))
-		.pipe(gulp.dest('./'));
+// Copy HTML
+gulp.task('copyHtml', function() {
+	return gulp.src('./index.html')
+		.pipe(gulp.dest(buildPath));
 });
 
 // Preprocess HTML
-gulp.task('preprocessHtmlProd', function() {
-	return gulp.src('./index_dev.html')
+gulp.task('preprocessHtml', function() {
+	return gulp.src('./index.html')
 		.pipe(preprocess({
 			context: {
-				NODE_ENV: 'PRODUCTION',
-				DEBUG: true
+				NODE_ENV: 'production',
+				PROD: true
 			}
 		}))
-		.pipe(rename({
-			basename: 'index'
-		}))
+		// .pipe(inlinesource())
 		.pipe(gulp.dest(buildPath));
 });
 
 // Styles
 gulp.task('styles', function() {
 	return gulp.src('./assets/css/style.less')
-		.pipe(less())
+		// Run the transformation from LESS to CSS & minify
+		.pipe(less({
+			plugins: [cleanCss]
+		}))
+		.on('error', errorHandler)
 		.pipe(rename({
 			basename: 'main',
 			suffix: '.min',
 		}))
-		.pipe(minifycss())
-		.pipe(gulp.dest(buildPath + '/assets/css'));
+		.pipe(gulp.dest(buildPath + '/assets/css'))
+		.pipe(connect.reload());
+});
+
+// Styles for Static Pages
+gulp.task('stylesStatic', function() {
+	return gulp.src('./assets/css/style.static.less')
+		// Run the transformation from LESS to CSS & minify
+		.pipe(less({
+			plugins: [cleanCss]
+		}))
+		.on('error', errorHandler)
+		.pipe(rename({
+			basename: 'static',
+			suffix: '.min',
+		}))
+		.pipe(gulp.dest(buildPath + '/assets/css'))
+		.pipe(connect.reload());
 });
 
 // Scripts
 gulp.task('scripts', function() {
 	return gulp.src('./assets/js/**/*.js')
 		.pipe(uglify())
-		.pipe(gulp.dest(buildPath + '/assets/js'));
+		.pipe(gulp.dest(buildPath + '/assets/js'))
+		.pipe(connect.reload());
 });
 
-// Requirejs Build
-gulp.task('requirejsBuild', function() {
-	rjs({
-			// Main conf file, NOT relative to baseUrl
-			mainConfigFile: 'assets/js/config.js',
-			// Output file location, NOT relative to baseUrl
-			out: 'main.js',
-			// Modules root dir. All paths below are relative to this
-			baseUrl: 'assets/js',
-			// Use (lightweight) almond.js instead of require.js
-			// NOTE 1: defining name results in single optimized file
-			// NOTE 2: almond.js does NOT work with require 'async' plugin
-			// name: 'vendor/almond',
-			name: 'vendor/require',
-			// Include our main app file (same as conf file)
-			// nls files are not inlined automatically
-			include: [
-				'main',
-				// 'nls/el-gr/core',
-				// 'nls/el-gr/messages',
-				// 'nls/el-gr/artist_intro'
-			],
-			// For shimmed dependencies that depend on AMD modules with dependencies of their own
-			// (e.g. Marionette depends on Backbone(AMD) which depends on jQuery)
-			// In Require.js 2.0+ defining a module will not result in loading it. Require will load
-			// it (and execute its callback function) when it is explicitly needed by another *module*.
-			// wrapShim converts all shimmed libraries to require modules (wrapping them inside define()),
-			// thus forcing their dependencies to load.
-			// NOTE: this is needed for AMD version of Backbone (1.1.2+) to work
-			// NOTE: USE WITH CAUTION as it breaks dependencies for other libraries
-			wrapShim: false,
-			// For the dependencies set by nested calls to require()
-			findNestedDependencies: true,
-			// We use a custom optimizer
-			optimize: 'none'
-		})
+// Webpack
+gulp.task('webpack', function() {
+	return gulp.src(appRoot + '/js/main.js')
+		.pipe(webpack(webpackConfig))
+		.pipe(gulp.dest(buildPath + '/assets/js'))
+		.pipe(connect.reload());
+});
+
+// Uglify bundle
+gulp.task('uglifyBundle', function() {
+	return gulp.src(buildPath + '/assets/js/*.js')
 		.pipe(uglify())
-		.pipe(rename({
-			basename: 'main',
-			suffix: '.min'
-		}))
-		.pipe(gulp.dest(buildPath + '/assets/js')); // pipe it to the output DIR
+		.pipe(gulp.dest(buildPath + '/assets/js'));
 });
 
 // Images
 gulp.task('images', function() {
-	return gulp.src('./assets/img/**/*')
-		.pipe(cache(imagemin({
+	return gulp.src('./assets/img/**/*.*')
+		.pipe(imagemin({
 			optimizationLevel: 3,
 			progressive: true,
 			interlaced: true
-		})))
-		.pipe(gulp.dest(buildPath + '/assets/img'));
+		}))
+		.pipe(gulp.dest(buildPath + '/assets/img/'));
+});
+
+// Favicons
+gulp.task('favicons', function() {
+	return gulp.src('./assets/favicons/*.*')
+		.pipe(gulp.dest(buildPath + '/assets/favicons'));
 });
 
 // Fonts
 gulp.task('fonts', function() {
 	return gulp.src('assets/fonts/**/*')
-		.pipe(gulp.dest(buildPath + '/assets/fonts'));
+		.pipe(gulp.dest(buildPath + '/assets/fonts'))
+		.pipe(connect.reload());
+});
+
+// Static
+gulp.task('staticHtml', function() {
+	return gulp.src('./static/**/*')
+		.pipe(gulp.dest(buildPath));
 });
 
 // Clean
@@ -151,42 +181,78 @@ gulp.task('clean', function(cb) {
 	del([buildPath], cb);
 });
 
-// Build everything
+// Mocha
+gulp.task('test', shell.task([
+	'mocha test/unit',
+	// 'karma start'
+]));
+
+// Build (base build tasks, for dev)
 gulp.task('build', function(callback) {
 	var start = new Date().getTime();
-	runSequence(
-		'clean',
-		['styles', 'requirejsBuild', 'fonts', 'images', 'preprocessHtmlProd'],
-		'scripts',
-		callback);
+	runSequence('clean', 'webpack', 'styles', 'fonts', 'favicons', 'images', 'copyHtml', callback);
 });
 
-// Run in production mode
-gulp.task('runProd', function(callback) {
-	runSequence('build', 'connectProd',	callback);
+// Build Static (for dev - builds static pages as well - takes more time than dev)
+gulp.task('buildStatic', function(callback) {
+	var start = new Date().getTime();
+	runSequence('build', 'stylesStatic', 'staticHtml', callback);
 });
 
-// Default task
-gulp.task('default', function() {
-	gulp.start('connectDev');
+// Build Plus (for prod - builds everything - takes the most time)
+gulp.task('buildPlus', function(callback) {
+	var start = new Date().getTime();
+	runSequence('test', 'buildStatic', 'uglifyBundle', callback);
 });
+
+
 
 // Watch
 gulp.task('watch', function() {
 
 	// Watch .less files
-	gulp.watch('./assets/css/**/*.less', ['styles']);
+	gulp.watch([
+		'./assets/css/**/*.less',
+		'!./assets/css/static/**/*.less'
+	], ['styles']);
 
 	// Watch .js files
-	gulp.watch('./assets/js/**/*.js', ['scripts']);
+	gulp.watch('./assets/js/**/*', ['webpack']);
 
 	// Watch image files
 	gulp.watch('./assets/img/**/*', ['images']);
 
-	// Create LiveReload server
-	livereload.listen();
+	// Watch font files
+	gulp.watch('./assets/fonts/**/*', ['fonts']);
+});
 
-	// Watch any files in dist/, reload on change
-	gulp.watch([buildPath + '/**']).on('change', livereload.changed);
+// Watch
+gulp.task('watchStatic', function() {
+	// Watch static .less files
+	gulp.watch('./assets/css/static/**/*.less', ['stylesStatic']);
+});
 
+// Run in development mode
+gulp.task('run', function(callback) {
+	runSequence('build', 'connect', 'watch', callback);
+});
+
+// Run for static page testing
+gulp.task('runStatic', function(callback) {
+	runSequence('buildStatic', 'connect', 'watch', 'watchStatic', callback);
+});
+
+// Run in production mode
+gulp.task('runProd', function(callback) {
+	runSequence('buildPlus', 'connect', callback);
+});
+
+// Run connect dev server - sandbox mode
+gulp.task('sandbox', function(callback) {
+	gulp.start('connectDev');
+});
+
+// Default task
+gulp.task('default', function() {
+	gulp.start('run');
 });

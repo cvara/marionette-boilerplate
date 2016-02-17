@@ -1,17 +1,14 @@
-define(['marionette'], function(Marionette) {
+var Marionette = require('marionette');
 
-    Marionette.Region.Loading = Marionette.Region.extend({
+module.exports = Marionette.Region.extend({
 
-    	loadingRegion: true,
+	loadingRegion: true,
 
-        onShow: function(view) {
-            this.$el.show();
-        },
+	onShow: function(view) {
+		this.$el.show();
+	},
 
-        onEmpty: function(view) {
-            this.$el.hide();
-        }
-    });
-
-    return Marionette.Region.Loading;
+	onEmpty: function(view) {
+		this.$el.hide();
+	}
 });

@@ -1,5 +1,5 @@
 // User Validator
-define({
+module.exports = {
 	validation: {
 		role: {
 			required: true,
@@ -77,4 +77,4 @@ define({
 			return 'You must choose at least one role';
 		}
 	}
-});
+};

@@ -1,15 +1,13 @@
-define([
-	'app',
-	'common/form.view',
-	'tpl!apps/users/login/templates/login'
-], function(App, FormBase, loginTpl) {
+var App = require('app');
+var FormBase = require('common/form.view');
+var loginTpl = require('apps/users/login/templates/login');
 
-	App.module('UsersApp.Login.View', function(View, App, Backbone, Marionette, $, _) {
 
-		View.Login = FormBase.extend({
-			template: loginTpl
-		});
+App.module('UsersApp.Login.View', function(View, App, Backbone, Marionette, $, _) {
+
+	View.Login = FormBase.extend({
+		template: loginTpl
 	});
-
-	return App.UsersApp.Login.View;
 });
+
+module.exports = App.UsersApp.Login.View;

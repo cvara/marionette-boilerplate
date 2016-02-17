@@ -1,43 +1,41 @@
-define([
-	'app',
-	'apps/header/show/view',
-	'common/authenticate',
-	'cache/cache'
-], function(App, View, Authenticate) {
+var App = require('app');
+var View = require('apps/header/show/view');
+var Authenticate = require('common/authenticate');
+var Cache = require('cache/cache');
 
-	App.module('HeaderApp.Show', function(Show, App, Backbone, Marionette, $, _) {
 
-		Show.Controller = {
-			showHeader: function() {
-				var user = App.request('cache:get:logged:user');
-				console.log('App.HeaderApp: fetched user from cache: ', user);
+App.module('HeaderApp.Show', function(Show, App, Backbone, Marionette, $, _) {
 
-				if (user !== false && !(user instanceof Backbone.Model)) {
-					user = App.request('empty:user:entity');
-				}
+	Show.Controller = {
+		showHeader: function() {
+			var user = App.request('cache:get:logged:user');
+			console.log('App.HeaderApp: fetched user from cache: ', user);
 
-				var header = new View.Header({
-					model: user
-				});
-
-				header.on('show:home', function() {
-					if (user) {
-						App.showLanding(user);
-					} else {
-						App.trigger('splash:show');
-					}
-				});
-
-				header.on('logout:user', function() {
-					Authenticate.logout().done(function() {
-						App.trigger('logout');
-					});
-				});
-
-				App.rootView.showChildView('header', header);
+			if (user !== false && !(user instanceof Backbone.Model)) {
+				user = App.request('empty:user:entity');
 			}
-		};
-	});
 
-	return App.HeaderApp.Show.Controller;
+			var header = new View.Header({
+				model: user
+			});
+
+			header.on('show:home', function() {
+				if (user) {
+					App.showLanding(user);
+				} else {
+					App.trigger('splash:show');
+				}
+			});
+
+			header.on('logout:user', function() {
+				Authenticate.logout().done(function() {
+					App.trigger('logout');
+				});
+			});
+
+			App.rootView.showChildView('header', header);
+		}
+	};
 });
+
+module.exports = App.HeaderApp.Show.Controller;

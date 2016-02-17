@@ -1,4 +1,4 @@
-define({
+module.exports = {
 	main: {
 		lines: 10, // The number of lines to draw
 		length: 18, // The length of each line
@@ -17,4 +17,4 @@ define({
 		top: '30px', // Top position relative to parent in px
 		left: 'auto' // Left position relative to parent in px
 	}
-});
+};

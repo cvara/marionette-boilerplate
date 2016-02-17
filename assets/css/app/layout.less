@@ -36,6 +36,32 @@ html, body {
 	}
 }
 
+#overlay-region {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: @overlay-z-index;
+	.translate(100%, 0%);
+	.transition(all 0.8s cubic-bezier(.33,.01,.16,1) 0s);
+	&.open {
+		.box-shadow(0 0 40px rgba(0,0,0,0.7));
+		.translate(0%, 0%);
+	}
+}
+
+// When no transforms, use left instead of translate
+.no-csstransforms {
+	#overlay-region {
+		left: 100%;
+		.translate(0%, 0%);
+		&.open {
+			left: 0;
+		}
+	}
+}
+
 
 #main-region,
 #loading-region {
