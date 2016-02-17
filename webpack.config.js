@@ -57,7 +57,6 @@ module.exports = {
 			'backbone.picky': 'vendor/backbone.picky',
 			'backbone.validation': 'vendor/backbone.validation', // AMD Compatible
 			'backbone.paginator': 'vendor/backbone.paginator.2.0.0', // UMD (AMD + CommonJS) Compatible
-			jquery: 'vendor/jquery-2.1.0', // UMD (AMD + CommonJS) Compatible
 			'jquery.cookie': 'vendor/jquery.cookie', // UMD (AMD + CommonJS) Compatible
 			json2: 'vendor/json2',
 			localstorage: 'vendor/backbone.localstorage',
@@ -84,7 +83,7 @@ module.exports = {
 			'pnotify.mobile': 'vendor/pnotify.mobile',
 			'pnotify.callbacks': 'vendor/pnotify.callbacks',
 			'pnotify.confirm': 'vendor/pnotify.confirm'	,
-			'pnotify.animations': 'vendor/pnotify.animations'			
+			'pnotify.animations': 'vendor/pnotify.animations'
 		}
 	}
 };
