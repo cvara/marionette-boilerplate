@@ -38,7 +38,12 @@ module.exports = {
 		// Force min chunk size (to merge entry chunk with other chunks)
 		new webpack.optimize.MinChunkSizePlugin({
 			minChunkSize: 20 * 1024 // 20 KB
-		})
+		}),
+		// Replace all locale modules required by webpack, except el & en-gb
+		// NOTE: to remove/add locales edit this line accordingly
+		// NOTE: this depends on moment placing its locales in  the ./locale folder,
+		// relative to the main file
+		new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(el|en-gb)$/)
 	],
 
 	externals: {
