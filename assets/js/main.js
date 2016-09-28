@@ -8,18 +8,16 @@ var LoaderApp = require('apps/loader/loader_app');
 var Notify = require('common/notify');
 var Mailer = require('mailer/mailer');
 var Cache = require('cache/cache');
-var Moment = require('moment');
 var AjaxUtility = require('common/ajax.utility');
 var Environment = require('common/environment');
 var Settings = require('settings');
 var nls = require('nls/nls');
 var attachFastClick = require('fastclick');
+
 require('rAF-polyfill');
 require('date-polyfill');
 require('storage-polyfill');
 require('trim-polyfill');
-require('localstorage-polyfill');
-require('console-stub');
 require('JSON2');
 require('bootstrap');
 
@@ -40,8 +38,6 @@ App.on('before:start', function(options) {
 	var defaultLocale = Settings.DefaultLocale;
 	// Set polyglot locale
 	App.request('nls:set:locale', defaultLocale);
-	// Set moment locale
-	Moment.locale(defaultLocale);
 	console.info('App: pre-start tasks complete.');
 });
 
