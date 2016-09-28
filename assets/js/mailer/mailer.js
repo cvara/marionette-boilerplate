@@ -1,11 +1,12 @@
 var App = require('app');
 var _globalTpl = require('mailer/templates/_global');
 var sampleEmailTpl = require('mailer/templates/sample.email');
+var Settings = require('settings');
 
 
 App.module('MailerApp', function(MailerApp, App, Backbone, Marionette, $, _) {
 
-	var rootUrl = App.request('setting', 'RootURL');
+	var rootUrl = Settings.RootURL;
 	var mailUrl = rootUrl + '/sendMessage';
 
 	var API = {

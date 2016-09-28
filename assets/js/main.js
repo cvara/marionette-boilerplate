@@ -11,6 +11,7 @@ var Cache = require('cache/cache');
 var Moment = require('moment');
 var AjaxUtility = require('common/ajax.utility');
 var Environment = require('common/environment');
+var Settings = require('settings');
 var nls = require('nls/nls');
 var attachFastClick = require('fastclick');
 require('rAF-polyfill');
@@ -30,13 +31,13 @@ attachFastClick.attach(document.body);
 // Before start tasks
 App.on('before:start', function(options) {
 	// Enable CORS for xhr requests
-	if (App.request('setting', 'EnableCORS')) {
+	if (Settings.EnableCORS) {
 		AjaxUtility.enableCORS();
 	}
 	// Add enironment classes to body
 	Environment.addEnvironmentClasses();
 	// Get default locale from settings
-	var defaultLocale = App.request('setting', 'DefaultLocale');
+	var defaultLocale = Settings.DefaultLocale;
 	// Set polyglot locale
 	App.request('nls:set:locale', defaultLocale);
 	// Set moment locale

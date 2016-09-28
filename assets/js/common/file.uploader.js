@@ -1,10 +1,11 @@
 var App = require('app');
+var Settings = require('settings');
 
 
 var FileUploader = {};
 
 // Upload URL
-FileUploader.uploadURL = App.request('setting', 'RootURL') + '/upload';
+FileUploader.uploadURL = Settings.RootURL + '/upload';
 
 //
 // Upload Files

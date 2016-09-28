@@ -2,12 +2,13 @@ var App = require('app');
 var Utility = require('common/utility');
 var UserValidator = require('entities/validators/user');
 var BackboneValidation = require('backbone.validation');
+var Settings = require('settings');
 
 
 App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
 
 	Entities.User = Backbone.Model.extend({
-		urlRoot: App.request('setting', 'RootURL') + '/users'
+		urlRoot: Settings.RootURL + '/users'
 	});
 
 	Entities.LoggedUser = Entities.User.extend({

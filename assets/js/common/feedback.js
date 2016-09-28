@@ -1,8 +1,10 @@
 var App = require('app');
 var Env = require('common/environment');
+var Settings = require('settings');
+
 
 // Article feedback URL
-var feedbackUrl = App.request('setting', 'RootURL') + '/adapt';
+var feedbackUrl = Settings.RootURL + '/adapt';
 // Already counted ad impressions
 var countedAdImpressions = window.countedAdImpressions = [];
 // Analytics enabled only when not on localhost & not opened by a bot
@@ -23,7 +25,7 @@ var Feedback = {
         var params = {
             article_id: articleId,
             feedback: 1,
-            profile: App.request('setting', 'UserProfile')
+            profile: Settings.UserProfile
         };
         return $.post(feedbackUrl, params);
     },
@@ -32,7 +34,7 @@ var Feedback = {
         var params = {
             article_id: articleId,
             feedback: 3,
-            profile: App.request('setting', 'UserProfile')
+            profile: Settings.UserProfile
         };
         return $.post(feedbackUrl, params);
     },

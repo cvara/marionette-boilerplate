@@ -1,13 +1,14 @@
 var App = require('app');
+var Settings = require('settings');
 
 
 var Authenticate = {};
 
 // Login URL
-Authenticate.loginURL = App.request('setting', 'RootURL') + '/login';
+Authenticate.loginURL = Settings.RootURL + '/login';
 
 // Logout URL
-Authenticate.logoutURL = App.request('setting', 'RootURL') + '/logout';
+Authenticate.logoutURL = Settings.RootURL + '/logout';
 
 //
 // Request user login

@@ -1,4 +1,5 @@
 var App = require('app');
+var Settings = require('settings');
 require('jquery.isonscreen');
 require('jquery-ui.core');
 
@@ -10,7 +11,7 @@ module.exports = {
 	},
 
 	onRender: function() {
-		if (!App.request('setting', 'EnableLazyImageLoading')) {
+		if (!Settings.EnableLazyImageLoading) {
 			return;
 		}
 		if (this.ui.lazyImage.length === 0) {
@@ -21,7 +22,7 @@ module.exports = {
 	},
 
 	onAttach: function() {
-		if (!App.request('setting', 'EnableLazyImageLoading')) {
+		if (!Settings.EnableLazyImageLoading) {
 			return;
 		}
 		var overlayRegion = App.rootView.getRegion('overlay');

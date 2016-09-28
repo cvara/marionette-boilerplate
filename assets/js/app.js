@@ -194,7 +194,7 @@ App.startSubApp = function(appName, asModal, args) {
 // Shows landing page based on user model
 App.showLanding = function(user) {
 	var role = !!user ? user.get('role') : 'guest';
-	var landing = App.request('setting', 'landingTrigger')[role];
+	var landing = Settings.landingTrigger[role];
 	App.trigger(landing);
 };
 
@@ -238,7 +238,7 @@ App.initForMember = function(user) {
 	// Notify all modules that user logged in
 	App.trigger('login', user, false);
 	// Initialize history and cause the triggering of a route
-	Backbone.history.start({pushState: App.request('setting', 'HTML5History')});
+	Backbone.history.start({pushState: Settings.HTML5History});
 	// Redirect empty route to landing page
 	if (App.getCurrentRoute() === '') {
 		App.showLanding(user);
@@ -250,7 +250,7 @@ App.initForMember = function(user) {
 
 // Inits app for guest
 App.initForGuest = function() {
-	Backbone.history.start({silent: true, pushState: App.request('setting', 'HTML5History')});
+	Backbone.history.start({silent: true, pushState: Settings.HTML5History});
 	// Are they accessing a protected URL?
 	if (!Settings.unprotectedURL.test(App.getCurrentRoute())) {
 		// store their intended destination
