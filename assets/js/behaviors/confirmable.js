@@ -1,8 +1,6 @@
 var Marionette = require('backbone.marionette');
 
-var Behaviors = {};
-
-Behaviors.Confirmable = Marionette.Behavior.extend({
+module.exports = Marionette.Behavior.extend({
 
 	defaults: {
 		message: 'Are you sure?'
@@ -11,7 +9,6 @@ Behaviors.Confirmable = Marionette.Behavior.extend({
 	events: {
 		'click .js-confirm': 'confirm'
 	},
-
 
 	confirm: function(e) {
 		e.preventDefault();
@@ -25,5 +22,3 @@ Behaviors.Confirmable = Marionette.Behavior.extend({
 		}
 	}
 });
-
-module.exports = Behaviors;

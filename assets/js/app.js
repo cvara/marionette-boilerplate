@@ -1,5 +1,4 @@
 var Marionette = require('backbone.marionette');
-var Behaviors = require('common/behaviors');
 var HeaderRegion = require('apps/config/marionette/regions/header');
 var SidebarRegion = require('apps/config/marionette/regions/sidebar');
 var MainRegion = require('apps/config/marionette/regions/main');
@@ -62,14 +61,6 @@ var RootView = Marionette.LayoutView.extend({
 // Attach the rootView to the App object for easier access
 // -------------------------------------------------------------
 App.rootView = new RootView();
-
-
-// Behaviors
-// -------------------------------------------------------------
-// Point to our Behaviors object
-Marionette.Behaviors.behaviorsLookup = function() {
-	return Behaviors;
-};
 
 
 // Login Indicator
