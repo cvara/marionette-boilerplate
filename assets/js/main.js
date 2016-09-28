@@ -1,6 +1,5 @@
 var App = require('app');
 var HeaderApp = require('apps/header/header_app');
-var SidebarApp = require('apps/sidebar/sidebar_app');
 var SplashApp = require('apps/splash/splash_app');
 var UsersApp = require('apps/users/users_app');
 var StaticApp = require('apps/static/static_app');

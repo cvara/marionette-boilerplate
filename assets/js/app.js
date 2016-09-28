@@ -1,6 +1,5 @@
 var Marionette = require('backbone.marionette');
 var HeaderRegion = require('apps/config/marionette/regions/header');
-var SidebarRegion = require('apps/config/marionette/regions/sidebar');
 var MainRegion = require('apps/config/marionette/regions/main');
 var DialogRegion = require('apps/config/marionette/regions/dialog');
 var LoadingRegion = require('apps/config/marionette/regions/loading');
@@ -22,9 +21,6 @@ var App = window.App = new Marionette.Application();
 // -------------------------------------------------------------
 var headerRegion = HeaderRegion.extend({
 	el: '#header-section'
-});
-var sidebarRegion = SidebarRegion.extend({
-	el: '#sidebar-section'
 });
 var mainRegion = MainRegion.extend({
 	el: '#main-region'
@@ -49,7 +45,6 @@ var RootView = Marionette.LayoutView.extend({
 
 	regions: {
 		header  : headerRegion,
-		sidebar : sidebarRegion,
 		main    : mainRegion,
 		dialog  : dialogRegion,
 		loading : loadingRegion,
