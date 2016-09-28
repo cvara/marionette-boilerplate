@@ -7,14 +7,14 @@ var Polyglot = require('node-polyglot');
 //
 var Locales = [
 	{
-		full    : 'el-gr',
+		full    : 'el',
 		legible : 'Ελληνικά',
-		lang    : require('./locales/el-gr')
+		lang    : require('./locales/el')
 	},
 	{
-		full    : 'en-uk',
+		full    : 'en-gb',
 		legible : 'English',
-		lang    : require('./locales/en-uk')
+		lang    : require('./locales/en-gb')
 	}
 ];
 
