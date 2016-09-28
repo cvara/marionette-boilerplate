@@ -1,4 +1,4 @@
-var Marionette = require('marionette');
+var Marionette = require('backbone.marionette');
 var Behaviors = require('common/behaviors');
 var HeaderRegion = require('apps/config/marionette/regions/header');
 var SidebarRegion = require('apps/config/marionette/regions/sidebar');

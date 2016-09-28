@@ -1,4 +1,4 @@
-var Marionette = require('marionette');
+var Marionette = require('backbone.marionette');
 
 module.exports = Marionette.Region.extend({
 

@@ -1,5 +1,5 @@
 var App = require('app');
-require('backbone.picky');
+require('backbone.select');
 
 
 App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
@@ -8,8 +8,7 @@ App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
 
 	_.extend(Entities.SidebarItem.prototype, {
 		initialize: function(attrs, options) {
-			var selectable = new Backbone.Picky.Selectable(this);
-			_.extend(this, selectable);
+			Backbone.Select.Me.applyTo( this );
 		}
 	});
 
@@ -17,8 +16,7 @@ App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
 		model: Entities.SidebarItem,
 
 		initialize: function(models, options) {
-			var singleSelect = new Backbone.Picky.SingleSelect(this);
-			_.extend(this, singleSelect);
+			Backbone.Select.One.applyTo( this, models, options );
 		}
 	});
 

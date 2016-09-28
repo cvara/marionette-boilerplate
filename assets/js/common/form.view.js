@@ -12,7 +12,7 @@
 // The View's main purpose is to be extended by child views, but can also used as a
 // standalone constructor.
 //
-var Marionette = require('marionette');
+var Marionette = require('backbone.marionette');
 var App = require('app');
 var moment = require('moment');
 var syphon = require('backbone.syphon');

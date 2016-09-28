@@ -22,14 +22,13 @@ module.exports = {
 	devtool: 'cheap-source-map',
 
 	plugins: [
-		// This replaces shim stuff in RequireJS.
 		new webpack.ProvidePlugin({
+			// So that we may use the following vars without explicitly requiring the modules
+			// NOTE: webpack internally will resolve these vars by requiring the modules
 			_: 'underscore',
 			$: 'jquery',
 			jQuery: 'jquery',
 			'window.jQuery': 'jquery',
-			'Marionette': 'marionette',
-			'Mn': 'marionette',
 			'pnotify': 'PNotify'
 		}),
 		// Limit the number of generated chunks
@@ -52,30 +51,16 @@ module.exports = {
 		],
 		extensions: ['', '.js', '.tpl'],
 		alias: {
-			backbone: 'vendor/backbone', // UMD (AMD + CommonJS) Compatible
-			'backbone.syphon': 'vendor/backbone.syphon',
-			'backbone.picky': 'vendor/backbone.picky',
-			'backbone.validation': 'vendor/backbone.validation', // AMD Compatible
-			'backbone.paginator': 'vendor/backbone.paginator.2.0.0', // UMD (AMD + CommonJS) Compatible
-			'jquery.cookie': 'vendor/jquery.cookie', // UMD (AMD + CommonJS) Compatible
-			json2: 'vendor/json2',
-			localstorage: 'vendor/backbone.localstorage',
-			marionette: 'vendor/backbone.marionette.2.4.4', // UMD (AMD + CommonJS) Compatible
-			underscore: 'vendor/underscore',
-			'jquery-easing': 'vendor/jquery.easing',
-			text: 'vendor/text', // AMD Compatible
-			tpl: 'vendor/tpl', // AMD Compatible
-			async: 'vendor/async', // AMD Compatible
-			spin: 'vendor/spin',
-			'spin.jquery': 'vendor/spin.jquery',
+			// polyfills
 			'rAF-polyfill': 'vendor/rAF-polyfill',
 			'date-polyfill': 'vendor/date-polyfill',
 			'storage-polyfill': 'vendor/storage-polyfill',
 			'trim-polyfill': 'vendor/trim-polyfill',
 			'localstorage-polyfill': 'vendor/localstorage-polyfill',
 			'console-stub': 'vendor/console.stub',
-			bootstrap: 'vendor/bootstrap.min',
+			// bootstrap-datetimepicker
 			'bootstrap-datetimepicker': 'vendor/bootstrap-datetimepicker',
+			// pnotify
 			pnotify: 'vendor/pnotify.core',
 			'pnotify.buttons': 'vendor/pnotify.buttons',
 			'pnotify.nonblock': 'vendor/pnotify.nonblock',

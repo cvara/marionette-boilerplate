@@ -1,7 +1,7 @@
 var App = require('app');
 var SpinnerOptions = require('apps/config/spinner/options');
 var loaderMainTpl = require('apps/loader/show/templates/loader.main');
-var spinJquery = require('spin.jquery');
+var Spinner = require('spin.js');
 
 
 App.module('LoaderApp.Show.View', function(View, App, Backbone, Marionette, $, _) {
@@ -16,11 +16,13 @@ App.module('LoaderApp.Show.View', function(View, App, Backbone, Marionette, $, _
 		},
 
 		onShow: function() {
-			this.ui.jsPreloader.removeClass('hidden').spin(SpinnerOptions.main);
+			this.ui.jsPreloader.removeClass('hidden');
+			this.spinner = new Spinner(SpinnerOptions.main).spin(this.ui.jsPreloader[0]);
 		},
 
 		onBeforeDestroy: function() {
-			this.ui.jsPreloader.addClass('hidden').spin(false);
+			this.ui.jsPreloader.addClass('hidden');
+			this.spinner.stop();
 		}
 	});
 

@@ -1,4 +1,4 @@
-var Marionette = require('marionette');
+var Marionette = require('backbone.marionette');
 var Env = require('common/environment');
 
 
