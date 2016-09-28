@@ -75,7 +75,8 @@ gulp.task('connect', function() {
 // Copy HTML
 gulp.task('copyHtml', function() {
 	return gulp.src('./index.html')
-		.pipe(gulp.dest(buildPath));
+		.pipe(gulp.dest(buildPath))
+		.pipe(connect.reload());
 });
 
 // Preprocess HTML
@@ -88,7 +89,8 @@ gulp.task('preprocessHtml', function() {
 			}
 		}))
 		// .pipe(inlinesource())
-		.pipe(gulp.dest(buildPath));
+		.pipe(gulp.dest(buildPath))
+		.pipe(connect.reload());
 });
 
 // Styles
@@ -224,6 +226,9 @@ gulp.task('watch', function() {
 
 	// Watch font files
 	gulp.watch('./assets/fonts/**/*', ['fonts']);
+
+	// Watch html files
+	gulp.watch('./*.html', ['copyHtml']);
 });
 
 // Watch
