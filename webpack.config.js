@@ -51,6 +51,10 @@ module.exports = {
 		],
 		extensions: ['', '.js', '.tpl'],
 		alias: {
+			// npm backbone.syphon depends on an older backbone version which results in 2
+			// backbone versions being bundled by webpack
+			'backbone.syphon': 'vendor/backbone.syphon',
+
 			// polyfills
 			'rAF-polyfill': 'vendor/rAF-polyfill',
 			'date-polyfill': 'vendor/date-polyfill',
@@ -58,8 +62,10 @@ module.exports = {
 			'trim-polyfill': 'vendor/trim-polyfill',
 			'localstorage-polyfill': 'vendor/localstorage-polyfill',
 			'console-stub': 'vendor/console.stub',
+
 			// bootstrap-datetimepicker
 			'bootstrap-datetimepicker': 'vendor/bootstrap-datetimepicker',
+
 			// pnotify
 			pnotify: 'vendor/pnotify.core',
 			'pnotify.buttons': 'vendor/pnotify.buttons',
