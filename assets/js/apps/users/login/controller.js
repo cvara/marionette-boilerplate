@@ -4,34 +4,31 @@ var Authenticate = require('common/authenticate');
 var Notify = require('common/notify');
 
 
-App.module('UsersApp.Login', function(Login, App, Backbone, Marionette, $, _) {
+var Controller = {};
 
-	Login.Controller = {
-		showLogin: function() {
+Controller.showLogin = function() {
 
-			var loginView = new View.Login();
+	var loginView = new View.Login();
 
-			loginView.on('submit', function(data) {
-				console.log(data);
-				loginView.triggerMethod('clear:validation:errors');
-				loginView.triggerMethod('show:preloader');
-				// Log user in
-				var authenticating = Authenticate.login(data);
-				authenticating.done(function(response) {
+	loginView.on('submit', function(data) {
+		console.log(data);
+		loginView.triggerMethod('clear:validation:errors');
+		loginView.triggerMethod('show:preloader');
+		// Log user in
+		var authenticating = Authenticate.login(data);
+		authenticating.done(function(response) {
 
-				});
-				authenticating.fail(function() {
+		});
+		authenticating.fail(function() {
 
-				});
-			});
+		});
+	});
 
-			loginView.on('cancel', function() {
-				App.showLanding();
-			});
+	loginView.on('cancel', function() {
+		App.showLanding();
+	});
 
-			App.rootView.showChildView('main', loginView);
-		}
-	};
-});
+	App.rootView.showChildView('main', loginView);
+};
 
-module.exports = App.UsersApp.Login.Controller;
+module.exports = Controller;

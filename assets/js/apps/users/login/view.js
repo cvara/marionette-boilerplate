@@ -2,12 +2,10 @@ var App = require('app');
 var FormBase = require('common/form.view');
 var loginTpl = require('apps/users/login/templates/login');
 
+var View = {};
 
-App.module('UsersApp.Login.View', function(View, App, Backbone, Marionette, $, _) {
-
-	View.Login = FormBase.extend({
-		template: loginTpl
-	});
+View.Login = FormBase.extend({
+	template: loginTpl
 });
 
-module.exports = App.UsersApp.Login.View;
+module.exports = View;

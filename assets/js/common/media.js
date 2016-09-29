@@ -7,82 +7,83 @@
 // handles requests : 'media:screen:size' (size <'xs'|'sm'|'md'|'lg'>)
 //                    'media:orientation:size' (orientation <'L'|'P'>)
 
-
 var App = require('app');
+var Radio = require('backbone.radio');
+var GlobalChannel = Radio.channel('global');
 
-App.module('Common.Media', function(Media, App, Backbone, Marionette, $, _) {
 
-	Media.getScreenSize = function() {
-		var winWidth = window.innerWidth;
-		if (winWidth < 768) {
-			return 'xs';
-		}
-		if (winWidth < 992) {
-			return 'sm';
-		}
-		if (winWidth < 1200) {
-			return 'md';
-		}
-		return 'lg';
-	};
+var Media = {};
 
-	Media.getOrientation = function() {
-		return window.innerHeight < window.innerWidth ? 'L' : 'P';
-	};
+Media.getScreenSize = function() {
+	var winWidth = window.innerWidth;
+	if (winWidth < 768) {
+		return 'xs';
+	}
+	if (winWidth < 992) {
+		return 'sm';
+	}
+	if (winWidth < 1200) {
+		return 'md';
+	}
+	return 'lg';
+};
 
-	Media.detectScreenSize = function() {
-		// Get screen size (xs|sm|md|lg)
-		var screenSize = Media.getScreenSize();
+Media.getOrientation = function() {
+	return window.innerHeight < window.innerWidth ? 'L' : 'P';
+};
 
-		// If screen size is same as it was during previous execution, exit
-		if (screenSize === Media.screenSize) {
-			return;
-		}
+Media.detectScreenSize = function() {
+	// Get screen size (xs|sm|md|lg)
+	var screenSize = Media.getScreenSize();
 
-		// Trigger event
-		GlobalChannel.trigger('media:screen:size:changed', screenSize, Media.screenSize);
+	// If screen size is same as it was during previous execution, exit
+	if (screenSize === Media.screenSize) {
+		return;
+	}
 
-		// Remember screen size
-		Media.screenSize = screenSize;
-	};
+	// Trigger event
+	GlobalChannel.trigger('media:screen:size:changed', screenSize, Media.screenSize);
 
-	Media.detectOrientation = function() {
-		// Get screen orientation (L|P)
-		var orientation = Media.getOrientation();
-		// If screen orientation is same as it was during previous execution, exit
-		if (orientation === Media.orientation) {
-			return;
-		}
-		// Trigger event
-		GlobalChannel.trigger('media:screen:orientation:changed', orientation, Media.orientation);
+	// Remember screen size
+	Media.screenSize = screenSize;
+};
 
-		// Remember screen orientation
-		Media.orientation = orientation;
-	};
+Media.detectOrientation = function() {
+	// Get screen orientation (L|P)
+	var orientation = Media.getOrientation();
+	// If screen orientation is same as it was during previous execution, exit
+	if (orientation === Media.orientation) {
+		return;
+	}
+	// Trigger event
+	GlobalChannel.trigger('media:screen:orientation:changed', orientation, Media.orientation);
 
-	Media.monitorMediaChanges = function() {
+	// Remember screen orientation
+	Media.orientation = orientation;
+};
+
+Media.monitorMediaChanges = function() {
+	Media.detectScreenSize();
+	Media.detectOrientation();
+	$(window).on('resize.App.Common.Media', _.debounce(function() {
 		Media.detectScreenSize();
 		Media.detectOrientation();
-		$(window).on('resize.App.Common.Media', _.debounce(function() {
-			Media.detectScreenSize();
-			Media.detectOrientation();
-		}, 100));
-	};
+	}, 100));
+};
 
 
-	// Request Handlers
-	GlobalChannel.reply('media:screen:size', function() {
-		return Media.screenSize;
-	});
-
-	GlobalChannel.reply('media:screen:orientation', function() {
-		return Media.orientation;
-	});
-
-
-	Media.onStart = function() {
-		Media.monitorMediaChanges();
-	};
+// Request Handlers
+GlobalChannel.reply('media:screen:size', function() {
+	return Media.screenSize;
 });
 
-module.exports = App.Common.Media;
+GlobalChannel.reply('media:screen:orientation', function() {
+	return Media.orientation;
+});
+
+
+// Start monitoring changes
+Media.monitorMediaChanges();
+
+
+module.exports = Media;
