@@ -15,27 +15,6 @@ html, body {
 	position: relative;
 	z-index: 4;
 }
-
-#sidebar-section {
-	display: none;
-
-	#sidebar-container {
-		width: @sidebar-width;
-		min-height: 100%;
-		position: fixed;
-		left: 0;
-		top: 0;
-		padding: (@navbar-height + 28px) 0 15px 0;
-		border-radius: 0;
-		z-index: 2;
-		border-right: 1px solid @navbar-default-border;
-	}
-
-	#page-wrap.sidebar > & {
-		display: block;
-	}
-}
-
 #overlay-region {
 	position: fixed;
 	top: 0;
@@ -71,9 +50,7 @@ html, body {
 	z-index: 0;
 	min-height: 100%;
 	padding: @grid-gutter-width 0;
-	#page-wrap.sidebar > & {
-		padding: (@navbar-height + @grid-gutter-width) 0 28px (@sidebar-width);
-	}
+
 	#page-wrap.with-header > & {
 		padding: (@navbar-height + @grid-gutter-width) 0 @grid-gutter-width 0;
 	}
@@ -95,4 +72,3 @@ html, body {
 	height: 100%;
 	z-index: @overlay-z-index;
 }
-

@@ -83,7 +83,7 @@ App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
 		}
 	};
 
-	App.reqres.setHandler('sidebar:entities', function(role) {
+	GlobalChannel.reply('sidebar:entities', function(role) {
 		if (role === 'admin') {
 			return API.getAdminSidebarElements();
 		}

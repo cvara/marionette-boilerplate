@@ -1,41 +1,38 @@
 var App = require('app');
+var Backbone = require('backbone');
 var View = require('apps/header/show/view');
 var Authenticate = require('common/authenticate');
-var Cache = require('cache/cache');
+var LoggedUser = require('entities/logged.user');
+var Radio = require('backbone.radio');
+var GlobalChannel = Radio.channel('global');
 
 
-App.module('HeaderApp.Show', function(Show, App, Backbone, Marionette, $, _) {
+var Controller = {};
 
-	Show.Controller = {
-		showHeader: function() {
-			var user = App.request('cache:get:logged:user');
-			console.log('App.HeaderApp: fetched user from cache: ', user);
+Controller.showHeader = function() {
 
-			if (user !== false && !(user instanceof Backbone.Model)) {
-				user = App.request('empty:user:entity');
-			}
+	var user;
 
-			var header = new View.Header({
-				model: user
-			});
+	var headerView = new View.Header();
 
-			header.on('show:home', function() {
-				if (user) {
-					App.showLanding(user);
-				} else {
-					App.trigger('splash:show');
-				}
-			});
+	headerView.on('show:home', function() {
+		App.showLanding(user);
+	});
 
-			header.on('logout:user', function() {
-				Authenticate.logout().done(function() {
-					App.trigger('logout');
-				});
-			});
+	headerView.on('logout:user', function() {
+		Authenticate.logout().done(function() {
+			GlobalChannel.trigger('logout');
+		});
+	});
 
-			App.rootView.showChildView('header', header);
-		}
-	};
-});
+	GlobalChannel.request('loggedUser:entity').then(function(loggedUser) {
+		user = loggedUser;
+		headerView.model = user;
+		headerView.render();
+	});
 
-module.exports = App.HeaderApp.Show.Controller;
+	App.rootView.showChildView('header', headerView);
+
+};
+
+module.exports = Controller;

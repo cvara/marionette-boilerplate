@@ -1,7 +1,6 @@
 var App = require('app');
 var View = require('apps/users/login/view');
 var Authenticate = require('common/authenticate');
-var Cache = require('cache/cache');
 var Notify = require('common/notify');
 
 

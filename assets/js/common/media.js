@@ -40,7 +40,7 @@ App.module('Common.Media', function(Media, App, Backbone, Marionette, $, _) {
 		}
 
 		// Trigger event
-		App.trigger('media:screen:size:changed', screenSize, Media.screenSize);
+		GlobalChannel.trigger('media:screen:size:changed', screenSize, Media.screenSize);
 
 		// Remember screen size
 		Media.screenSize = screenSize;
@@ -54,7 +54,7 @@ App.module('Common.Media', function(Media, App, Backbone, Marionette, $, _) {
 			return;
 		}
 		// Trigger event
-		App.trigger('media:screen:orientation:changed', orientation, Media.orientation);
+		GlobalChannel.trigger('media:screen:orientation:changed', orientation, Media.orientation);
 
 		// Remember screen orientation
 		Media.orientation = orientation;
@@ -71,11 +71,11 @@ App.module('Common.Media', function(Media, App, Backbone, Marionette, $, _) {
 
 
 	// Request Handlers
-	App.reqres.setHandler('media:screen:size', function() {
+	GlobalChannel.reply('media:screen:size', function() {
 		return Media.screenSize;
 	});
 
-	App.reqres.setHandler('media:screen:orientation', function() {
+	GlobalChannel.reply('media:screen:orientation', function() {
 		return Media.orientation;
 	});
 

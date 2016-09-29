@@ -84,7 +84,7 @@ var validateFile = function(type, file) {
 	return false;
 };
 
-module.exports = Marionette.ItemView.extend({
+module.exports = Marionette.View.extend({
 	// Child views are allowed to have their own `ui` hash
 	_ui: {
 		form            : 'form',
@@ -149,7 +149,7 @@ module.exports = Marionette.ItemView.extend({
 		});
 
 		// Call the constructor of the super class
-		Marionette.ItemView.prototype.constructor.apply(this, arguments);
+		Marionette.View.prototype.constructor.apply(this, arguments);
 	},
 
 	onShowPreloader: function() {

@@ -1,64 +1,65 @@
 var App = require('app');
+var Marionette = require('backbone.marionette');
 var headerTpl = require('apps/header/show/templates/header');
 
 
-App.module('HeaderApp.Show.View', function(View, App, Backbone, Marionette, $, _) {
+var View = {};
 
-	View.Header = Marionette.ItemView.extend({
-		template: headerTpl,
-		tagName: 'div',
-		className: 'header',
-		id: 'header-view-container',
+View.Header = Marionette.View.extend({
+	template: headerTpl,
+	tagName: 'div',
+	className: 'header',
+	id: 'header-view-container',
 
-		ui: {
-			brand: '.js-brand',
-			memberOnly: '.js-member-only',
-			guestOnly: '.js-guest-only',
-			roleBound: '[data-role]',
-			loginButton: '.js-login',
-			logoutButton: '.js-logout'
-		},
+	ui: {
+		brand: '.js-brand',
+		memberOnly: '.js-member-only',
+		guestOnly: '.js-guest-only',
+		roleBound: '[data-role]',
+		loginButton: '.js-login',
+		logoutButton: '.js-logout'
+	},
 
-		triggers: {
-			'click @ui.brand': 'show:home',
-			'click @ui.loginButton': 'login:user',
-			'click @ui.logoutButton': 'logout:user'
-		},
+	triggers: {
+		'click @ui.brand': 'show:home',
+		'click @ui.loginButton': 'login:user',
+		'click @ui.logoutButton': 'logout:user'
+	},
 
-		modelEvents: {
-			'change': 'modelChanged'
-		},
+	modelEvents: {
+		'change': 'modelChanged'
+	},
 
-		modelChanged: function() {
-			this.render();
-		},
+	modelChanged: function() {
+		this.render();
+	},
 
-		templateHelpers: function() {
-			return {};
-		},
+	templateContext: function() {
+		return {};
+	},
 
-		onRender: function() {
-			this.toggleMembershipBoundElements();
-			this.toggleRoleBoundElements();
-		},
+	onRender: function() {
+		this.toggleMembershipBoundElements();
+		this.toggleRoleBoundElements();
+	},
 
-		toggleMembershipBoundElements: function() {
-			if (!this.model) {
-				this.ui.memberOnly.addClass('hidden');
-			} else {
-				this.ui.guestOnly.addClass('hidden');
-			}
-			this.toggleRoleBoundElements();
-		},
-
-		toggleRoleBoundElements: function() {
-			var role = this.model ? this.model.get('role') : 'guest';
-			var toShow = this.ui.roleBound.filter('[data-role*="' + role + '"]');
-			var toHide = this.ui.roleBound.not(toShow);
-			toShow.removeClass('hidden');
-			toHide.addClass('hidden');
+	toggleMembershipBoundElements: function() {
+		if (!this.model) {
+			this.ui.memberOnly.addClass('hidden');
+		} else {
+			this.ui.guestOnly.addClass('hidden');
 		}
-	});
+		this.toggleRoleBoundElements();
+	},
+
+	toggleRoleBoundElements: function() {
+		var role = this.model ? this.model.get('role') : 'guest';
+		var toShow = this.ui.roleBound.filter('[data-role*="' + role + '"]');
+		var toHide = this.ui.roleBound.not(toShow);
+		toShow.removeClass('hidden');
+		toHide.addClass('hidden');
+	}
 });
 
-module.exports = App.HeaderApp.Show.View;
+
+module.exports = View;

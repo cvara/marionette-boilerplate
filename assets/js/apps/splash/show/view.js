@@ -1,13 +1,13 @@
 var App = require('app');
+var Marionette = require('backbone.marionette');
 var splashTpl = require('apps/splash/show/templates/splash');
 
 
-App.module('SplashApp.Show.View', function(View, App, Backbone, Marionette, $, _) {
+var View = {};
 
-	View.Splash = Marionette.ItemView.extend({
-		className: 'splash-container',
-		template: splashTpl
-	});
+View.Splash = Marionette.View.extend({
+	className: 'splash-container',
+	template: splashTpl
 });
 
-module.exports = App.SplashApp.Show.View;
+module.exports = View;

@@ -1,5 +1,7 @@
 var App = require('app');
 var Polyglot = require('node-polyglot');
+var Radio = require('backbone.radio');
+var GlobalChannel = Radio.channel('global');
 
 
 // All supported locales. First is default.
@@ -150,27 +152,27 @@ var API = {
 
 		API.initPolyglot(localeToSet);
 		localStorage.setItem('locale', localeToSet);
-		App.trigger('nls:locale:changed', API.getGuessedLocale());
+		GlobalChannel.trigger('nls:locale:changed', API.getGuessedLocale());
 	}
 };
 
-App.reqres.setHandler('nls:supported:locales', function() {
+GlobalChannel.reply('nls:supported:locales', function() {
 	return API.getSupportedLocales();
 });
 
-App.reqres.setHandler('nls:guess:locale', function() {
+GlobalChannel.reply('nls:guess:locale', function() {
 	return API.guessLocale();
 });
 
-App.reqres.setHandler('nls:current:locale', function() {
+GlobalChannel.reply('nls:current:locale', function() {
 	return API.getGuessedLocale();
 });
 
-App.reqres.setHandler('nls:init:polyglot', function() {
+GlobalChannel.reply('nls:init:polyglot', function() {
 	return API.initPolyglot();
 });
 
-App.reqres.setHandler('nls:set:locale', function(locale) {
+GlobalChannel.reply('nls:set:locale', function(locale) {
 	return API.setLocale(locale);
 });
 

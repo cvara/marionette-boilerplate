@@ -1,4 +1,5 @@
 var Marionette = require('backbone.marionette');
+var Backbone = require('backbone');
 var HeaderRegion = require('apps/config/marionette/regions/header');
 var MainRegion = require('apps/config/marionette/regions/main');
 var DialogRegion = require('apps/config/marionette/regions/dialog');
@@ -6,7 +7,8 @@ var LoadingRegion = require('apps/config/marionette/regions/loading');
 var OverlayRegion = require('apps/config/marionette/regions/overlay');
 var ValidatorConfig = require('apps/config/validator/validator');
 var Settings = require('settings');
-
+var Radio = require('backbone.radio');
+var GlobalChannel = Radio.channel('global');
 
 
 // Initialize Marionette Application
@@ -40,7 +42,7 @@ var overlayRegion = OverlayRegion.extend({
 // -------------------------------------------------------------
 // Our custom region classes are attached to this LayoutView
 // instead of our app object.
-var RootView = Marionette.LayoutView.extend({
+var RootView = Marionette.View.extend({
 	el: 'body',
 
 	regions: {
@@ -111,7 +113,7 @@ App.navigate = function(route, opts) {
 	// Notify the rest of the app that a navigate happened
 	// NOTE: 'route' events are fired by backbone only when
 	// the trigger:true option is passed
-	App.trigger('navigate', route, opts);
+	GlobalChannel.trigger('navigate', route, opts);
 };
 
 // Navigates to previous route
@@ -143,45 +145,14 @@ App.getCurrentRoute = function() {
 // All sub-apps use this method for calling controller methods
 App.executeAction = function(appName, action, args) {
 	var args = typeof args !== 'undefined' ? args : {};
-	if (!args.asModal) {
-		App.execute('deselect:all:sidebar');
-	}
-	App.startSubApp(appName, args.asModal);
 	return action(args);
-};
-
-// Starts a sub-application
-App.startSubApp = function(appName, asModal, args) {
-	// get module based on appName
-	var currentApp = appName ? App.module(appName) : null;
-	// app will be used by a dialog
-	if (asModal) {
-		App.dialogApp = currentApp;
-		currentApp.start(args);
-		return;
-	}
-	// for non-dialog apps, close dialog (if open)
-	App.rootView.getRegion('dialog').closeModal();
-	// do nothing more if needed app is already started
-	if (App.currentApp === currentApp) {
-		return;
-	}
-	// stop previous app
-	if (App.currentApp) {
-		App.currentApp.stop();
-	}
-	// start new app
-	App.currentApp = currentApp;
-	if (currentApp) {
-		currentApp.start(args);
-	}
 };
 
 // Shows landing page based on user model
 App.showLanding = function(user) {
 	var role = !!user ? user.get('role') : 'guest';
 	var landing = Settings.landingTrigger[role];
-	App.trigger(landing);
+	GlobalChannel.trigger(landing);
 };
 
 // Goes to previous history state
@@ -222,7 +193,7 @@ App.openPopup = function(url) {
 // Inits app for member
 App.initForMember = function(user) {
 	// Notify all modules that user logged in
-	App.trigger('login', user, false);
+	GlobalChannel.trigger('login', user, false);
 	// Initialize history and cause the triggering of a route
 	Backbone.history.start({pushState: Settings.HTML5History});
 	// Redirect empty route to landing page
@@ -254,7 +225,7 @@ App.initForGuest = function() {
 	}
 };
 
-App.commands.setHandler('refresh:mainRegion', function() {
+GlobalChannel.on('refresh:mainRegion', function() {
 	// need to null out Backbone.history.fragement because
 	// navigate method will ignore when it is the same as newFragment
 	var currentRoute = App.getCurrentRoute();
@@ -266,24 +237,23 @@ App.commands.setHandler('refresh:mainRegion', function() {
 });
 
 // Get notified when user logs in
-App.on('login', function(user, refresh) {
+GlobalChannel.on('login', function(user, refresh) {
 	console.info('User logged in. Role: ', user.get('role'));
 	// mark user as logged in
 	App.isLoggedIn = true;
 	if (!!refresh) {
-		App.execute('refresh:mainRegion');
+		GlobalChannel.trigger('refresh:mainRegion');
 	}
 });
 
 // Get notified when user logs out
-App.on('logout', function() {
+GlobalChannel.on('logout', function() {
 	App.isLoggedIn = false;
-	App.trigger('splash:show');
-	// App.execute('refresh:mainRegion');
+	GlobalChannel.trigger('splash:show');
 });
 
 // Get notified when user logs out
-App.on('close:overlapping:interfaces', function(maintainState) {
+GlobalChannel.on('close:overlapping:interfaces', function(maintainState) {
 	App.rootView.getRegion('dialog').closeModal();
 	App.rootView.getRegion('overlay').closeOverlay(maintainState);  // close without changing state
 });
@@ -293,9 +263,5 @@ App.listenTo(App.rootView.getRegion('overlay'), 'history:back', function() {
 	App.navigatePrevious();
 });
 
-// Setting getter via request handling
-App.reqres.setHandler('setting', function(which) {
-	return Settings[which];
-});
 
 module.exports = App;

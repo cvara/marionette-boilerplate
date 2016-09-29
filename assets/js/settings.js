@@ -1,6 +1,5 @@
 // Global Application Settings
 // -------------------------------------------------------------
-// Accessible via App.request('setting', <setting_name>);
 
 var Settings = {
 

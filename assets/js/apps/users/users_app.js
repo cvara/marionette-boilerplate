@@ -1,52 +1,40 @@
 var App = require('app');
+var Marionette = require('backbone.marionette');
+var Radio = require('backbone.radio');
+var GlobalChannel = Radio.channel('global');
 
 
-App.module('UsersApp', function(UsersApp, App, Backbone, Marionette, $, _) {
-	UsersApp.startWithParent = false;
-
-	UsersApp.onStart = function() {
-		console.info('starting UsersApp');
-	};
-
-	UsersApp.onStop = function() {
-		console.info('stopping UsersApp');
-	};
+// Router
+// ------------------
+var Router = Marionette.AppRouter.extend({
+	appRoutes: {
+		'users/login': 'showLogin'
+	}
 });
 
-App.module('Routers.UsersApp', function(UsersAppRouter, App, Backbone, Marionette, $, _) {
+// API
+// ------------------
+var API = {
+	showLogin: function(user) {
+		require.ensure(['apps/users/login/controller'], function(require) {
+			var LoginController = require('apps/users/login/controller');
+			App.executeAction('UsersApp', LoginController.showLogin);
+		});
+	}
+};
 
-	// Users Router
-	// ------------------
-	UsersAppRouter.Router = Marionette.AppRouter.extend({
-		appRoutes: {
-			'users/login': 'showLogin'
-		}
-	});
-
-	// Users API
-	// ------------------
-	var API = {
-		showLogin: function(user) {
-			require.ensure(['apps/users/login/controller'], function(require) {
-				var LoginController = require('apps/users/login/controller');
-				App.executeAction('UsersApp', LoginController.showLogin);
-				App.execute('sidebar:deactivate:all');
-			});
-		}
-	};
-
-	// Event Listeners
-	// ------------------
-	App.on('users:login:show', function() {
-		App.navigate('users/login');
-		API.showLogin();
-	});
-
-	// Install Router
-	// ------------------
-	new UsersAppRouter.Router({
-		controller: API
-	});
+// Event Listeners
+// ------------------
+GlobalChannel.on('users:login:show', function() {
+	App.navigate('users/login');
+	API.showLogin();
 });
 
-module.exports = App.Routers.UsersApp;
+// Install Router
+// ------------------
+new Router({
+	controller: API
+});
+
+
+module.exports = API;

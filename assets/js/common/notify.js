@@ -11,6 +11,8 @@ require('pnotify.desktop');
 require('pnotify.mobile');
 require('pnotify.animations');
 
+var Radio = require('backbone.radio');
+var GlobalChannel = Radio.channel('global');
 
 // Set styling to bootstrap 3
 PNotify.prototype.options.styling = 'bootstrap3';
@@ -50,7 +52,7 @@ var globalOpts = {
 };
 
 var API = {
-	
+
 	showNotification: function(opts) {
 		var options = {
 			width: 'auto',
@@ -74,10 +76,10 @@ var API = {
 	}
 };
 
-App.commands.setHandler('notify', function(opts) {
+GlobalChannel.reply('notify', function(opts) {
 	API.showNotification(opts);
 });
 
-App.reqres.setHandler('confirm', function(opts) {
+GlobalChannel.reply('confirm', function(opts) {
 	return API.showConfirmation(opts);
 });

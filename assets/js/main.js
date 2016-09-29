@@ -1,4 +1,5 @@
 var App = require('app');
+var Backbone = require('backbone');
 var HeaderApp = require('apps/header/header_app');
 var SplashApp = require('apps/splash/splash_app');
 var UsersApp = require('apps/users/users_app');
@@ -6,7 +7,7 @@ var StaticApp = require('apps/static/static_app');
 var LoaderApp = require('apps/loader/loader_app');
 var Notify = require('common/notify');
 var Mailer = require('mailer/mailer');
-var Cache = require('cache/cache');
+var User = require('entities/user');
 var AjaxUtility = require('common/ajax.utility');
 var Environment = require('common/environment');
 var Settings = require('settings');
@@ -20,6 +21,8 @@ require('trim-polyfill');
 require('JSON2');
 require('bootstrap');
 
+var Radio = require('backbone.radio');
+var GlobalChannel = Radio.channel('global');
 
 
 // Attach fast click (removes 300ms delay between touchend and mouse click events)
@@ -36,7 +39,7 @@ App.on('before:start', function(options) {
 	// Get default locale from settings
 	var defaultLocale = Settings.DefaultLocale;
 	// Set polyglot locale
-	App.request('nls:set:locale', defaultLocale);
+	GlobalChannel.request('nls:set:locale', defaultLocale);
 	console.info('App: pre-start tasks complete.');
 });
 
@@ -55,7 +58,7 @@ App.on('start', function(options) {
 		});
 	});
 
-	var fetchingLoggedUser = App.request('cache:fetch:logged:user');
+	var fetchingLoggedUser = GlobalChannel.request('loggedUser:entity');
 
 	// Fetch logged user before anything else
 	fetchingLoggedUser.done(function(user) {
@@ -75,7 +78,7 @@ App.on('start', function(options) {
 
 	fetchingLoggedUser.always(function() {
 		// Manually start header app
-		HeaderApp.start();
+		GlobalChannel.trigger('header:render');
 		// Detect browser back/fwd buttons and close dialog & overlay
 		Backbone.history.on('route', function() {
 			App.rootView.getRegion('dialog').closeModal();

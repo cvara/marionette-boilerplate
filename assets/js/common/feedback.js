@@ -57,7 +57,7 @@ var Feedback = {
             analytics: JSON.stringify(analytics)
         }, { patch: true });
         // GA Event for advert serve
-        App.trigger(
+        GlobalChannel.trigger(
             'analytics:track:event',
             'advert',
             'serve',
@@ -96,7 +96,7 @@ var Feedback = {
             analytics: JSON.stringify(analytics)
         }, { patch: true });
         // GA Event for advert interactions (views & clicks)
-        App.trigger(
+        GlobalChannel.trigger(
             'analytics:track:event',
             'advert',
             interaction, adModel.get('id') + '-' + (adModel.get('title') || 'untitled')
@@ -104,19 +104,19 @@ var Feedback = {
     }
 };
 
-App.reqres.setHandler('feedback:count:article:open', function(articleId) {
+GlobalChannel.reply('feedback:count:article:open', function(articleId) {
     return Feedback.countArticleOpen(articleId);
 });
 
-App.reqres.setHandler('feedback:count:article:share', function(articleId) {
+GlobalChannel.reply('feedback:count:article:share', function(articleId) {
     return Feedback.countArticleShare(articleId);
 });
 
-App.reqres.setHandler('feedback:count:ad:appearance', function(adModel) {
+GlobalChannel.reply('feedback:count:ad:appearance', function(adModel) {
     return Feedback.countAdAppearance(adModel);
 });
 
-App.reqres.setHandler('feedback:count:ad:interaction', function(adModel, interaction) {
+GlobalChannel.reply('feedback:count:ad:interaction', function(adModel, interaction) {
     return Feedback.countAdInteraction(adModel, interaction);
 });
 

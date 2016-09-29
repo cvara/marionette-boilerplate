@@ -6,7 +6,7 @@ var termsTpl = require('apps/static/show/templates/terms');
 
 App.module('StaticApp.Show.View', function(View, App, Backbone, Marionette, $, _) {
 
-	View.StaticView = Marionette.ItemView.extend({
+	View.StaticView = Marionette.View.extend({
 		className: 'container-fluid max-width-xs static-section',
 		tagName: 'section',
 
