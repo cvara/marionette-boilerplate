@@ -8,7 +8,7 @@ var OverlayRegion = require('apps/config/marionette/regions/overlay');
 var ValidatorConfig = require('apps/config/validator/validator');
 var Settings = require('settings');
 var Radio = require('backbone.radio');
-var GlobalChannel = Radio.channel('global');
+var GlobalChannel = window.GC = Radio.channel('global');
 
 
 // Initialize Marionette Application
