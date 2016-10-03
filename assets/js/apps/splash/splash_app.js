@@ -18,7 +18,7 @@ var API = {
 	showSplash: function() {
 		require.ensure(['apps/splash/show/controller'], function(require) {
 			var ShowController = require('apps/splash/show/controller');
-			App.executeAction('SplashApp', ShowController.showSplash);
+			ShowController.showSplash.showSplash();
 		});
 	}
 };

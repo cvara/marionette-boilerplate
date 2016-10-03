@@ -18,7 +18,7 @@ var API = {
 	showLogin: function(user) {
 		require.ensure(['apps/users/login/controller'], function(require) {
 			var LoginController = require('apps/users/login/controller');
-			App.executeAction('UsersApp', LoginController.showLogin);
+			LoginController.showLogin();
 		});
 	}
 };

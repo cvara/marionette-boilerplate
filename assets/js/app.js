@@ -141,13 +141,6 @@ App.getCurrentRoute = function() {
 	return Backbone.history.fragment;
 };
 
-// Centralized controller method (action) call
-// All sub-apps use this method for calling controller methods
-App.executeAction = function(appName, action, args) {
-	var args = typeof args !== 'undefined' ? args : {};
-	return action(args);
-};
-
 // Shows landing page based on user model
 App.showLanding = function(user) {
 	var role = !!user ? user.get('role') : 'guest';

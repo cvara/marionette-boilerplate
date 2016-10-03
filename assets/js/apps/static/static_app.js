@@ -18,7 +18,7 @@ var API = {
 	showStaticView: function(view) {
 		require.ensure(['apps/static/show/controller'], function(require) {
 			var ShowController = require('apps/static/show/controller');
-			App.executeAction('StaticApp', ShowController.showStaticView, {
+			ShowController.showStaticView({
 				view: view
 			});
 		});
