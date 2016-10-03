@@ -2,6 +2,7 @@ var App = require('app');
 var Backbone = require('backbone');
 var HeaderApp = require('apps/header/header_app');
 var SplashApp = require('apps/splash/splash_app');
+var TestApp = require('apps/test/test_app');
 var UsersApp = require('apps/users/users_app');
 var StaticApp = require('apps/static/static_app');
 var LoaderApp = require('apps/loader/loader_app');
