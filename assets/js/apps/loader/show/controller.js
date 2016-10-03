@@ -1,5 +1,5 @@
 var App = require('app');
-var View = require('apps/loader/show/view');
+var View = require('./view');
 
 var Controller = {};
 

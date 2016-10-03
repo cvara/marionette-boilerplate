@@ -16,8 +16,8 @@ var Router = Mn.AppRouter.extend({
 // ------------------
 var API = {
 	showStaticView: function(view) {
-		require.ensure(['apps/static/show/controller'], function(require) {
-			var ShowController = require('apps/static/show/controller');
+		require.ensure(['./show/controller'], function(require) {
+			var ShowController = require('./show/controller');
 			ShowController.showStaticView({
 				view: view
 			});

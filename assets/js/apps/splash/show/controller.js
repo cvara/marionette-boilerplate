@@ -1,5 +1,5 @@
 var App = require('app');
-var View = require('apps/splash/show/view');
+var View = require('./view');
 
 
 var Controller = {};

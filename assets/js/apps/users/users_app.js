@@ -16,8 +16,8 @@ var Router = Mn.AppRouter.extend({
 // ------------------
 var API = {
 	showLogin: function(user) {
-		require.ensure(['apps/users/login/controller'], function(require) {
-			var LoginController = require('apps/users/login/controller');
+		require.ensure(['./login/controller'], function(require) {
+			var LoginController = require('./login/controller');
 			LoginController.showLogin();
 		});
 	}

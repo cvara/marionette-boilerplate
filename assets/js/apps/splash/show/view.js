@@ -1,6 +1,5 @@
-var App = require('app');
 var Mn = require('backbone.marionette');
-var splashTpl = require('apps/splash/show/templates/splash');
+var splashTpl = require('./templates/splash');
 
 
 var View = {};

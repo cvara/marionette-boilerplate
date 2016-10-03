@@ -1,6 +1,6 @@
 var App = require('app');
 var FormBase = require('common/form.view');
-var loginTpl = require('apps/users/login/templates/login');
+var loginTpl = require('./templates/login');
 
 var View = {};
 

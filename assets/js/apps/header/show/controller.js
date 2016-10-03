@@ -1,6 +1,6 @@
 var App = require('app');
 var Backbone = require('backbone');
-var View = require('apps/header/show/view');
+var View = require('./view');
 var Authenticate = require('common/authenticate');
 var LoggedUser = require('entities/logged.user');
 var Radio = require('backbone.radio');

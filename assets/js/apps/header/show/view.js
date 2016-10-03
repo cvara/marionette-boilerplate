@@ -1,6 +1,6 @@
 var App = require('app');
 var Mn = require('backbone.marionette');
-var headerTpl = require('apps/header/show/templates/header');
+var headerTpl = require('./templates/header');
 
 
 var View = {};

@@ -1,5 +1,5 @@
 var App = require('app');
-var View = require('apps/users/login/view');
+var View = require('./view');
 var Authenticate = require('common/authenticate');
 var Notify = require('common/notify');
 

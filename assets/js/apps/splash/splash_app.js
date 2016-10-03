@@ -16,8 +16,8 @@ var Router = Mn.AppRouter.extend({
 // ------------------
 var API = {
 	showSplash: function() {
-		require.ensure(['apps/splash/show/controller'], function(require) {
-			var ShowController = require('apps/splash/show/controller');
+		require.ensure(['./show/controller'], function(require) {
+			var ShowController = require('./show/controller');
 			ShowController.showSplash();
 		});
 	}

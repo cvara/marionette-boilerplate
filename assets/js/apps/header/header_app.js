@@ -1,4 +1,4 @@
-var ShowController = require('apps/header/show/controller');
+var ShowController = require('./show/controller');
 var Radio = require('backbone.radio');
 var GC = Radio.channel('global');
 

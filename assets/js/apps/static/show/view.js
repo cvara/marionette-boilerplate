@@ -1,7 +1,7 @@
 var Mn = require('backbone.marionette');
-var aboutTpl = require('apps/static/show/templates/about');
-var faqTpl = require('apps/static/show/templates/faq');
-var termsTpl = require('apps/static/show/templates/terms');
+var aboutTpl = require('./templates/about');
+var faqTpl = require('./templates/faq');
+var termsTpl = require('./templates/terms');
 
 
 var View = {};
