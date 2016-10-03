@@ -1,11 +1,10 @@
+var Settings = require('settings');
+
 // Async fetch script with jquery
 var fbUrl = '//connect.facebook.net/en_US/sdk.js';
 var fetchingFB = $.getScript(fbUrl).done(function() {
 	// Init Facebook Share
-	window.FB.init({
-		appId: '1054220881269609',
-		version: 'v2.0'
-	});
+	window.FB.init(Settings.FBApp);
 });
 
 
@@ -17,7 +16,7 @@ var Share_Util = window.Share_Util = {
 		var top = (screen.height/2)-(h/2);
 		var popupFeatures = 'left=' + left + ',top=' + top + ',resizable=yes,scrollbars=no,';
 		popupFeatures += 'status=0,toolbar=0,width=' + w + ',height=' + h;
-		window.open(url, 'NOODIO Share', popupFeatures);
+		window.open(url, 'Share', popupFeatures);
 	},
 	openFBShare: function(url, title, caption, text, img) {
 		// Make sure the FB script has been fetched
@@ -44,7 +43,7 @@ var Share_Util = window.Share_Util = {
 		 * Example:
 		 * https://twitter.com/share?url={url}&text={title}&via={via}&hashtags={hashtags}
 		 */
-		return 'https://twitter.com/share?url=' + url + '&text=' + text + ' (μέσω @TheDailyGr)';
+		return 'https://twitter.com/share?url=' + url + '&text=' + text + ' (via @MarionetteApp)';
 	},
 	generateGoogleUrl: function(url) {
 		/**

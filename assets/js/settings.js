@@ -19,19 +19,22 @@ var Settings = {
 	// Global file size limit
 	FileSizeLimit: 2 * 1024 * 1024, // 2mb
 
-	// Check if running as mobile app
-	MobileApp: document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1,
-
 	DefaultLocale: 'en',
 
 	// Location of the API
 	// RootURL: 'http://localhost:3000',
-	RootURL: ''
+	RootURL: '',
+
+	// Facebook app settings
+	FBApp: {
+		appId: '<app_id>',
+		version: '<fb_sdk_version>'
+	}
 };
 
 
 // PhoneGap App
-if ( Settings.MobileApp ) {
+if ( document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 ) {
     Settings.RootURL = 'http://server.domain.name.com';
 }
 
