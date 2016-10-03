@@ -1,11 +1,11 @@
 // Media Module
 // =================
 //
-// triggers         : 'media:screen:size:changed' (size, prevSize)
-//                    'media:screen:orientation:changed' (orientation, prevOrientation)
+// triggers : 'media:screen:size:changed' (size, prevSize)
+//            'media:screen:orientation:changed' (orientation, prevOrientation)
 //
-// handles requests : 'media:screen:size' (size <'xs'|'sm'|'md'|'lg'>)
-//                    'media:orientation:size' (orientation <'L'|'P'>)
+// replies  : 'media:screen:size' (size <'xs'|'sm'|'md'|'lg'>)
+//            'media:orientation:size' (orientation <'L'|'P'>)
 
 var App = require('app');
 var Radio = require('backbone.radio');
