@@ -26,7 +26,7 @@ var API = {
 // Event Listeners
 // ------------------
 GC.on('users:login:show', function() {
-	App.navigate('users/login');
+	App.Nav.navigate('users/login');
 	API.showLogin();
 });
 

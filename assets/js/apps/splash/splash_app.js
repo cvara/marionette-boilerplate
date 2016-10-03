@@ -26,7 +26,7 @@ var API = {
 // Event Listeners
 // ------------------
 GC.on('splash:show', function() {
-	App.navigate('splash');
+	App.Nav.navigate('splash');
 	API.showSplash();
 });
 

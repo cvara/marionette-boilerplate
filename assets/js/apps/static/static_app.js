@@ -28,7 +28,7 @@ var API = {
 // Event Listeners
 // ------------------
 GC.on('static:view:show', function(view) {
-	App.navigate('static/' + view);
+	App.Nav.navigate('static/' + view);
 	API.showStaticView(view);
 });
 

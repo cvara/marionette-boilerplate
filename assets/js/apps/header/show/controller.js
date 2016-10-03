@@ -16,7 +16,7 @@ Controller.showHeader = function() {
 	var headerView = new View.Header();
 
 	headerView.on('show:home', function() {
-		App.showLanding(user);
+		App.Nav.showLanding(user);
 	});
 
 	headerView.on('logout:user', function() {

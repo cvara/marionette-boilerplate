@@ -25,7 +25,7 @@ Controller.showLogin = function() {
 	});
 
 	loginView.on('cancel', function() {
-		App.showLanding();
+		App.Nav.showLanding();
 	});
 
 	App.rootView.showChildView('main', loginView);
