@@ -156,4 +156,14 @@ Utility.removeAccents = function(text) {
 			replace( /\u03CE/g, '\u03C9' ); // 'ώ':'ω'
 };
 
+// Encodes value (double utf-8)
+Utility.encode = function(value) {
+	return encodeURIComponent(encodeURIComponent(value));
+};
+
+// Decodes value (double utf-8)
+Utility.decode = function(value) {
+	return decodeURIComponent(decodeURIComponent(value));
+};
+
 module.exports = Utility;

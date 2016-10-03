@@ -155,16 +155,6 @@ App.goBack = function() {
 	});
 };
 
-// Encodes value (double utf-8)
-App.encode = function(value) {
-	return encodeURIComponent(encodeURIComponent(value));
-};
-
-// Decodes value (double utf-8)
-App.decode = function(value) {
-	return decodeURIComponent(decodeURIComponent(value));
-};
-
 // Opens URL in new tab
 App.openInNewTab = function(url) {
 	var win = window.open(url, '_blank');
