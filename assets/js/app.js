@@ -66,6 +66,8 @@ App.rootView = new RootView();
 App.isLoggedIn = false;
 
 
+// Create Navigator & attach it to App for accessibility
+// -------------------------------------------------------------
 App.Navigator = App.Nav = new Navigator();
 
 
@@ -103,8 +105,6 @@ App.initForGuest = function() {
 		Backbone.history.start({silent: false});
 		if (App.Nav.getCurrentRoute() === '') {
 			App.Nav.showLanding();
-		} else {
-			App.Nav.pushHistoryState(App.Nav.getCurrentRoute());
 		}
 	}
 };

@@ -23,10 +23,7 @@ module.exports = Mn.Object.extend({
 		// Detect browser back/fwd buttons and update Navigate History
 		Backbone.history.on('route', function(route, params) {
 			// Update our history stack
-			this.NavigateHistory.push({
-				route: this.getCurrentRoute(),
-				options: route.options
-			});
+			this.pushHistoryState(this.getCurrentRoute(), route.options);
 		}.bind(this));
 	},
 
@@ -34,17 +31,18 @@ module.exports = Mn.Object.extend({
 	// Helper Functions
 	// -------------------------------------------------------------
 
-	prependHistoryState: function(route) {
+	prependHistoryState: function(route, options) {
 		this.NavigateHistory.unshift({
 			route: route,
-			options: null
+			options: options
 		});
 	},
 
-	pushHistoryState: function(route) {
+	pushHistoryState: function(route, options) {
+		console.trace('pushHistoryState');
 		this.NavigateHistory.push({
 			route: route,
-			options: null
+			options: options
 		});
 	},
 
@@ -58,10 +56,7 @@ module.exports = Mn.Object.extend({
 			this.NavigateHistory.pop();
 		}
 
-		this.NavigateHistory.push({
-			route: route,
-			options:  options
-		});
+		this.pushHistoryState(route, options);
 
 		// Notify the rest of the app that a navigate happened
 		// NOTE: 'route' events are fired by backbone only when
