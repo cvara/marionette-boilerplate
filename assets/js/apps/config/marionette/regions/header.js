@@ -1,6 +1,6 @@
-var Marionette = require('backbone.marionette');
+var Mn = require('backbone.marionette');
 
-module.exports = Marionette.Region.extend({
+module.exports = Mn.Region.extend({
 
 	pageWrap: $('#page-wrap'),
 

@@ -4,7 +4,7 @@ var _globalTpl = require('mailer/templates/_global');
 var sampleEmailTpl = require('mailer/templates/sample.email');
 var Settings = require('settings');
 var Radio = require('backbone.radio');
-var GlobalChannel = Radio.channel('global');
+var GC = Radio.channel('global');
 
 var rootUrl = Settings.RootURL;
 var mailUrl = rootUrl + '/sendMessage';
@@ -58,7 +58,7 @@ var API = {
 	}
 };
 
-GlobalChannel.reply('mail:send', function(sender, recipient, body, subject) {
+GC.reply('mail:send', function(sender, recipient, body, subject) {
 	return API.sendMail(sender, recipient, body, subject);
 });
 

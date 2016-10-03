@@ -1,4 +1,4 @@
-var Marionette = require('backbone.marionette');
+var Mn = require('backbone.marionette');
 var Backbone = require('backbone');
 var HeaderRegion = require('apps/config/marionette/regions/header');
 var MainRegion = require('apps/config/marionette/regions/main');
@@ -8,14 +8,14 @@ var OverlayRegion = require('apps/config/marionette/regions/overlay');
 var ValidatorConfig = require('apps/config/validator/validator');
 var Settings = require('settings');
 var Radio = require('backbone.radio');
-var GlobalChannel = window.GC = Radio.channel('global');
+var GC = window.GC = Radio.channel('global');
 
 
 // Initialize Marionette Application
 // -------------------------------------------------------------
 // The application is also registered as a global variable,
 // so that it can be referenced from inside Underscore templates
-var App = window.App = new Marionette.Application();
+var App = window.App = new Mn.Application();
 
 
 
@@ -42,7 +42,7 @@ var overlayRegion = OverlayRegion.extend({
 // -------------------------------------------------------------
 // Our custom region classes are attached to this LayoutView
 // instead of our app object.
-var RootView = Marionette.View.extend({
+var RootView = Mn.View.extend({
 	el: 'body',
 
 	regions: {
@@ -113,7 +113,7 @@ App.navigate = function(route, opts) {
 	// Notify the rest of the app that a navigate happened
 	// NOTE: 'route' events are fired by backbone only when
 	// the trigger:true option is passed
-	GlobalChannel.trigger('navigate', route, opts);
+	GC.trigger('navigate', route, opts);
 };
 
 // Navigates to previous route
@@ -152,7 +152,7 @@ App.executeAction = function(appName, action, args) {
 App.showLanding = function(user) {
 	var role = !!user ? user.get('role') : 'guest';
 	var landing = Settings.landingTrigger[role];
-	GlobalChannel.trigger(landing);
+	GC.trigger(landing);
 };
 
 // Goes to previous history state
@@ -193,7 +193,7 @@ App.openPopup = function(url) {
 // Inits app for member
 App.initForMember = function(user) {
 	// Notify all modules that user logged in
-	GlobalChannel.trigger('login', user, false);
+	GC.trigger('login', user, false);
 	// Initialize history and cause the triggering of a route
 	Backbone.history.start({pushState: Settings.HTML5History});
 	// Redirect empty route to landing page
@@ -225,7 +225,7 @@ App.initForGuest = function() {
 	}
 };
 
-GlobalChannel.on('refresh:mainRegion', function() {
+GC.on('refresh:mainRegion', function() {
 	// need to null out Backbone.history.fragement because
 	// navigate method will ignore when it is the same as newFragment
 	var currentRoute = App.getCurrentRoute();
@@ -237,23 +237,23 @@ GlobalChannel.on('refresh:mainRegion', function() {
 });
 
 // Get notified when user logs in
-GlobalChannel.on('login', function(user, refresh) {
+GC.on('login', function(user, refresh) {
 	console.info('User logged in. Role: ', user.get('role'));
 	// mark user as logged in
 	App.isLoggedIn = true;
 	if (!!refresh) {
-		GlobalChannel.trigger('refresh:mainRegion');
+		GC.trigger('refresh:mainRegion');
 	}
 });
 
 // Get notified when user logs out
-GlobalChannel.on('logout', function() {
+GC.on('logout', function() {
 	App.isLoggedIn = false;
-	GlobalChannel.trigger('splash:show');
+	GC.trigger('splash:show');
 });
 
 // Get notified when user logs out
-GlobalChannel.on('close:overlapping:interfaces', function(maintainState) {
+GC.on('close:overlapping:interfaces', function(maintainState) {
 	App.rootView.getRegion('dialog').closeModal();
 	App.rootView.getRegion('overlay').closeOverlay(maintainState);  // close without changing state
 });

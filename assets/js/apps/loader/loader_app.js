@@ -1,6 +1,7 @@
-var Radio = require('backbone.radio');
-var GlobalChannel = Radio.channel('global');
 var ShowController = require('apps/loader/show/controller');
+var Radio = require('backbone.radio');
+var GC = Radio.channel('global');
+
 
 
 var API = {
@@ -15,15 +16,15 @@ var API = {
     }
 };
 
-GlobalChannel.on('loader:main:show', function() {
+GC.on('loader:main:show', function() {
     API.showMainLoader();
 });
 
-GlobalChannel.on('loader:main:hide', function() {
+GC.on('loader:main:hide', function() {
     API.hideMainLoader();
 });
 
-GlobalChannel.on('loader:all:hide', function() {
+GC.on('loader:all:hide', function() {
     API.hideAllLoaders();
 });
 

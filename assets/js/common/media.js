@@ -9,7 +9,7 @@
 
 var App = require('app');
 var Radio = require('backbone.radio');
-var GlobalChannel = Radio.channel('global');
+var GC = Radio.channel('global');
 
 
 var Media = {};
@@ -42,7 +42,7 @@ Media.detectScreenSize = function() {
 	}
 
 	// Trigger event
-	GlobalChannel.trigger('media:screen:size:changed', screenSize, Media.screenSize);
+	GC.trigger('media:screen:size:changed', screenSize, Media.screenSize);
 
 	// Remember screen size
 	Media.screenSize = screenSize;
@@ -56,7 +56,7 @@ Media.detectOrientation = function() {
 		return;
 	}
 	// Trigger event
-	GlobalChannel.trigger('media:screen:orientation:changed', orientation, Media.orientation);
+	GC.trigger('media:screen:orientation:changed', orientation, Media.orientation);
 
 	// Remember screen orientation
 	Media.orientation = orientation;
@@ -73,11 +73,11 @@ Media.monitorMediaChanges = function() {
 
 
 // Request Handlers
-GlobalChannel.reply('media:screen:size', function() {
+GC.reply('media:screen:size', function() {
 	return Media.screenSize;
 });
 
-GlobalChannel.reply('media:screen:orientation', function() {
+GC.reply('media:screen:orientation', function() {
 	return Media.orientation;
 });
 

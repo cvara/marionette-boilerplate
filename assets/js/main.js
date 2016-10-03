@@ -22,7 +22,7 @@ require('JSON2');
 require('bootstrap');
 
 var Radio = require('backbone.radio');
-var GlobalChannel = Radio.channel('global');
+var GC = Radio.channel('global');
 
 
 // Attach fast click (removes 300ms delay between touchend and mouse click events)
@@ -39,7 +39,7 @@ App.on('before:start', function(options) {
 	// Get default locale from settings
 	var defaultLocale = Settings.DefaultLocale;
 	// Set polyglot locale
-	GlobalChannel.request('nls:set:locale', defaultLocale);
+	GC.request('nls:set:locale', defaultLocale);
 	console.info('App: pre-start tasks complete.');
 });
 
@@ -58,7 +58,7 @@ App.on('start', function(options) {
 		});
 	});
 
-	var fetchingLoggedUser = GlobalChannel.request('loggedUser:entity');
+	var fetchingLoggedUser = GC.request('loggedUser:entity');
 
 	// Fetch logged user before anything else
 	fetchingLoggedUser.done(function(user) {
@@ -78,7 +78,7 @@ App.on('start', function(options) {
 
 	fetchingLoggedUser.always(function() {
 		// Manually start header app
-		GlobalChannel.trigger('header:render');
+		GC.trigger('header:render');
 		// Detect browser back/fwd buttons and close dialog & overlay
 		Backbone.history.on('route', function() {
 			App.rootView.getRegion('dialog').closeModal();

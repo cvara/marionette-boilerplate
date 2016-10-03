@@ -1,7 +1,6 @@
-var App = require('app');
 var ShowController = require('apps/header/show/controller');
 var Radio = require('backbone.radio');
-var GlobalChannel = Radio.channel('global');
+var GC = Radio.channel('global');
 
 
 // Header API
@@ -15,15 +14,15 @@ var API = {
 
 // Event Listeners
 // ------------------
-GlobalChannel.on('header:render', function() {
+GC.on('header:render', function() {
 	API.showHeader();
 });
 
-GlobalChannel.on('login', function(user, refresh) {
+GC.on('login', function(user, refresh) {
 	API.showHeader();
 });
 
-GlobalChannel.on('logout', function() {
+GC.on('logout', function() {
 	API.showHeader();
 });
 

@@ -1,9 +1,9 @@
-var Marionette = require('backbone.marionette');
+var Mn = require('backbone.marionette');
 var Env = require('common/environment');
 require('bootstrap');
 
 
-module.exports = Marionette.Region.extend({
+module.exports = Mn.Region.extend({
 
 	counter: 0,
 	modalIdPrefix: 'modal-',

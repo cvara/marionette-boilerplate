@@ -1,7 +1,7 @@
 var Backbone = require('backbone');
 var User = require('./user');
 var Radio = require('backbone.radio');
-var GlobalChannel = Radio.channel('global');
+var GC = Radio.channel('global');
 
 
 var LoggedUser = User.extend({
@@ -39,7 +39,7 @@ var API = {
 	}
 };
 
-GlobalChannel.reply('loggedUser:entity', function() {
+GC.reply('loggedUser:entity', function() {
 	return API.getLoggedUserEntity();
 });
 

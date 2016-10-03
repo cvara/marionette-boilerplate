@@ -12,7 +12,7 @@
 // The View's main purpose is to be extended by child views, but can also used as a
 // standalone constructor.
 //
-var Marionette = require('backbone.marionette');
+var Mn = require('backbone.marionette');
 var App = require('app');
 var moment = require('moment');
 var syphon = require('backbone.syphon');
@@ -84,7 +84,7 @@ var validateFile = function(type, file) {
 	return false;
 };
 
-module.exports = Marionette.View.extend({
+module.exports = Mn.View.extend({
 	// Child views are allowed to have their own `ui` hash
 	_ui: {
 		form            : 'form',
@@ -149,7 +149,7 @@ module.exports = Marionette.View.extend({
 		});
 
 		// Call the constructor of the super class
-		Marionette.View.prototype.constructor.apply(this, arguments);
+		Mn.View.prototype.constructor.apply(this, arguments);
 	},
 
 	onShowPreloader: function() {

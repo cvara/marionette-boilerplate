@@ -1,8 +1,8 @@
-var Marionette = require('backbone.marionette');
+var Mn = require('backbone.marionette');
 var jqueryUi = require('jquery-ui-core'); // should include widgets/sortable.js
 
 
-module.exports = Marionette.Behavior.extend({
+module.exports = Mn.Behavior.extend({
 
 	defaults: {
 		placeholder: 'sortable-placeholder',
@@ -45,7 +45,7 @@ module.exports = Marionette.Behavior.extend({
             // CompositeView
             return this.view.getChildViewContainer(this.view);
         } else if (typeof this.view.getItemViewContainer === 'function') {
-            // CompositeView for Marionette 1.x
+            // CompositeView for Mn 1.x
             return this.view.getItemViewContainer(this.view);
         } else {
             // CollectionView

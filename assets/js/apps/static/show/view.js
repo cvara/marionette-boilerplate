@@ -1,4 +1,4 @@
-var Marionette = require('backbone.marionette');
+var Mn = require('backbone.marionette');
 var aboutTpl = require('apps/static/show/templates/about');
 var faqTpl = require('apps/static/show/templates/faq');
 var termsTpl = require('apps/static/show/templates/terms');
@@ -6,7 +6,7 @@ var termsTpl = require('apps/static/show/templates/terms');
 
 var View = {};
 
-View.StaticView = Marionette.View.extend({
+View.StaticView = Mn.View.extend({
 	className: 'container-fluid max-width-xs static-section',
 	tagName: 'section',
 

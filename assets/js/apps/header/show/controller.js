@@ -4,7 +4,7 @@ var View = require('apps/header/show/view');
 var Authenticate = require('common/authenticate');
 var LoggedUser = require('entities/logged.user');
 var Radio = require('backbone.radio');
-var GlobalChannel = Radio.channel('global');
+var GC = Radio.channel('global');
 
 
 var Controller = {};
@@ -21,11 +21,11 @@ Controller.showHeader = function() {
 
 	headerView.on('logout:user', function() {
 		Authenticate.logout().done(function() {
-			GlobalChannel.trigger('logout');
+			GC.trigger('logout');
 		});
 	});
 
-	GlobalChannel.request('loggedUser:entity').then(function(loggedUser) {
+	GC.request('loggedUser:entity').then(function(loggedUser) {
 		user = loggedUser;
 		headerView.model = user;
 		headerView.render();

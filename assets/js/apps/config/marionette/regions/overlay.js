@@ -1,8 +1,8 @@
-var Marionette = require('backbone.marionette');
+var Mn = require('backbone.marionette');
 var Env = require('common/environment');
 
 
-module.exports = Marionette.Region.extend({
+module.exports = Mn.Region.extend({
 
 	isOpen: false,
 

@@ -12,7 +12,7 @@ require('pnotify.mobile');
 require('pnotify.animations');
 
 var Radio = require('backbone.radio');
-var GlobalChannel = Radio.channel('global');
+var GC = Radio.channel('global');
 
 // Set styling to bootstrap 3
 PNotify.prototype.options.styling = 'bootstrap3';
@@ -76,10 +76,10 @@ var API = {
 	}
 };
 
-GlobalChannel.reply('notify', function(opts) {
+GC.reply('notify', function(opts) {
 	API.showNotification(opts);
 });
 
-GlobalChannel.reply('confirm', function(opts) {
+GC.reply('confirm', function(opts) {
 	return API.showConfirmation(opts);
 });

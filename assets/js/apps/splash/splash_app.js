@@ -1,12 +1,12 @@
 var App = require('app');
-var Marionette = require('backbone.marionette');
+var Mn = require('backbone.marionette');
 var Radio = require('backbone.radio');
-var GlobalChannel = Radio.channel('global');
+var GC = Radio.channel('global');
 
 
 // Router
 // ------------------
-var Router = Marionette.AppRouter.extend({
+var Router = Mn.AppRouter.extend({
 	appRoutes: {
 		'splash': 'showSplash'
 	}
@@ -25,7 +25,7 @@ var API = {
 
 // Event Listeners
 // ------------------
-GlobalChannel.on('splash:show', function() {
+GC.on('splash:show', function() {
 	App.navigate('splash');
 	API.showSplash();
 });

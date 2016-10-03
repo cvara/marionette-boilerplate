@@ -1,11 +1,11 @@
 var App = require('app');
-var Marionette = require('backbone.marionette');
+var Mn = require('backbone.marionette');
 var headerTpl = require('apps/header/show/templates/header');
 
 
 var View = {};
 
-View.Header = Marionette.View.extend({
+View.Header = Mn.View.extend({
 	template: headerTpl,
 	tagName: 'div',
 	className: 'header',

@@ -1,5 +1,5 @@
 var App = require('app');
-var Marionette = require('backbone.marionette');
+var Mn = require('backbone.marionette');
 var SpinnerOptions = require('apps/config/spinner/options');
 var loaderMainTpl = require('apps/loader/show/templates/loader.main');
 var Spinner = require('spin.js');
@@ -8,7 +8,7 @@ var Spinner = require('spin.js');
 var View = {};
 
 
-View.Loader = Marionette.View.extend({
+View.Loader = Mn.View.extend({
 	template: loaderMainTpl,
 	// isLoading: true, // mark the view so that regions can recognize it
 	className: 'main-loading-container',

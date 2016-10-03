@@ -4,7 +4,7 @@ var BackboneValidation = require('backbone.validation');
 var Settings = require('settings');
 var fetchCache = require('backbone-fetch-cache');
 var Radio = require('backbone.radio');
-var GlobalChannel = Radio.channel('global');
+var GC = Radio.channel('global');
 
 
 var User = Backbone.Model.extend({
@@ -39,7 +39,7 @@ var API = {
 	}
 };
 
-GlobalChannel.reply('user:entity', function(user) {
+GC.reply('user:entity', function(user) {
 	return API.getUserEntity(user);
 });
 

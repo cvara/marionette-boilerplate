@@ -46,11 +46,11 @@ var Analytics = {
     }
 };
 
-GlobalChannel.on('analytics:track:pageview', function(url, title) {
+GC.on('analytics:track:pageview', function(url, title) {
     Analytics.trackPageView(url, title);
 });
 
-GlobalChannel.on('analytics:track:event', function(category, action, label, value, opts) {
+GC.on('analytics:track:event', function(category, action, label, value, opts) {
     Analytics.trackEvent(category, action, label, value, opts);
 });
 

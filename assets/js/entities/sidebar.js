@@ -2,7 +2,7 @@ var App = require('app');
 var Backbone = require('backbone');
 require('backbone.select');
 var Radio = require('backbone.radio');
-var GlobalChannel = Radio.channel('global');
+var GC = Radio.channel('global');
 
 
 var SidebarItem = Backbone.Model.extend({});
@@ -78,7 +78,7 @@ var API = {
 	}
 };
 
-GlobalChannel.reply('sidebar:entities', function(role) {
+GC.reply('sidebar:entities', function(role) {
 	if (role === 'admin') {
 		return API.getAdminSidebarElements();
 	}

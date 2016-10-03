@@ -1,12 +1,12 @@
 var App = require('app');
-var Marionette = require('backbone.marionette');
+var Mn = require('backbone.marionette');
 var Radio = require('backbone.radio');
-var GlobalChannel = Radio.channel('global');
+var GC = Radio.channel('global');
 
 
 // Router
 // ------------------
-var Router = Marionette.AppRouter.extend({
+var Router = Mn.AppRouter.extend({
 	appRoutes: {
 		'static/:view': 'showStaticView'
 	}
@@ -27,7 +27,7 @@ var API = {
 
 // Event Listeners
 // ------------------
-GlobalChannel.on('static:view:show', function(view) {
+GC.on('static:view:show', function(view) {
 	App.navigate('static/' + view);
 	API.showStaticView(view);
 });
