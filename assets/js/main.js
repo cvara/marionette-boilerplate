@@ -38,9 +38,9 @@ App.on('before:start', function(options) {
 	// Add enironment classes to body
 	Environment.addEnvironmentClasses();
 	// Get default locale from settings
-	const { defaultLocale } = Settings;
+	const { DefaultLocale } = Settings;
 	// Set polyglot locale
-	GC.request('nls:set:locale', defaultLocale);
+	GC.request('nls:set:locale', DefaultLocale);
 	console.info('App: pre-start tasks complete.');
 });
 
