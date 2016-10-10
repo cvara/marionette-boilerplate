@@ -31,8 +31,8 @@
     "devel": true, // Allow developments statements e.g. `console.log();`.
 
 
-    // ECMAScript 5.
-    // "es5": true, // Allow ECMAScript 5 syntax.
+	// ECMAScript Version.
+    "esversion": 6, // Allow ECMAScript 6 syntax.
     // "strict": false, // Require `use strict` pragma in every file.
     // "globalstrict": false, // Allow global "use strict" (also enables 'strict').
 
