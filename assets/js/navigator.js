@@ -1,8 +1,8 @@
-var Backbone = require('backbone');
-var Mn = require('backbone.marionette');
-var Settings = require('settings');
-var Radio = require('backbone.radio');
-var GC = window.GC = Radio.channel('global');
+const Backbone = require('backbone');
+const Mn = require('backbone.marionette');
+const Settings = require('settings');
+const Radio = require('backbone.radio');
+const GC = window.GC = Radio.channel('global');
 
 
 module.exports = Mn.Object.extend({
@@ -21,10 +21,10 @@ module.exports = Mn.Object.extend({
 
 	initialize: function(options) {
 		// Detect browser back/fwd buttons and update Navigate History
-		Backbone.history.on('route', function(route, params) {
+		Backbone.history.on('route', (route, params) => {
 			// Update our history stack
 			this.pushHistoryState(this.getCurrentRoute(), route.options);
-		}.bind(this));
+		});
 	},
 
 
@@ -47,7 +47,7 @@ module.exports = Mn.Object.extend({
 
 	// Navigates to route
 	navigate: function(route, opts) {
-		var options = opts || {};
+		const options = opts || {};
 		Backbone.history.navigate(route, options);
 
 		// In case of replace, remove last history entry before adding the new one
@@ -72,11 +72,11 @@ module.exports = Mn.Object.extend({
 			return;
 		}
 		// Get previous state
-		var previous = this.NavigateHistory[this.NavigateHistory.length - 2];
+		const previous = this.NavigateHistory[this.NavigateHistory.length - 2];
 		// Extract route from previous state
-		var route = typeof previous.route === 'string' ? previous.route : previous;
+		const route = typeof previous.route === 'string' ? previous.route : previous;
 		// Extract options from previous state, allowing overrides by arg options
-		var opts = _.extend({}, previous.options, options || {});
+		const opts = _.extend({}, previous.options, options || {});
 		// Navigate to previous route
 		this.navigate(route, opts);
 		console.log('Navigating to previous route: ', route);
@@ -90,8 +90,8 @@ module.exports = Mn.Object.extend({
 
 	// Shows landing page based on user model
 	showLanding: function(user) {
-		var role = !!user ? user.get('role') : 'guest';
-		var landing = Settings.landingTrigger[role];
+		const role = !!user ? user.get('role') : 'guest';
+		const landing = Settings.landingTrigger[role];
 		GC.trigger(landing);
 	},
 
@@ -104,7 +104,7 @@ module.exports = Mn.Object.extend({
 
 	// Opens URL in new tab
 	openInNewTab: function(url) {
-		var win = window.open(url, '_blank');
+		const win = window.open(url, '_blank');
 		win.focus();
 	},
 
@@ -116,7 +116,7 @@ module.exports = Mn.Object.extend({
 
 	// Opens URL in popup window
 	openPopup: function(url) {
-		var popupFeatures = 'left=10,top=10,resizable=yes,scrollbars=no,status=0,toolbar=0,width=920,height=436';
+		const popupFeatures = 'left=10,top=10,resizable=yes,scrollbars=no,status=0,toolbar=0,width=920,height=436';
 		return window.open(url, 'Popup', popupFeatures);
 	}
 });

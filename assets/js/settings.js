@@ -1,7 +1,7 @@
 // Global Application Settings
 // -------------------------------------------------------------
 
-var Settings = {
+const Settings = {
 
 	// Enable CORS client-side
 	EnableCORS: true,
@@ -35,7 +35,7 @@ var Settings = {
 
 // PhoneGap App
 if ( document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 ) {
-    Settings.RootURL = 'http://server.domain.name.com';
+	Settings.RootURL = 'http://server.domain.name.com';
 }
 
 

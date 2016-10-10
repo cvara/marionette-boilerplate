@@ -1,19 +1,19 @@
-var App = require('app');
-var Backbone = require('backbone');
-var HeaderApp = require('apps/header/header_app');
-var SplashApp = require('apps/splash/splash_app');
-var TestApp = require('apps/test/test_app');
-var UsersApp = require('apps/users/users_app');
-var StaticApp = require('apps/static/static_app');
-var LoaderApp = require('apps/loader/loader_app');
-var Notify = require('common/notify');
-var Notify = require('common/media');
-var User = require('entities/user');
-var AjaxUtility = require('common/ajax.utility');
-var Environment = require('common/environment');
-var Settings = require('settings');
-var nls = require('nls/nls');
-var attachFastClick = require('fastclick');
+const App = require('app');
+const Backbone = require('backbone');
+const HeaderApp = require('apps/header/header_app');
+const SplashApp = require('apps/splash/splash_app');
+const TestApp = require('apps/test/test_app');
+const UsersApp = require('apps/users/users_app');
+const StaticApp = require('apps/static/static_app');
+const LoaderApp = require('apps/loader/loader_app');
+const Notify = require('common/notify');
+const Media = require('common/media');
+const User = require('entities/user');
+const AjaxUtility = require('common/ajax.utility');
+const Environment = require('common/environment');
+const Settings = require('settings');
+const nls = require('nls/nls');
+const attachFastClick = require('fastclick');
 
 require('rAF-polyfill');
 require('date-polyfill');
@@ -22,8 +22,8 @@ require('trim-polyfill');
 require('JSON2');
 require('bootstrap');
 
-var Radio = require('backbone.radio');
-var GC = Radio.channel('global');
+const Radio = require('backbone.radio');
+const GC = Radio.channel('global');
 
 
 // Attach fast click (removes 300ms delay between touchend and mouse click events)
@@ -38,7 +38,7 @@ App.on('before:start', function(options) {
 	// Add enironment classes to body
 	Environment.addEnvironmentClasses();
 	// Get default locale from settings
-	var defaultLocale = Settings.DefaultLocale;
+	const { defaultLocale } = Settings;
 	// Set polyglot locale
 	GC.request('nls:set:locale', defaultLocale);
 	console.info('App: pre-start tasks complete.');
@@ -50,7 +50,7 @@ App.on('start', function(options) {
 		return;
 	}
 
-	var fetchingLoggedUser = GC.request('loggedUser:entity');
+	const fetchingLoggedUser = GC.request('loggedUser:entity');
 
 	// Fetch logged user before anything else
 	fetchingLoggedUser.done(function(user) {
