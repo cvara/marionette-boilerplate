@@ -12,11 +12,22 @@ module.exports = {
 		filename: '[name].bundle.js'
 	},
 
-	module: {
-		loaders: [{
-			test: /\.tpl$/,
-			loader: 'ejs',
-		}]
+	module : {
+		loaders: [
+			{
+				test: /\.js$/,
+				exclude: /(node_modules|bower_components|vendor)/,
+				loader: 'babel', // 'babel-loader' is also a legal name to reference
+				cacheable: true,
+				query: {
+					presets: ['es2015'],
+					cacheDirectory: '.babel-cache'
+				}
+			}, {
+				test: /\.tpl$/,
+				loader: 'ejs'
+			}
+		]
 	},
 
 	devtool: 'cheap-source-map',

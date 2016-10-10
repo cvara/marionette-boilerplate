@@ -39,7 +39,6 @@ module.exports = Mn.Object.extend({
 	},
 
 	pushHistoryState: function(route, options) {
-		console.trace('pushHistoryState');
 		this.NavigateHistory.push({
 			route: route,
 			options: options
