@@ -160,16 +160,8 @@ GC.reply('nls:supported:locales', function() {
 	return API.getSupportedLocales();
 });
 
-GC.reply('nls:guess:locale', function() {
-	return API.guessLocale();
-});
-
 GC.reply('nls:current:locale', function() {
 	return API.getGuessedLocale();
-});
-
-GC.reply('nls:init:polyglot', function() {
-	return API.initPolyglot();
 });
 
 GC.reply('nls:set:locale', function(locale) {
