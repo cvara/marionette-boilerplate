@@ -1,5 +1,5 @@
-var ShowController = require('./show/controller');
-var Radio = require('backbone.radio');
+import ShowController from './show/controller';
+import Radio from 'backbone.radio';
 var GC = Radio.channel('global');
 
 

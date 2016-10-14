@@ -1,12 +1,12 @@
-var App = require('app');
-var View = require('./view');
+import App from 'app';
+import View from './view';
 
 
-var Controller = {};
+const Controller = {};
 
-Controller.showTest = function() {
-	var testView = new View.Test();
+Controller.showTest = () => {
+	const testView = new View.Test();
 	App.rootView.showChildView('main', testView);
 };
 
-module.exports = Controller;
+export default Controller;

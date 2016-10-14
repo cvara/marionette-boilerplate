@@ -1,8 +1,8 @@
-var jquery = require('jquery');
-var jqueryCookie = require('jquery.cookie');
+import jquery from 'jquery';
+import jqueryCookie from 'jquery.cookie';
 
 
-var Utility = {};
+const Utility = {};
 
 Utility.csrfSafeMethod = function(method) {
 	// these HTTP methods do not require CSRF protection
@@ -56,4 +56,4 @@ Utility.setupCSRFToken = function() {
 	});
 };
 
-module.exports = Utility;
+export default Utility;

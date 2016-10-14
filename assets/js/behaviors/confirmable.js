@@ -1,6 +1,6 @@
-var Mn = require('backbone.marionette');
+import Mn from 'backbone.marionette';
 
-module.exports = Mn.Behavior.extend({
+export default Mn.Behavior.extend({
 
 	defaults: {
 		message: 'Are you sure?'

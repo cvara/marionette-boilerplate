@@ -1,4 +1,4 @@
-var App = require('app');
+import App from 'app';
 
 
 var gmapsFetched = false;

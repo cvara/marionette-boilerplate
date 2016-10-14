@@ -1,8 +1,8 @@
-var App = require('app');
-var Mn = require('backbone.marionette');
-var SpinnerOptions = require('apps/config/spinner/options');
-var loaderMainTpl = require('./templates/loader.main');
-var Spinner = require('spin.js');
+import App from 'app';
+import Mn from 'backbone.marionette';
+import SpinnerOptions from 'apps/config/spinner/options';
+import loaderMainTpl from './templates/loader.main';
+import Spinner from 'spin.js';
 
 
 var View = {};

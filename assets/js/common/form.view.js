@@ -12,11 +12,11 @@
 // The View's main purpose is to be extended by child views, but can also used as a
 // standalone constructor.
 //
-var Mn = require('backbone.marionette');
-var App = require('app');
-var moment = require('moment');
-var syphon = require('backbone.syphon');
-var bootstrapDatetimepicker = require('bootstrap-datetimepicker');
+import Mn from 'backbone.marionette';
+import App from 'app';
+import moment from 'moment';
+import syphon from 'backbone.syphon';
+import bootstrapDatetimepicker from 'bootstrap-datetimepicker';
 
 
 // Useful data attributes

@@ -1,4 +1,4 @@
-var Env = window.Env = {};
+const Env = window.Env = {};
 
 Env.enableTransforms = true;
 Env.enableTransitions = true;
@@ -13,26 +13,26 @@ Env.browser = {
 	}
 };
 
-Env.detectTouch = function() {
+Env.detectTouch = () => {
 	return ('ontouchstart' in window) ||
 		(navigator.maxTouchPoints > 0) ||
 		(navigator.msMaxTouchPoints > 0);
 };
 
 Env.isMobile = {
-	Android: function() {
+	Android: () => {
 		return Env.browser.mobile.android;
 	},
-	BlackBerry: function() {
+	BlackBerry: () => {
 		return Env.browser.mobile.BlackBerry;
 	},
-	iOS: function() {
+	iOS: () => {
 		return Env.browser.mobile.iOS;
 	},
-	Windows: function() {
+	Windows: () => {
 		return Env.browser.mobile.Windows;
 	},
-	any: function() {
+	any: () => {
 		return (Env.browser.mobile.android ||
 			Env.browser.mobile.BlackBerry ||
 			Env.browser.mobile.iOS ||
@@ -40,15 +40,15 @@ Env.isMobile = {
 	}
 };
 
-Env.isMobileApp = function(){
+Env.isMobileApp = () => {
 	return document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
 };
 
-Env.isBot = function() {
+Env.isBot = () => {
 	return Env.browser.bot;
 };
 
-Env.cssTransforms = function() {
+Env.cssTransforms = () => {
 	var prefixes = 'transform WebkitTransform MozTransform OTransform msTransform'.split(' ');
 	var div = document.createElement('div');
 	for (var i = 0; i < prefixes.length; i++) {
@@ -60,7 +60,7 @@ Env.cssTransforms = function() {
 	return false;
 };
 
-Env.addMobileClasses = function() {
+Env.addMobileClasses = () => {
 	var classes = '';
 
 	if (!Env.isMobile.any()) {
@@ -83,7 +83,7 @@ Env.addMobileClasses = function() {
 	$('body').addClass(classes);
 };
 
-Env.addCss3Classes = function() {
+Env.addCss3Classes = () => {
 	if (!Env.cssTransforms()) {
 		$('body').addClass('no-csstransforms');
 		Env.enableTransforms = false;
@@ -95,9 +95,9 @@ Env.addCss3Classes = function() {
 	}
 };
 
-Env.addEnvironmentClasses = function() {
+Env.addEnvironmentClasses = () => {
 	Env.addMobileClasses();
 	Env.addCss3Classes();
 };
 
-module.exports = Env;
+export default Env;

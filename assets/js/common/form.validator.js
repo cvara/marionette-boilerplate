@@ -1,8 +1,8 @@
-var Validation = require('backbone.validation');
+import Validation from 'backbone.validation';
 
-module.exports = {
-	validateShareForm: function(data) {
-		var errors = {};
+export default {
+	validateShareForm: (data) => {
+		const errors = {};
 		if (!Validation.patterns.email.test(data.sender)) {
 			errors.sender = t('invalid.email');
 		}
@@ -12,16 +12,16 @@ module.exports = {
 		return errors;
 	},
 
-	validateSubscribeForm: function(data) {
-		var errors = {};
+	validateSubscribeForm: (data) => {
+		const errors = {};
 		if (!Validation.patterns.email.test(data.email)) {
 			errors.email = t('invalid.email');
 		}
 		return errors;
 	},
 
-	validateContactForm: function(data) {
-		var errors = {};
+	validateContactForm: (data) => {
+		const errors = {};
 		if (!Validation.patterns.email.test(data.sender)) {
 			errors.sender = t('invalid.email');
 		}

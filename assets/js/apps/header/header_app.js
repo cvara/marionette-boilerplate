@@ -1,12 +1,12 @@
-var ShowController = require('./show/controller');
-var Radio = require('backbone.radio');
-var GC = Radio.channel('global');
+import ShowController from './show/controller';
+import Radio from 'backbone.radio';
+const GC = Radio.channel('global');
 
 
 // Header API
 // ------------------
-var API = {
-	showHeader: function() {
+const API = {
+	showHeader: () => {
 		ShowController.showHeader();
 	}
 };
@@ -14,17 +14,16 @@ var API = {
 
 // Event Listeners
 // ------------------
-GC.on('header:render', function() {
+GC.on('header:render', () => {
 	API.showHeader();
 });
 
-GC.on('login', function(user, refresh) {
+GC.on('login', (user, refresh) => {
 	API.showHeader();
 });
 
-GC.on('logout', function() {
+GC.on('logout', () => {
 	API.showHeader();
 });
 
-
-module.exports = API;
+export default API;

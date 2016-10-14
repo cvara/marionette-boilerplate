@@ -1,12 +1,12 @@
-var App = require('app');
-var View = require('./view');
+import App from 'app';
+import View from './view';
 
 
-var Controller = {};
+const Controller = {};
 
-Controller.showSplash = function() {
-	var splashView = new View.Splash();
+Controller.showSplash = () => {
+	const splashView = new View.Splash();
 	App.rootView.showChildView('main', splashView);
 };
 
-module.exports = Controller;
+export default Controller;

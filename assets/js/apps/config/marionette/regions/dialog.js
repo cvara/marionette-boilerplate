@@ -1,5 +1,5 @@
-var Mn = require('backbone.marionette');
-var Env = require('common/environment');
+import Mn from 'backbone.marionette';
+import Env from 'common/environment';
 require('bootstrap');
 
 

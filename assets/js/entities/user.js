@@ -1,9 +1,9 @@
-var Backbone = require('backbone');
-var UserValidator = require('entities/validators/user');
-var BackboneValidation = require('backbone.validation');
-var Settings = require('settings');
-var fetchCache = require('backbone-fetch-cache');
-var Radio = require('backbone.radio');
+import Backbone from 'backbone';
+import UserValidator from 'entities/validators/user';
+import BackboneValidation from 'backbone.validation';
+import Settings from 'settings';
+import fetchCache from 'backbone-fetch-cache';
+import Radio from 'backbone.radio';
 var GC = Radio.channel('global');
 
 

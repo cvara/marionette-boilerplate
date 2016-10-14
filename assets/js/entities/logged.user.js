@@ -1,6 +1,6 @@
-var Backbone = require('backbone');
-var User = require('./user');
-var Radio = require('backbone.radio');
+import Backbone from 'backbone';
+import User from './user';
+import Radio from 'backbone.radio';
 var GC = Radio.channel('global');
 
 

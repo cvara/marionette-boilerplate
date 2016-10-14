@@ -1,7 +1,7 @@
-var App = require('app');
-var Backbone = require('backbone');
+import App from 'app';
+import Backbone from 'backbone';
 require('backbone.select');
-var Radio = require('backbone.radio');
+import Radio from 'backbone.radio';
 var GC = Radio.channel('global');
 
 

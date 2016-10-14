@@ -1,11 +1,11 @@
-const Backbone = require('backbone');
-const Mn = require('backbone.marionette');
-const Settings = require('settings');
-const Radio = require('backbone.radio');
+import Backbone from 'backbone';
+import Mn from 'backbone.marionette';
+import Settings from 'settings';
+import Radio from 'backbone.radio';
 const GC = window.GC = Radio.channel('global');
 
 
-module.exports = Mn.Object.extend({
+export default Mn.Object.extend({
 
 	// Navigate History Stack
 	// -------------------------------------------------------------

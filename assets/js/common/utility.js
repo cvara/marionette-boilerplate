@@ -1,60 +1,60 @@
-var Utility = {};
+const Utility = {};
 
-Utility.splitCamelcase = function(text, delimiter) {
+Utility.splitCamelcase = (text, delimiter) => {
 	delimiter = typeof delimiter === 'string' ? delimiter : ' ';
 	return text.replace(/([a-z](?=[A-Z]))/g, '$1' + delimiter).toLowerCase();
 };
 
-Utility.capitalize = function(text) {
+Utility.capitalize = (text) => {
 	return text.replace(/(?:^|\s)\S/g, function(a) {
 		return a.toUpperCase();
 	});
 };
 
-Utility.arrayToCSV = function(array) {
+Utility.arrayToCSV = (array) => {
 	if (!(array instanceof Array) || array.length === 0) {
 		return '';
 	}
-	return array.reduce(function(previousValue, currentValue, index, array) {
+	return array.reduce((previousValue, currentValue, index, array) => {
 		return previousValue + ', ' + currentValue;
 	});
 };
 
 // Emulating negative lookbehind, prepend 'http://' to the urls that do not already contain it
-Utility.correctUrls = function(text) {
+Utility.correctUrls = (text) => {
 	var pattern = /(https?:\/\/)?(www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 	var regex = new RegExp(pattern);
-	var output = text.replace(regex, function($0, $1) {
+	var output = text.replace(regex, ($0, $1) => {
 		return $1 ? $0 : 'http://' + $0;
 	});
 	return output;
 };
 
 // Make urls inside given text clickable
-Utility.makeUrlsClickable = function(text) {
+Utility.makeUrlsClickable = (text) => {
 	var correctedText = Utility.correctUrls(text);
 	var pattern = /(https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+\s.~#?&//=]*))/g;
 	var regex = new RegExp(pattern);
 	return correctedText.replace(regex, '<a href=\'$1\' target=\'_blank\'>$1</a>');
 };
 
-Utility.capitaliseFirstLetter = function(string) {
+Utility.capitaliseFirstLetter = (string) => {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-Utility.toTitleCase = function(string) {
-	return string.replace(/\w\S*/g, function(txt) {
+Utility.toTitleCase = (string) => {
+	return string.replace(/\w\S*/g, (txt) => {
 		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
 	});
 };
 
-Utility.toCamelCase = function(string) {
-	return string.toLowerCase().replace(/[\s-](.)/g, function(match, group1) {
+Utility.toCamelCase = (string) => {
+	return string.toLowerCase().replace(/[\s-](.)/g, (match, group1) => {
 		return group1.toUpperCase();
 	});
 };
 
-Utility.getDistinctPropValuesFromBBCollection = function(collection, propName) {
+Utility.getDistinctPropValuesFromBBCollection = (collection, propName) => {
 	var array = collection.models;
 	var flags = [], output = [], l = array.length, i;
 	for( i=0; i<l; i++) {
@@ -67,7 +67,7 @@ Utility.getDistinctPropValuesFromBBCollection = function(collection, propName) {
 	return output;
 };
 
-Utility.cutString = function(str, maxLen, abrupt) {
+Utility.cutString = (str, maxLen, abrupt) => {
 	if (!maxLen) {
 		return str;
 	}
@@ -84,28 +84,28 @@ Utility.cutString = function(str, maxLen, abrupt) {
 	}
 };
 
-Utility.stripHtml = function(str) {
+Utility.stripHtml = (str) => {
 	return str.replace(/<(?:.|\n)*?>/gm, '');
 };
 
-Utility.stripTags = function(str, allowed) {
+Utility.stripTags = (str, allowed) => {
 	allowed = (((allowed || '') + '').toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
 	var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
 		commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
-	return str.replace(commentsAndPhpTags, '').replace(tags, function($0, $1) {
+	return str.replace(commentsAndPhpTags, '').replace(tags, ($0, $1) => {
 		return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
 	});
 };
 
-Utility.isUpperCase = function(str) {
+Utility.isUpperCase = (str) => {
 	return str === str.toUpperCase();
 };
 
-Utility.sanitizeSectionName = function(name) {
+Utility.sanitizeSectionName = (name) => {
 	return name.replace(/[\&\-\s\'\"]/gm, '');
 };
 
-Utility.findPropertyNameByRegex = function(o, r) {
+Utility.findPropertyNameByRegex = (o, r) => {
 	var key;
 	for (key in o) {
 		if (o.hasOwnProperty(key) && key.match(r)) {
@@ -115,7 +115,7 @@ Utility.findPropertyNameByRegex = function(o, r) {
 	return undefined;
 };
 
-Utility.deepMerge = function(target, source) {
+Utility.deepMerge = (target, source) => {
 	for (var key in source) {
 		var original = target[key];
 		var next = source[key];
@@ -128,7 +128,7 @@ Utility.deepMerge = function(target, source) {
 	return target;
 };
 
-Utility.removeAccents = function(text) {
+Utility.removeAccents = (text) => {
 	return typeof text !== 'string' ?
 		// handle cases that text is not a string
 		text :
@@ -157,13 +157,13 @@ Utility.removeAccents = function(text) {
 };
 
 // Encodes value (double utf-8)
-Utility.encode = function(value) {
+Utility.encode = (value) => {
 	return encodeURIComponent(encodeURIComponent(value));
 };
 
 // Decodes value (double utf-8)
-Utility.decode = function(value) {
+Utility.decode = (value) => {
 	return decodeURIComponent(decodeURIComponent(value));
 };
 
-module.exports = Utility;
+export default Utility;

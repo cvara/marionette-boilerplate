@@ -7,8 +7,8 @@
 // replies  : 'media:screen:size' (size <'xs'|'sm'|'md'|'lg'>)
 //            'media:orientation:size' (orientation <'L'|'P'>)
 
-var App = require('app');
-var Radio = require('backbone.radio');
+import App from 'app';
+import Radio from 'backbone.radio';
 var GC = Radio.channel('global');
 
 

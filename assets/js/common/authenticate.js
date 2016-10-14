@@ -1,5 +1,6 @@
-var App = require('app');
-var Settings = require('settings');
+import App from 'app';
+import Backbone from 'backbone';
+import Settings from 'settings';
 
 
 var Authenticate = {};

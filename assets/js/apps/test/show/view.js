@@ -1,12 +1,12 @@
-var Mn = require('backbone.marionette');
-var testTpl = require('./templates/test');
+import Mn from 'backbone.marionette';
+import testTpl from './templates/test';
 
 
-var View = {};
+const View = {};
 
 View.Test = Mn.View.extend({
 	className: 'test-container',
 	template: testTpl
 });
 
-module.exports = View;
+export default View;

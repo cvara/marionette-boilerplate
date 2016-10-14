@@ -1,31 +1,31 @@
-var App = require('app');
-var Backbone = require('backbone');
-var View = require('./view');
-var Authenticate = require('common/authenticate');
-var LoggedUser = require('entities/logged.user');
-var Radio = require('backbone.radio');
-var GC = Radio.channel('global');
+import App from 'app';
+import Backbone from 'backbone';
+import View from './view';
+import Authenticate from 'common/authenticate';
+import LoggedUser from 'entities/logged.user';
+import Radio from 'backbone.radio';
+const GC = Radio.channel('global');
 
 
-var Controller = {};
+const Controller = {};
 
-Controller.showHeader = function() {
+Controller.showHeader = () => {
 
-	var user;
+	let user;
 
-	var headerView = new View.Header();
+	const headerView = new View.Header();
 
-	headerView.on('show:home', function() {
+	headerView.on('show:home', () => {
 		App.Nav.showLanding(user);
 	});
 
-	headerView.on('logout:user', function() {
-		Authenticate.logout().done(function() {
+	headerView.on('logout:user', () => {
+		Authenticate.logout().done(() => {
 			GC.trigger('logout');
 		});
 	});
 
-	GC.request('loggedUser:entity').then(function(loggedUser) {
+	GC.request('loggedUser:entity').then(loggedUser => {
 		user = loggedUser;
 		headerView.model = user;
 		headerView.render();
@@ -35,4 +35,4 @@ Controller.showHeader = function() {
 
 };
 
-module.exports = Controller;
+export default Controller;

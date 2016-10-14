@@ -1,12 +1,12 @@
-var App = require('app');
-var Mn = require('backbone.marionette');
-var Radio = require('backbone.radio');
-var GC = Radio.channel('global');
+import App from 'app';
+import Mn from 'backbone.marionette';
+import Radio from 'backbone.radio';
+const GC = Radio.channel('global');
 
 
 // Router
 // ------------------
-var Router = Mn.AppRouter.extend({
+const Router = Mn.AppRouter.extend({
 	appRoutes: {
 		'splash': 'showSplash'
 	}
@@ -14,10 +14,10 @@ var Router = Mn.AppRouter.extend({
 
 // API
 // ------------------
-var API = {
-	showSplash: function() {
-		require.ensure(['./show/controller'], function(require) {
-			var ShowController = require('./show/controller');
+const API = {
+	showSplash: () => {
+		require.ensure([], () => {
+			const ShowController = require('./show/controller').default;
 			ShowController.showSplash();
 		});
 	}
@@ -25,7 +25,7 @@ var API = {
 
 // Event Listeners
 // ------------------
-GC.on('splash:show', function() {
+GC.on('splash:show', () => {
 	App.Nav.navigate('splash');
 	API.showSplash();
 });
@@ -36,5 +36,4 @@ new Router({
 	controller: API
 });
 
-
-module.exports = API;
+export default API;

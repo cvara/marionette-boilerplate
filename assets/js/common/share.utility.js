@@ -1,4 +1,4 @@
-var Settings = require('settings');
+import Settings from 'settings';
 
 // Async fetch script with jquery
 var fbUrl = '//connect.facebook.net/en_US/sdk.js';

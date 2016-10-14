@@ -1,5 +1,5 @@
-var App = require('app');
-var View = require('./view');
+import App from 'app';
+import View from './view';
 
 
 var Controller = {};

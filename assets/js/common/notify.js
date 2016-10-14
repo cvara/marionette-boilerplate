@@ -1,8 +1,8 @@
-var App = require('app');
-var Utility = require('common/utility');
+import App from 'app';
+import Utility from 'common/utility';
 
 // NOTE: Only `notify` module returns the PNotify object. The other modules just modify PNotify.prototype.
-var PNotify = require('pnotify');
+import PNotify from 'pnotify';
 require('pnotify.buttons');
 require('pnotify.nonblock');
 require('pnotify.callbacks');
@@ -11,7 +11,7 @@ require('pnotify.desktop');
 require('pnotify.mobile');
 require('pnotify.animations');
 
-var Radio = require('backbone.radio');
+import Radio from 'backbone.radio';
 var GC = Radio.channel('global');
 
 // Set styling to bootstrap 3

@@ -39,4 +39,4 @@ if ( document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://
 }
 
 
-module.exports = Settings;
+export default Settings;

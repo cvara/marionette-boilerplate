@@ -1,7 +1,7 @@
-var App = require('app');
-var View = require('./view');
-var Authenticate = require('common/authenticate');
-var Notify = require('common/notify');
+import App from 'app';
+import View from './view';
+import Authenticate from 'common/authenticate';
+import Notify from 'common/notify';
 
 
 var Controller = {};

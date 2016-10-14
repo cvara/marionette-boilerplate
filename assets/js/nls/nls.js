@@ -1,6 +1,6 @@
-var App = require('app');
-var Polyglot = require('node-polyglot');
-var Radio = require('backbone.radio');
+import App from 'app';
+import Polyglot from 'node-polyglot';
+import Radio from 'backbone.radio';
 var GC = Radio.channel('global');
 
 

@@ -1,12 +1,12 @@
-var Mn = require('backbone.marionette');
-var splashTpl = require('./templates/splash');
+const Mn = require('backbone.marionette');
+const splashTpl = require('./templates/splash');
 
 
-var View = {};
+const View = {};
 
 View.Splash = Mn.View.extend({
 	className: 'splash-container',
 	template: splashTpl
 });
 
-module.exports = View;
+export default View;

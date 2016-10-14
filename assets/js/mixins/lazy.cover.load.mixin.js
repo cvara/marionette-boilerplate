@@ -1,5 +1,5 @@
-var App = require('app');
-var Settings = require('settings');
+import App from 'app';
+import Settings from 'settings';
 require('jquery.isonscreen');
 require('jquery-ui.core');
 

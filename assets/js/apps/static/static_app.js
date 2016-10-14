@@ -1,12 +1,12 @@
-var App = require('app');
-var Mn = require('backbone.marionette');
-var Radio = require('backbone.radio');
-var GC = Radio.channel('global');
+import App from 'app';
+import Mn from 'backbone.marionette';
+import Radio from 'backbone.radio';
+const GC = Radio.channel('global');
 
 
 // Router
 // ------------------
-var Router = Mn.AppRouter.extend({
+const Router = Mn.AppRouter.extend({
 	appRoutes: {
 		'static/:view': 'showStaticView'
 	}
@@ -14,10 +14,10 @@ var Router = Mn.AppRouter.extend({
 
 // API
 // ------------------
-var API = {
-	showStaticView: function(view) {
-		require.ensure(['./show/controller'], function(require) {
-			var ShowController = require('./show/controller');
+const API = {
+	showStaticView: (view) => {
+		require.ensure([], () => {
+			const ShowController = require('./show/controller').default;
 			ShowController.showStaticView({
 				view: view
 			});
@@ -27,7 +27,7 @@ var API = {
 
 // Event Listeners
 // ------------------
-GC.on('static:view:show', function(view) {
+GC.on('static:view:show', view => {
 	App.Nav.navigate('static/' + view);
 	API.showStaticView(view);
 });
@@ -38,5 +38,4 @@ new Router({
 	controller: API
 });
 
-
-module.exports = API;
+export default API;

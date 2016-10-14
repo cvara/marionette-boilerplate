@@ -1,9 +1,9 @@
-var App = require('app');
-var Backbone = require('backbone');
+import App from 'app';
+import Backbone from 'backbone';
 var _globalTpl = require('mailer/templates/_global');
-var sampleEmailTpl = require('mailer/templates/sample.email');
-var Settings = require('settings');
-var Radio = require('backbone.radio');
+import sampleEmailTpl from 'mailer/templates/sample.email';
+import Settings from 'settings';
+import Radio from 'backbone.radio';
 var GC = Radio.channel('global');
 
 var rootUrl = Settings.RootURL;

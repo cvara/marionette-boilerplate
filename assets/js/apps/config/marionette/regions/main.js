@@ -1,4 +1,4 @@
-var Mn = require('backbone.marionette');
+import Mn from 'backbone.marionette';
 
 module.exports = Mn.Region.extend({
 

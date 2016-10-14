@@ -1,9 +1,9 @@
-var App = require('app');
-var Mn = require('backbone.marionette');
-var headerTpl = require('./templates/header');
+import App from 'app';
+import Mn from 'backbone.marionette';
+import headerTpl from './templates/header';
 
 
-var View = {};
+const View = {};
 
 View.Header = Mn.View.extend({
 	template: headerTpl,
@@ -53,13 +53,13 @@ View.Header = Mn.View.extend({
 	},
 
 	toggleRoleBoundElements: function() {
-		var role = this.model ? this.model.get('role') : 'guest';
-		var toShow = this.ui.roleBound.filter('[data-role*="' + role + '"]');
-		var toHide = this.ui.roleBound.not(toShow);
+		const role = this.model ? this.model.get('role') : 'guest';
+		const toShow = this.ui.roleBound.filter('[data-role*="' + role + '"]');
+		const toHide = this.ui.roleBound.not(toShow);
 		toShow.removeClass('hidden');
 		toHide.addClass('hidden');
 	}
 });
 
 
-module.exports = View;
+export default View;

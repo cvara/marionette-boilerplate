@@ -1,8 +1,8 @@
-var App = require('app');
-var Settings = require('settings');
+import App from 'app';
+import Settings from 'settings';
 
 
-var FileUploader = {};
+const FileUploader = {};
 
 // Upload URL
 FileUploader.uploadURL = Settings.RootURL + '/upload';
@@ -18,7 +18,7 @@ FileUploader.uploadURL = Settings.RootURL + '/upload';
 // the final URLs of the files uploaded (provided by
 // the server as a response to each successful upload)
 //
-FileUploader.uploadFiles = function(fileArray) {
+FileUploader.uploadFiles = (fileArray) => {
 	var deferred = $.Deferred();
 	var fileSum = fileArray.length;
 	var successCount = 0;
@@ -39,14 +39,14 @@ FileUploader.uploadFiles = function(fileArray) {
 			contentType: false,
 			processData: false
 		});
-		uploading.done(function(response) {
+		uploading.done(response => {
 			filePaths.push(response.filename);
 			successCount++;
 		});
-		uploading.fail(function() {
+		uploading.fail(() => {
 			errorCount++;
 		});
-		uploading.always(function() {
+		uploading.always(() => {
 			if (successCount + errorCount === fileSum) {
 				deferred.resolve(filePaths);
 			}
@@ -58,4 +58,4 @@ FileUploader.uploadFiles = function(fileArray) {
 	return deferred.promise();
 };
 
-module.exports = FileUploader;
+export default FileUploader;
