@@ -1,9 +1,9 @@
 import Mn from 'backbone.marionette';
 import Env from 'common/environment';
-require('bootstrap');
+import 'bootstrap';
 
 
-module.exports = Mn.Region.extend({
+export default Mn.Region.extend({
 
 	counter: 0,
 	modalIdPrefix: 'modal-',
@@ -16,18 +16,18 @@ module.exports = Mn.Region.extend({
 	},
 
 	_addModalMarkup: function(view) {
-		var self = this;
-		var el = view.$el;
-		var modalTitle = view.getOption('modalTitle') || '';
-		var modalClass = view.getOption('modalClass') || 'modal-lg';
-		var emptyHeader = modalTitle.length === 0;
+		const self = this;
+		const el = view.$el;
+		const modalTitle = view.getOption('modalTitle') || '';
+		const modalClass = view.getOption('modalClass') || 'modal-lg';
+		const emptyHeader = modalTitle.length === 0;
 
 		el.addClass('modal-body')
 			.wrap('<div id="' + this.modalId + '" class="modal ' + (Env.isMobile.any() ? '' : 'fade') + '" tabindex="-1" role="dialog"></div>')
 			.wrap('<div class="modal-dialog ' + modalClass + '"></div>')
 			.wrap('<div class="modal-content"></div>');
 
-		var modalHeader = [];
+		const modalHeader = [];
 		modalHeader.push(
 			'<div class="modal-header">',
 			'<button type="button" class="close" data-dismiss="modal">',
@@ -36,7 +36,7 @@ module.exports = Mn.Region.extend({
 			'<h4 class="modal-title" id="modal-label">', modalTitle, '</h4>',
 			'</div>'
 		);
-		var headerEl = $(modalHeader.join(''));
+		const headerEl = $(modalHeader.join(''));
 		if (emptyHeader) {
 			headerEl.addClass('empty');
 		}
@@ -44,15 +44,14 @@ module.exports = Mn.Region.extend({
 	},
 
 	_initModal: function(view) {
-		var self = this;
 		$('#' + this.modalId)
 			.modal()
-			.on('shown.bs.modal', function() {
+			.on('shown.bs.modal', () => {
 				$('body').addClass('modal-open');
 			})
-			.on('hidden.bs.modal', function() {
+			.on('hidden.bs.modal', () => {
 				// Purge listeners on view 'close' events
-				self.stopListening(view);
+				this.stopListening(view);
 				// properly destroy view inside modal
 				view.destroy();
 				// don't empty remaining bootstrap markup to allow
@@ -60,7 +59,7 @@ module.exports = Mn.Region.extend({
 				// NOTE: the 2 modals still won't overlap
 				// self.$el.empty();
 			});
-		self.listenTo(view, 'cancel', function() {
+		this.listenTo(view, 'cancel', () => {
 			this.closeModal();
 		});
 	},
@@ -78,7 +77,7 @@ module.exports = Mn.Region.extend({
 	// This method is used when other modules wish
 	// to close the dialog they have opened
 	closeModal: function() {
-		if (!!this.currentView) {
+		if (this.hasView()) {
 			$('#' + this.modalId).modal('hide');
 		}
 	}

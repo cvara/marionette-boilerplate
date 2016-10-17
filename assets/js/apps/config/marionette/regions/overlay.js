@@ -2,12 +2,11 @@ import Mn from 'backbone.marionette';
 import Env from 'common/environment';
 
 
-module.exports = Mn.Region.extend({
+export default Mn.Region.extend({
 
 	isOpen: false,
 
 	_addOverlayMarkup: function(view) {
-		var self = this;
 		var el = view.$el;
 		var overlayTitle = view.getOption('overlayTitle') || '';
 		var disableHeader = Boolean(view.getOption('overlayDisableHeader'));
@@ -20,7 +19,7 @@ module.exports = Mn.Region.extend({
 
 		if (!disableHeader) {
 			// Create & attach header html
-			var overlayHeader = [];
+			const overlayHeader = [];
 			overlayHeader.push('<div class="overlay-header">',
 				'<button type="button" class="close" data-dismiss="overlay">',
 				'<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>',
@@ -36,11 +35,11 @@ module.exports = Mn.Region.extend({
 		$('#main-region').addClass('shadowed');
 		this.$el.addClass('open');
 		if (Env.enableTransitions) {
-			this.$el.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function() {
+			this.$el.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', () => {
 				view.triggerMethod('overlay:open');
 				this.triggerMethod('overlay:open');
 				this.$el.off();
-			}.bind(this));
+			});
 		} else {
 			view.triggerMethod('overlay:open');
 			this.triggerMethod('overlay:open');
@@ -49,19 +48,19 @@ module.exports = Mn.Region.extend({
 	},
 
 	_gracefullyHide: function(maintainState) {
-		var view = this.currentView;
+		const view = this.currentView;
 		if (view.getOption('stateful') && !maintainState) {
 			this.trigger('history:back');
 		}
 		this.$el.removeClass('open');
 		if (Env.enableTransitions) {
-			this.$el.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function() {
+			this.$el.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', () => {
 				console.info('transition end');
 				this.empty();
 				this.$el.empty();
 				this.$el.off();
 				this.triggerMethod('overlay:close');
-			}.bind(this));
+			});
 		} else {
 			console.info('transition end');
 			this.empty();
@@ -77,13 +76,13 @@ module.exports = Mn.Region.extend({
 	initOverlay: function(view) {
 		this._addOverlayMarkup(view);
 		// When overlay 'close' button is clicked
-		this.$el.find('.close').click(function() {
+		this.$el.find('.close').click(() => {
 			this._gracefullyHide();
-		}.bind(this));
+		});
 		// When the view shown in the overlay triggers a close event
-		view.on('close', function() {
+		view.on('close', () => {
 			this._gracefullyHide();
-		}.bind(this));
+		});
 	},
 
 	onShow: function(view) {
@@ -106,7 +105,7 @@ module.exports = Mn.Region.extend({
 	// This method is used when other modules wish
 	// to close the dialog they have opened
 	closeOverlay: function(maintainState) {
-		if (!!this.currentView) {
+		if (this.hasView()) {
 			this._gracefullyHide(maintainState);
 		}
 	},

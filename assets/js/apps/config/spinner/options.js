@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	main: {
 		lines: 10, // The number of lines to draw
 		length: 18, // The length of each line

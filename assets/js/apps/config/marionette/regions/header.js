@@ -1,6 +1,6 @@
 import Mn from 'backbone.marionette';
 
-module.exports = Mn.Region.extend({
+export default Mn.Region.extend({
 
 	pageWrap: $('#page-wrap'),
 

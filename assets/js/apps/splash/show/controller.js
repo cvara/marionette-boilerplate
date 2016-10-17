@@ -6,7 +6,7 @@ const Controller = {};
 
 Controller.showSplash = () => {
 	const splashView = new View.Splash();
-	App.rootView.showChildView('main', splashView);
+	App.rootView.showChildView('overlay', splashView);
 };
 
 export default Controller;
