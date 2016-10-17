@@ -1,11 +1,7 @@
 import Mn from 'backbone.marionette';
 import Backbone from 'backbone';
+import RootView from 'root.view';
 import Navigator from 'navigator';
-import HeaderRegion from 'apps/config/marionette/regions/header';
-import MainRegion from 'apps/config/marionette/regions/main';
-import DialogRegion from 'apps/config/marionette/regions/dialog';
-import LoadingRegion from 'apps/config/marionette/regions/loading';
-import OverlayRegion from 'apps/config/marionette/regions/overlay';
 import ValidatorConfig from 'apps/config/validator/validator';
 import Settings from 'settings';
 import Radio from 'backbone.radio';
@@ -19,56 +15,18 @@ const GC = window.GC = Radio.channel('global');
 const App = window.App = new Mn.Application();
 
 
-
-// Our custom region classes
-// -------------------------------------------------------------
-const headerRegion = HeaderRegion.extend({
-	el: '#header-section'
-});
-const mainRegion = MainRegion.extend({
-	el: '#main-region'
-});
-const dialogRegion = DialogRegion.extend({
-	el: '#dialog-region'
-});
-const loadingRegion = LoadingRegion.extend({
-	el: '#loading-region'
-});
-const overlayRegion = OverlayRegion.extend({
-	el: '#overlay-region'
-});
-
-
-// The root LayoutView of our app within the context of 'body'
-// -------------------------------------------------------------
-// Our custom region classes are attached to this LayoutView
-// instead of our app object.
-const RootView = Mn.View.extend({
-	el: 'body',
-
-	regions: {
-		header  : headerRegion,
-		main    : mainRegion,
-		dialog  : dialogRegion,
-		loading : loadingRegion,
-		overlay : overlayRegion
-	}
-});
-
-
 // Attach the rootView to the App object for easier access
 // -------------------------------------------------------------
 App.rootView = new RootView();
+
+// Create Navigator & attach it to App for accessibility
+// -------------------------------------------------------------
+App.Navigator = App.Nav = new Navigator();
 
 
 // Login Indicator
 // -------------------------------------------------------------
 App.isLoggedIn = false;
-
-
-// Create Navigator & attach it to App for accessibility
-// -------------------------------------------------------------
-App.Navigator = App.Nav = new Navigator();
 
 
 // URL Requested By Guest
