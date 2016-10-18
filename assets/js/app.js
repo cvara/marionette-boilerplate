@@ -1,6 +1,6 @@
 import Mn from 'backbone.marionette';
 import Backbone from 'backbone';
-import RootView from 'root.view';
+import RootViewSetup from 'apps/config/marionette/root.view/setup';
 import Navigator from 'navigator';
 import ValidatorConfig from 'apps/config/validator/validator';
 import Settings from 'settings';
@@ -17,7 +17,7 @@ const App = window.App = new Mn.Application();
 
 // Attach the rootView to the App object for easier access
 // -------------------------------------------------------------
-App.rootView = new RootView();
+App.rootView = RootViewSetup('#app');
 
 // Create Navigator & attach it to App for accessibility
 // -------------------------------------------------------------
@@ -83,7 +83,7 @@ GC.on('login', (user, refresh) => {
 	console.info('User logged in. Role: ', user.get('role'));
 	// mark user as logged in
 	App.isLoggedIn = true;
-	if (!!refresh) {
+	if (refresh) {
 		GC.trigger('refresh:mainRegion');
 	}
 });
