@@ -17,7 +17,6 @@ var connect = require('gulp-connect');
 var preprocess = require('gulp-preprocess');
 var less = require('gulp-less');
 var inlinesource = require('gulp-inline-source');
-var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
 var imagemin = require('gulp-imagemin');
 var rename = require('gulp-rename');

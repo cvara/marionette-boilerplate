@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "eslint:recommended"
+  ],
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true,
+    "es6": true,
+    "jquery": true,
+    "commonjs": true
+  },
+  "plugins": [
+
+  ],
+  "rules": {
+    "quotes": [2, "single"],
+    "no-console": 0,
+    "no-unused-vars": 0,
+    "semi": 1,
+    "no-mixed-spaces-and-tabs": 1
+  }
+}
