@@ -2,3 +2,4 @@ plato_reports
 node_modules
 .babel-cache
 mocha
+dist
