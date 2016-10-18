@@ -3,7 +3,7 @@ import RootViewSetup from 'apps/config/marionette/root.view/setup';
 import Mn from 'backbone.marionette';
 
 describe('root.view', function() {
-	beforeEach(function() {
+	before(function() {
 		this.view = RootViewSetup('#app');
 	});
 
