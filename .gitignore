@@ -3,3 +3,4 @@ node_modules
 .babel-cache
 mocha
 dist
+coverage
