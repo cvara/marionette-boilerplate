@@ -2,7 +2,7 @@ import App from 'app';
 import Backbone from 'backbone';
 import View from './view';
 import Authenticate from 'common/authenticate';
-import LoggedUser from 'entities/logged.user';
+import LoggedUser from 'data/logged.user';
 import Radio from 'backbone.radio';
 const GC = Radio.channel('global');
 

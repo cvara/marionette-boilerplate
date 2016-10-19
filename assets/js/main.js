@@ -8,7 +8,7 @@ import StaticApp from 'apps/static/static_app';
 import LoaderApp from 'apps/loader/loader_app';
 import Notify from 'common/notify';
 import Media from 'common/media';
-import User from 'entities/user';
+import User from 'data/user';
 import AjaxUtility from 'common/ajax.utility';
 import Environment from 'common/environment';
 import Settings from 'settings';

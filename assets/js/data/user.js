@@ -1,5 +1,5 @@
 import Backbone from 'backbone';
-import UserValidator from 'entities/validators/user';
+import UserValidator from 'data/validators/user';
 import BackboneValidation from 'backbone.validation';
 import Settings from 'settings';
 import fetchCache from 'backbone-fetch-cache';
