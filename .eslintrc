@@ -11,6 +11,9 @@
     "jquery": true,
     "commonjs": true
   },
+  "globals": {
+    "_": false
+  },
   "plugins": [
 
   ],
