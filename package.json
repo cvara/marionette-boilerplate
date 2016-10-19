@@ -2,7 +2,7 @@
   "name": "marionette-boilerplate",
   "version": "0.1.0",
   "author": "Christopher Varakliotis <c.varakliotis@noodio.fm>",
-  "description": "A sample Marionette boilerplate project",
+  "description": "A starting point for new Marionette based apps",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack",

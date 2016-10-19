@@ -11,11 +11,15 @@ exports.indexTemplate = function(options) {
 				template: require('html-webpack-template'),
 				title: options.title,
 				appMountId: options.appMountId,
-				inject: false
+				inject: false,
+				meta : {
+					description: options.description,
+					viewport: 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no',
+					robots: 'INDEX, FOLLOW'
+				},
 			})]
 	};
 };
-
 
 exports.devServer = function(options) {
 	const ret = {
@@ -30,8 +34,10 @@ exports.devServer = function(options) {
 			hot: true,
 			inline: true,
 
-			// Display only errors to reduce the amount of output.
-			stats: 'errors-only',
+			stats: {
+				chunks: false, // Makes the build much quieter
+				colors: true
+			},
 
 			// Parse host and port from env to allow customization.
 			//
@@ -45,7 +51,8 @@ exports.devServer = function(options) {
 		},
 		plugins: [// Enable multi-pass compilation for enhanced performance
 			// in larger projects. Good default.
-			new webpack.HotModuleReplacementPlugin({multiStep: true})]
+			new webpack.HotModuleReplacementPlugin({multiStep: true})
+		]
 	};
 
 	if (options.poll) {
@@ -112,13 +119,34 @@ exports.setupCSS = function(paths) {
 	};
 };
 
+exports.extractCSS = function(paths) {
+	return {
+		module: {
+			loaders: [// Extract CSS during build
+				{
+					test: /\.less/,
+					loader: ExtractTextPlugin.extract(
+						'css?sourceMap!less?sourceMap'
+					),
+					include: paths
+				}
+			]
+		},
+		plugins: [// Output extracted CSS to a file
+			new ExtractTextPlugin('[name].[chunkhash].css')
+		]
+	};
+};
+
 exports.minify = function() {
 	return {
-		plugins: [new webpack.optimize.UglifyJsPlugin({
+		plugins: [
+			new webpack.optimize.UglifyJsPlugin({
 				compress: {
 					warnings: false
 				}
-			})]
+			})
+		]
 	};
 };
 
@@ -157,20 +185,17 @@ exports.clean = function(path) {
 	};
 };
 
-exports.extractCSS = function(paths) {
+exports.loadIsparta = function(include) {
 	return {
 		module: {
-			loaders: [// Extract CSS during build
+			preLoaders: [
 				{
-					test: /\.less/,
-					loader: ExtractTextPlugin.extract({ loader: ['css', 'less'], fallbackLoader: 'style-loader' }),
-					// include: paths
+					test: /\.(js|jsx)$/,
+					loaders: ['isparta-instrumenter'],
+					include: include
 				}
 			]
-		},
-		plugins: [// Output extracted CSS to a file
-			new ExtractTextPlugin('[name].[chunkhash].css')
-		]
+		}
 	};
 };
 

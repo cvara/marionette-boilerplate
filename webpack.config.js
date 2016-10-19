@@ -8,6 +8,7 @@ const parts = require('./webpack.parts');
 const TARGET = process.env.npm_lifecycle_event;
 const ENABLE_POLLING = process.env.ENABLE_POLLING;
 const PATHS = {
+	root: path.join(__dirname, '/assets/js'),
 	app: path.join(__dirname, '/assets/js', 'main.js'),
 	style: path.join(__dirname, '/assets/css', 'style.less'),
 	build: path.join(__dirname, 'dist'),
@@ -15,8 +16,6 @@ const PATHS = {
 };
 process.env.BABEL_ENV = TARGET;
 
-
-console.log(PATHS.style);
 
 const common = merge(
 	{
@@ -65,9 +64,7 @@ const common = merge(
 		},
 
 		resolve: {
-			root: [
-				path.join(__dirname, '/assets/js')
-			],
+			root: [ PATHS.root ],
 			extensions: ['', '.js', '.tpl'],
 			alias: {
 				// npm backbone.syphon depends on an older backbone version which results in 2
@@ -99,6 +96,7 @@ const common = merge(
 	},
 	parts.indexTemplate({
 		title: 'Marionette Boilerplate',
+		description: 'A starting point for new Marionette based apps',
 		appMountId: 'app'
 	}),
 	parts.loadJS(),
@@ -109,6 +107,7 @@ let config;
 
 // Detect how npm is run and branch based on that
 switch (TARGET) {
+
 	case 'build':
 	case 'stats':
 		config = merge(common,
@@ -122,20 +121,22 @@ switch (TARGET) {
 			},
 			parts.clean(PATHS.build),
 			parts.setFreeVariable('process.env.NODE_ENV', 'production'),
-			// parts.extractBundle({
-			// 	name: 'vendor',
-			// 	entries: ['react', 'react-dom']
-			// }),
-			parts.minify(),
+			// parts.minify(),
 			parts.extractCSS(PATHS.style)
 		);
 		break;
+
 	case 'test':
 	case 'test:tdd':
-		config = merge(common, {
-			devtool: 'inline-source-map'
-		}, parts.loadIsparta(PATHS.app), parts.loadJSX(PATHS.test));
+		config = merge(common,
+			{
+				devtool: 'inline-source-map'
+			},
+			parts.loadIsparta(PATHS.app),
+			parts.loadJSX(PATHS.test)
+		);
 		break;
+
 	default:
 		config = merge(common,
 			{
