@@ -5,17 +5,24 @@ A starting point for new Marionette v3 based projects.
 
 ### Getting started
 
-1. Install nodejs (recommended @6.x)
+1. Install node
 
-2. install Gulp globally: `npm install --global gulp`
-
-3. Clone repo, `cd` to cloned repo and `npm install`
+2. Clone repo, `cd` to cloned dir and `npm install`
 
 
 ### Running & building the project
 
-* `gulp sandbox`: Runs development server, without live reload
+* `npm start`  
+   Runs `webpack-dev-server` with hot module replacement for dev
 
-* `gulp run`: The default task, builds runs the project in dev mode (**uncompressed** webpack chunks & **livereload**)
+* `npm run build`  
+   Builds for production
 
-* `gulp runProd`: Builds project for production (**compressed** webpack chunks)
+* `npm run test`  
+   Tests with karma spec runner
+
+* `npm run test:tdd`  
+   Tests with karma, with `auto-watch` on and `single-run` disabled
+
+* `npm run test:lint`  
+   Lints with eslint
