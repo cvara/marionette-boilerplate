@@ -3,14 +3,7 @@
 A starting point for new Marionette v3 based projects.
 
 
-### Getting started
-
-1. Install node
-
-2. Clone repo, `cd` to cloned dir and `npm install`
-
-
-### Running & building the project
+### Running, building and testing the project
 
 * `npm start`  
    Runs `webpack-dev-server` with hot module replacement for dev
