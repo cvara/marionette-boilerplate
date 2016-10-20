@@ -8,7 +8,7 @@ const parts = require('./webpack.parts');
 const TARGET = process.env.npm_lifecycle_event;
 const ENABLE_POLLING = process.env.ENABLE_POLLING;
 const PATHS = {
-	root: path.join(__dirname, '/assets/js'),
+	scripts: path.join(__dirname, '/assets/js'),
 	app: path.join(__dirname, '/assets/js', 'main.js'),
 	style: path.join(__dirname, '/assets/css', 'style.less'),
 	build: path.join(__dirname, 'dist'),
@@ -28,43 +28,18 @@ const common = merge(
 			path: PATHS.build,
 			filename: '[name].js'
 			// TODO: Set publicPath to match your GitHub project name
-			// E.g., '/kanban-demo/'. Webpack will alter asset paths
+			// E.g., '/marionette-boilerplate/'. Webpack will alter asset paths
 			// based on this. You can even use an absolute path here
 			// or even point to a CDN.
 			//publicPath: ''
 		},
-
-		plugins: [
-			new webpack.ProvidePlugin({
-				// So that we may use the following vars without explicitly requiring the modules
-				// NOTE: webpack internally will resolve these vars by requiring the modules
-				_: 'underscore',
-				$: 'jquery',
-				jQuery: 'jquery',
-				'window.jQuery': 'jquery',
-				'pnotify': 'PNotify'
-			}),
-			// Limit the number of generated chunks
-			new webpack.optimize.LimitChunkCountPlugin({
-				maxChunks: 1 // no limit
-			}),
-			// Force min chunk size (to merge entry chunk with other chunks)
-			new webpack.optimize.MinChunkSizePlugin({
-				minChunkSize: 20 * 1024 // 20 KB
-			}),
-			// Replace all locale modules required by webpack, except el & en-gb
-			// NOTE: to remove/add locales edit this line accordingly
-			// NOTE: this depends on moment placing its locales in  the ./locale folder,
-			// relative to the main file
-			new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(el|en-gb)$/)
-		],
 
 		externals: {
 			fb: 'var FB'
 		},
 
 		resolve: {
-			root: [ PATHS.root ],
+			root: [ PATHS.scripts ],
 			extensions: ['', '.js', '.tpl'],
 			alias: {
 				// npm backbone.syphon depends on an older backbone version which results in 2
@@ -89,7 +64,7 @@ const common = merge(
 				'pnotify.desktop': 'vendor/pnotify.desktop',
 				'pnotify.mobile': 'vendor/pnotify.mobile',
 				'pnotify.callbacks': 'vendor/pnotify.callbacks',
-				'pnotify.confirm': 'vendor/pnotify.confirm'	,
+				'pnotify.confirm': 'vendor/pnotify.confirm',
 				'pnotify.animations': 'vendor/pnotify.animations'
 			}
 		}
@@ -99,7 +74,19 @@ const common = merge(
 		description: 'A starting point for new Marionette based apps',
 		appMountId: 'app'
 	}),
-	parts.loadJS(),
+	parts.provide({
+		_: 'underscore',
+		$: 'jquery',
+		jQuery: 'jquery',
+		'window.jQuery': 'jquery',
+		'pnotify': 'PNotify'
+	}),
+	parts.setupChunks({
+		minChunkSize: 20 * 1024,
+		maxChunks: 1
+	}),
+	parts.keepMomentLocales(['el', 'en-gb']),
+	parts.loadJS(PATHS.scripts),
 	parts.loadTpl()
 );
 
@@ -112,6 +99,11 @@ switch (TARGET) {
 	case 'stats':
 		config = merge(common,
 			{
+				// Single entry point to output a single bundle
+				entry: [
+					PATHS.app,
+					PATHS.style
+				],
 				devtool: 'source-map',
 				output: {
 					path: PATHS.build,
@@ -121,7 +113,7 @@ switch (TARGET) {
 			},
 			parts.clean(PATHS.build),
 			parts.setFreeVariable('process.env.NODE_ENV', 'production'),
-			// parts.minify(),
+			parts.minify(),
 			parts.extractCSS(PATHS.style)
 		);
 		break;
@@ -133,7 +125,7 @@ switch (TARGET) {
 				devtool: 'inline-source-map'
 			},
 			parts.loadIsparta(PATHS.app),
-			parts.loadJSX(PATHS.test)
+			parts.loadJS(PATHS.test)
 		);
 		break;
 

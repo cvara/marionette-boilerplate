@@ -4,6 +4,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const NpmInstallPlugin = require('npm-install-webpack-plugin');
 
+
+// Auto generates html that will include output bundles
 exports.indexTemplate = function(options) {
 	return {
 		plugins: [
@@ -21,6 +23,7 @@ exports.indexTemplate = function(options) {
 	};
 };
 
+// DevServer setup
 exports.devServer = function(options) {
 	const ret = {
 		devServer: {
@@ -67,6 +70,50 @@ exports.devServer = function(options) {
 	return ret;
 };
 
+// Provides common module exports as variables
+exports.provide = function(paramsObj) {
+	return {
+		plugins: [
+			// So that we may use the following vars without explicitly requiring the modules
+			// NOTE: webpack internally will resolve these vars by requiring the modules
+			new webpack.ProvidePlugin(paramsObj)
+		]
+	};
+};
+
+// Output chunk related settings
+exports.setupChunks = function(options) {
+	return {
+		plugins: [
+			// Limit the number of generated chunks
+			new webpack.optimize.LimitChunkCountPlugin({
+				maxChunks: options.maxChunks
+			}),
+			// Force min chunk size (to merge entry chunk with other chunks)
+			new webpack.optimize.MinChunkSizePlugin({
+				minChunkSize: options.minChunkSize
+			})
+		],
+	};
+};
+
+// Keeps only specified moment locales in bundle (greatly reduces bundle size)
+exports.keepMomentLocales = function(locales) {
+	if (!locales || !locales.length) {
+		return {};
+	}
+	var keepRegex = new RegExp('^\.\/(' + locales.join('|') + ')$');
+	return {
+		plugins: [
+			// Replace all locale modules required by webpack the ones found in `locales` arg
+			// NOTE: this depends on moment placing its locales in  the ./locale folder,
+			// relative to the main file
+			new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, keepRegex)
+		],
+	};
+};
+
+// Tpl (underscore template) loaders
 exports.loadTpl = function(paths) {
 	return {
 		module: {
@@ -80,13 +127,15 @@ exports.loadTpl = function(paths) {
 	};
 };
 
-exports.loadJS = function() {
+// JS loaders
+exports.loadJS = function(include) {
 	return {
 		module: {
 			loaders: [
 				{
 					test: /\.js$/,
 					exclude: /(node_modules|bower_components|vendor)/,
+					include: include,
 					loader: 'babel', // 'babel-loader' is also a legal name to reference
 					query: {
 						presets: ['es2015'],
@@ -98,31 +147,24 @@ exports.loadJS = function() {
 	};
 };
 
+// LESS & image loaders
 exports.setupCSS = function(paths) {
 	return {
 		module: {
 			loaders: [
-				{
-					test: /\.less$/,
-					loaders: ['style', 'css', 'less']
-				}
-				// ,
-				// {
-				// 	test: /\.png$/,
-				// 	loader: 'url-loader?limit=100000'
-				// }, {
-				// 	test: /\.jpg$/,
-				// 	loader: 'file-loader'
-				// }
+				{ test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
+				// inline base64 URLs for <=8k images, direct URLs for the rest
+				{ test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' }
 			]
 		}
 	};
 };
 
+// Extracts CSS during build as standalone CSS file
 exports.extractCSS = function(paths) {
 	return {
 		module: {
-			loaders: [// Extract CSS during build
+			loaders: [
 				{
 					test: /\.less/,
 					loader: ExtractTextPlugin.extract(
@@ -138,6 +180,7 @@ exports.extractCSS = function(paths) {
 	};
 };
 
+// Minifies output
 exports.minify = function() {
 	return {
 		plugins: [
@@ -150,6 +193,7 @@ exports.minify = function() {
 	};
 };
 
+// Free variable
 exports.setFreeVariable = function(key, value) {
 	const env = {};
 	env[key] = JSON.stringify(value);
@@ -159,6 +203,7 @@ exports.setFreeVariable = function(key, value) {
 	};
 };
 
+// Extracts bundle from output
 exports.extractBundle = function(options) {
 	const entry = {};
 	entry[options.name] = options.entries;
@@ -179,12 +224,14 @@ exports.extractBundle = function(options) {
 	};
 };
 
+// Cleans dir
 exports.clean = function(path) {
 	return {
 		plugins: [new CleanWebpackPlugin([path], {root: process.cwd()})]
 	};
 };
 
+// Isparta loader for coverage
 exports.loadIsparta = function(include) {
 	return {
 		module: {
@@ -199,6 +246,7 @@ exports.loadIsparta = function(include) {
 	};
 };
 
+// Auto installs missing required dependencies
 exports.npmInstall = function(options) {
 	options = options || {};
 
