@@ -5,7 +5,7 @@ import loaderMainTpl from './templates/loader.main';
 import Spinner from 'spin.js';
 
 
-var View = {};
+const View = {};
 
 
 View.Loader = Mn.View.extend({
@@ -28,4 +28,4 @@ View.Loader = Mn.View.extend({
 	}
 });
 
-module.exports = View;
+export default View;

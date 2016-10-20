@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 
 	'helloWorld': 'Hello World'
 

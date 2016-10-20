@@ -1,19 +1,17 @@
 import App from 'app';
 import Backbone from 'backbone';
-require('backbone.select');
+import 'backbone.select';
 import Radio from 'backbone.radio';
-var GC = Radio.channel('global');
+const GC = Radio.channel('global');
 
 
-var SidebarItem = Backbone.Model.extend({});
-
-_.extend(SidebarItem.prototype, {
+const SidebarItem = Backbone.Model.extend({
 	initialize: function(attrs, options) {
 		Backbone.Select.Me.applyTo( this );
 	}
 });
 
-var SidebarCollection = Backbone.Collection.extend({
+const SidebarCollection = Backbone.Collection.extend({
 	model: SidebarItem,
 
 	initialize: function(models, options) {
@@ -22,9 +20,9 @@ var SidebarCollection = Backbone.Collection.extend({
 });
 
 // Sidebar elements per user type
-var getSidebarItems = {
-	admin: function() {
-		var adminSidebarItems = new SidebarCollection([{
+const getSidebarItems = {
+	admin: () => {
+		return new SidebarCollection([{
 			name: 'Sidebar El 1',
 			iconClass: 'glyphicon glyphicon-stats',
 			navigation: {
@@ -45,8 +43,8 @@ var getSidebarItems = {
 		}]);
 	},
 
-	user: function () {
-		var userSidebarItems = new SidebarCollection([{
+	user: () => {
+		return new SidebarCollection([{
 			name: 'Sidebar El 1',
 			iconClass: 'glyphicon glyphicon-stats',
 			navigation: {
@@ -69,11 +67,11 @@ var getSidebarItems = {
 
 };
 
-var API = {
-	getAdminSidebarElements: function() {
+const API = {
+	getAdminSidebarElements: () => {
 		return getSidebarItems.admin();
 	},
-	getUserSidebarElements: function() {
+	getUserSidebarElements: () => {
 		return getSidebarItems.user();
 	}
 };
@@ -87,4 +85,4 @@ GC.reply('sidebar:entities', function(role) {
 	}
 });
 
-module.exports = SidebarCollection;
+export default SidebarCollection;

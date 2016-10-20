@@ -1,13 +1,13 @@
 import App from 'app';
 import Polyglot from 'node-polyglot';
 import Radio from 'backbone.radio';
-var GC = Radio.channel('global');
+const GC = Radio.channel('global');
 
 
 // All supported locales. First is default.
 // ==========================================
 //
-var Locales = [
+const Locales = [
 	{
 		full    : 'el',
 		legible : 'Ελληνικά',
@@ -24,16 +24,16 @@ var Locales = [
 // Currently guessed / set locale
 // ==========================================
 //
-var guessedLocale = null;
+let guessedLocale = null;
 
 
 // Default locale
 // ==========================================
 // Using in failed guess/set locale attempts
-var DEFAULT_LOCALE = Locales[0].full;
+const DEFAULT_LOCALE = Locales[0].full;
 
 
-var API = {
+const API = {
 
 	// Returns guessed locale in all formats
 	// ==========================================
@@ -44,8 +44,8 @@ var API = {
 	// 	 prefix: 'en'
 	// }
 	getGuessedLocale: function() {
-		var supportedLocales = API.getSupportedLocales();
-		var index = _.indexOf(supportedLocales.full, guessedLocale);
+		const supportedLocales = API.getSupportedLocales();
+		const index = supportedLocales.full.indexOf(guessedLocale);
 		return {
 			full: supportedLocales.full[index],
 			legible: supportedLocales.legible[index],
@@ -57,16 +57,11 @@ var API = {
 	// ==========================================
 	//
 	getSupportedLocales: function() {
-		var supportedLocales = [];
-		supportedLocales.full = _.map(Locales, function(locale) {
-			return locale.full;
-		});
-		supportedLocales.legible = _.map(Locales, function(locale) {
-			return locale.legible;
-		});
-		supportedLocales.prefix = _.map(supportedLocales.full, function(locale) {
-			return locale.split('-')[0];
-		});
+		const supportedLocales = {};
+
+		supportedLocales.full = Locales.map(locale => locale.full);
+		supportedLocales.legible = Locales.map(locale => locale.legible);
+		supportedLocales.prefix = supportedLocales.full.map(locale => locale.split('-')[0]);
 
 		return supportedLocales;
 	},
@@ -76,22 +71,22 @@ var API = {
 	//
 	guessLocale: function() {
 		// Get supported locales
-		var supportedLocales = API.getSupportedLocales();
+		const supportedLocales = API.getSupportedLocales();
 
 		// Try to guess desired locale, falling back to default
-		var locale = typeof navigator === 'undefined' && typeof localStorage === 'undefined' ?
+		const locale = typeof navigator === 'undefined' && typeof localStorage === 'undefined' ?
 			DEFAULT_LOCALE :
 			(localStorage.getItem('locale') ||
 				navigator.language ||
 				navigator.userLanguage || DEFAULT_LOCALE).toLowerCase();
 
 		// If full locale was a match
-		if (_.indexOf(supportedLocales.full, locale) !== -1) {
+		if (supportedLocales.full.indexOf(locale) !== -1) {
 			return locale;
 		}
 
 		// If locale prefix was a match
-		var index = _.indexOf(supportedLocales.prefix, locale.split('-')[0]);
+		const index = supportedLocales.prefix.indexOf(locale.split('-')[0]);
 		if (index !== -1) {
 			return supportedLocales.full[index];
 		}
@@ -105,7 +100,7 @@ var API = {
 	//
 	initPolyglot: function(locale) {
 		// Init polyglot (register as global var for template access)
-		var polyglot = new Polyglot();
+		const polyglot = new Polyglot();
 		_.bindAll(polyglot, 't');
 		window.t = polyglot.t;
 
@@ -113,9 +108,9 @@ var API = {
 		guessedLocale = locale || API.guessLocale();
 
 		// Index locales by their 'full' attr
-		var indexedLocales = _.indexBy(Locales, 'full');
+		const indexedLocales = _.indexBy(Locales, 'full');
 		// Get language package for guessed locale
-		var lang = indexedLocales[guessedLocale].lang;
+		const lang = indexedLocales[guessedLocale].lang;
 
 		// Pass language pack to polyglot
 		polyglot.extend(lang);
@@ -128,27 +123,27 @@ var API = {
 	//
 	setLocale: function(locale) {
 		// Get supported locales
-		var supportedLocales = API.getSupportedLocales();
+		const supportedLocales = API.getSupportedLocales();
 
 		// Assume locale is in full format (i.e. 'en-us')
-		var index =_.indexOf(supportedLocales.full, locale);
+		let index = supportedLocales.full.indexOf(locale);
 
 		// Fallback to legible format (i.e. 'English')
 		if ( index === -1 ) {
-			index = _.indexOf(supportedLocales.legible, locale);
+			index = supportedLocales.legible.indexOf(locale);
 		}
 
 		// Fallback to prefix format (i.e. 'en')
 		if ( index === -1 ) {
-			index = _.indexOf(supportedLocales.prefix, locale);
+			index = supportedLocales.prefix.indexOf(locale);
 		}
 
 		// Fallback to DEFAULT locale
 		if ( index === -1 ) {
-			index = _.indexOf(supportedLocales.full, DEFAULT_LOCALE);
+			index = supportedLocales.full.indexOf(DEFAULT_LOCALE);
 		}
 
-		var localeToSet = supportedLocales.full[index];
+		const localeToSet = supportedLocales.full[index];
 
 		API.initPolyglot(localeToSet);
 		localStorage.setItem('locale', localeToSet);
@@ -156,16 +151,16 @@ var API = {
 	}
 };
 
-GC.reply('nls:supported:locales', function() {
+GC.reply('nls:supported:locales', () => {
 	return API.getSupportedLocales();
 });
 
-GC.reply('nls:current:locale', function() {
+GC.reply('nls:current:locale', () => {
 	return API.getGuessedLocale();
 });
 
-GC.reply('nls:set:locale', function(locale) {
-	return API.setLocale(locale);
-});
+GC.reply('nls:set:locale', locale =>
+	API.setLocale(locale)
+);
 
 module.exports = API;

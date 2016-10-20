@@ -1,10 +1,10 @@
 import App from 'app';
 import Settings from 'settings';
-require('jquery.isonscreen');
-require('jquery-ui.core');
+import 'jquery.isonscreen';
+import 'jquery-ui.core';
 
 
-module.exports = {
+export default {
 
 	ui: {
 		lazyImage: '.lazy-image'

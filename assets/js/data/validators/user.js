@@ -1,5 +1,5 @@
 // User Validator
-module.exports = {
+export default {
 	validation: {
 		role: {
 			required: true,
@@ -23,17 +23,13 @@ module.exports = {
 		'password': [{
 			// password required only for new users that are not professional clients
 			required: function(val, attr, computed) {
-				return !Boolean(computed.id) && computed.role !== 'professional client';
+				return !computed.id && computed.role !== 'professional client';
 			},
 			msg: 'Password is required'
 		}, {
 			equalTo: 'passwordRepeat',
 			msg: 'Your passwords do not match'
 		}],
-		// passwordRepeat: {
-		// 	equalTo: 'password',
-		// 	msg: 'Your passwords do not match'
-		// },
 		expertise: {
 			minExpertise: 1,
 			msg: 'You must choose at least one field of expertise'

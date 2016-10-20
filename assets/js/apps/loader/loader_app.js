@@ -1,31 +1,29 @@
 import ShowController from './show/controller';
 import Radio from 'backbone.radio';
-var GC = Radio.channel('global');
+const GC = Radio.channel('global');
 
-
-
-var API = {
-    showMainLoader: function() {
-        ShowController.showMainLoader();
-    },
-    hideMainLoader: function() {
-        ShowController.hideMainLoader();
-    },
-    hideAllLoaders: function() {
-        ShowController.hideAllLoaders();
-    }
+const API = {
+	showMainLoader: () => {
+		ShowController.showMainLoader();
+	},
+	hideMainLoader: () => {
+		ShowController.hideMainLoader();
+	},
+	hideAllLoaders: () => {
+		ShowController.hideAllLoaders();
+	}
 };
 
-GC.on('loader:main:show', function() {
-    API.showMainLoader();
+GC.on('loader:main:show', () => {
+	API.showMainLoader();
 });
 
-GC.on('loader:main:hide', function() {
-    API.hideMainLoader();
+GC.on('loader:main:hide', () => {
+	API.hideMainLoader();
 });
 
-GC.on('loader:all:hide', function() {
-    API.hideAllLoaders();
+GC.on('loader:all:hide', () => {
+	API.hideAllLoaders();
 });
 
-module.exports = API;
+export default API;

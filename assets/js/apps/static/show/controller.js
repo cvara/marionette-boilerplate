@@ -2,14 +2,13 @@ import App from 'app';
 import View from './view';
 
 
-var Controller = {};
+const Controller = {};
 
-Controller.showStaticView = function(args) {
-	var view = args.view;
-	var staticView = new View.StaticView({
+Controller.showStaticView = function({view}) {
+	const staticView = new View.StaticView({
 		view: view
 	});
 	App.rootView.showChildView('main', staticView);
 };
 
-module.exports = Controller;
+export default Controller;

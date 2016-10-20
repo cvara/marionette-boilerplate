@@ -4,34 +4,34 @@ import BackboneValidation from 'backbone.validation';
 import Settings from 'settings';
 import fetchCache from 'backbone-fetch-cache';
 import Radio from 'backbone.radio';
-var GC = Radio.channel('global');
+const GC = Radio.channel('global');
 
 
-var User = Backbone.Model.extend({
-	urlRoot: Settings.RootURL + '/users'
-});
+const User = Backbone.Model.extend({
+	urlRoot: Settings.RootURL + '/users',
 
-_.extend(User.prototype, Backbone.Validation.mixin, UserValidator, {
 	defaults: {
 
 	}
 });
 
+Object.assign(User.prototype, Backbone.Validation.mixin, UserValidator);
 
-var API = {
-	getUserEntity: function(user) {
-		var defer = $.Deferred();
+
+const API = {
+	getUserEntity: (user) => {
+		const defer = $.Deferred();
 		if (user instanceof User) {
 			defer.resolveWith(null, [user]);
 		} else {
-			var user = new User({
+			user = new User({
 				id: user
 			});
-			var response = user.fetch();
-			response.done(function() {
+			const response = user.fetch();
+			response.done(() => {
 				defer.resolveWith(response, [user]);
 			});
-			response.fail(function() {
+			response.fail(() => {
 				defer.rejectWith(response, arguments);
 			});
 		}
@@ -39,8 +39,8 @@ var API = {
 	}
 };
 
-GC.reply('user:entity', function(user) {
+GC.reply('user:entity', (user) => {
 	return API.getUserEntity(user);
 });
 
-module.exports = User;
+export default User;

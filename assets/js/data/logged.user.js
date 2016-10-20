@@ -1,10 +1,10 @@
 import Backbone from 'backbone';
 import User from './user';
 import Radio from 'backbone.radio';
-var GC = Radio.channel('global');
+const GC = Radio.channel('global');
 
 
-var LoggedUser = User.extend({
+const LoggedUser = User.extend({
 	// Override sync to use
 	// 1. /users/loggedUser : read
 	// 2. /users            : create, update, delete, patch
@@ -19,19 +19,19 @@ var LoggedUser = User.extend({
 });
 
 
-var API = {
+const API = {
 
-	getLoggedUserEntity: function() {
-		var loggedUser = new LoggedUser();
-		var defer = $.Deferred();
+	getLoggedUserEntity: () => {
+		const loggedUser = new LoggedUser();
+		const defer = $.Deferred();
 
-		var response = loggedUser.fetch({
+		const response = loggedUser.fetch({
 			cache: true
 		});
-		response.done(function() {
+		response.done(() => {
 			defer.resolveWith(response, [loggedUser]);
 		});
-		response.fail(function() {
+		response.fail(() => {
 			defer.rejectWith(response, arguments);
 		});
 
@@ -39,8 +39,8 @@ var API = {
 	}
 };
 
-GC.reply('loggedUser:entity', function() {
+GC.reply('loggedUser:entity', () => {
 	return API.getLoggedUserEntity();
 });
 
-module.exports = LoggedUser;
+export default LoggedUser;

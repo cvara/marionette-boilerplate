@@ -1,16 +1,16 @@
 import App from 'app';
 import Backbone from 'backbone';
-var _globalTpl = require('mailer/templates/_global');
+import _globalTpl from 'mailer/templates/_global';
 import sampleEmailTpl from 'mailer/templates/sample.email';
 import Settings from 'settings';
 import Radio from 'backbone.radio';
-var GC = Radio.channel('global');
+const GC = Radio.channel('global');
 
-var rootUrl = Settings.RootURL;
-var mailUrl = rootUrl + '/sendMessage';
+const { rootUrl } = Settings;
+const mailUrl = rootUrl + '/sendMessage';
 
 
-var API = {
+const API = {
 
 	_addEmailTheme: function(msg) {
 		return _globalTpl({
@@ -39,13 +39,13 @@ var API = {
 	// body {string}                     -> The body of the message
 	// subject {string}                  -> The subject of the message
 	sendMail: function(sender, recipient, body, subject) {
-		var senderModel = sender instanceof Backbone.Model ? sender : null;
-		var recipientModel = recipient instanceof Backbone.Model ? recipient : null;
+		const senderModel = sender instanceof Backbone.Model ? sender : null;
+		const recipientModel = recipient instanceof Backbone.Model ? recipient : null;
 
 		sender = senderModel ? sender.get('user').id : sender;
 		recipient = recipientModel ? recipient.get('user').id : recipient;
 
-		var data = {};
+		const data = {};
 		data.to_id = recipient;
 		data.subject = '[App] ' + (subject || 'no subject');
 		data.html = API._addEmailTheme(API._preformat(body));
@@ -58,8 +58,8 @@ var API = {
 	}
 };
 
-GC.reply('mail:send', function(sender, recipient, body, subject) {
+GC.reply('mail:send', (sender, recipient, body, subject) => {
 	return API.sendMail(sender, recipient, body, subject);
 });
 
-module.exports = API;
+export default API;

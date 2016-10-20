@@ -57,7 +57,7 @@ App.on('start', options => {
 	GC.request('loggedUser:entity')
 		.done(user => {
 			// User was found
-			if (Boolean(user)) {
+			if (user) {
 				App.initForMember(user);
 			}
 			// User is a guest

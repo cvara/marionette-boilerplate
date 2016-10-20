@@ -4,14 +4,14 @@ import faqTpl from './templates/faq';
 import termsTpl from './templates/terms';
 
 
-var View = {};
+const View = {};
 
 View.StaticView = Mn.View.extend({
 	className: 'container-fluid max-width-xs static-section',
 	tagName: 'section',
 
 	getTemplate: function() {
-		var view = this.getOption('view');
+		const view = this.getOption('view');
 		switch (view) {
 			case 'about' : return aboutTpl;
 			case 'faq'   : return faqTpl;
@@ -29,7 +29,7 @@ View.StaticView = Mn.View.extend({
 	},
 
 	scrollToTarget: function(e) {
-		var selector = $(e.currentTarget).attr('data-target');
+		const selector = $(e.currentTarget).attr('data-target');
 		$('html, body').animate({
 			scrollTop: $(selector).offset().top - $('#header-section .navbar').outerHeight() - 10
 		}, 500);
@@ -37,4 +37,4 @@ View.StaticView = Mn.View.extend({
 });
 
 
-module.exports = View;
+export default View;
