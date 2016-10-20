@@ -74,7 +74,7 @@ const common = merge(
 	parts.createHtml({
 		title: 'Marionette Boilerplate',
 		description: 'A starting point for new Marionette based apps',
-		fonts: 'https://fonts.googleapis.com/css?family=Roboto:400,500,700|Open+Sans:400,300,400italic,600,700'
+		fonts: 'https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,600,700'
 	}),
 	parts.provide({
 		_: 'underscore',
