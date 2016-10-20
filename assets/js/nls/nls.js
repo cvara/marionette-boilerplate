@@ -1,6 +1,8 @@
 import App from 'app';
 import Polyglot from 'node-polyglot';
+import locales from './locales';
 import Radio from 'backbone.radio';
+import Settings from 'settings';
 const GC = Radio.channel('global');
 
 
@@ -11,12 +13,12 @@ const Locales = [
 	{
 		full    : 'el',
 		legible : 'Ελληνικά',
-		lang    : require('./locales/el')
+		lang    : locales.el
 	},
 	{
 		full    : 'en-gb',
 		legible : 'English',
-		lang    : require('./locales/en-gb')
+		lang    : locales.en_gb
 	}
 ];
 
@@ -30,7 +32,7 @@ let guessedLocale = null;
 // Default locale
 // ==========================================
 // Using in failed guess/set locale attempts
-const DEFAULT_LOCALE = Locales[0].full;
+const DEFAULT_LOCALE = Settings.DefaultLocale || Locales[0].full;
 
 
 const API = {
@@ -43,8 +45,8 @@ const API = {
 	// 	 legible: 'English',
 	// 	 prefix: 'en'
 	// }
-	getGuessedLocale: function() {
-		const supportedLocales = API.getSupportedLocales();
+	getGuessedLocale: () => {
+		const supportedLocales = API.getSupportedLocales(true);
 		const index = supportedLocales.full.indexOf(guessedLocale);
 		return {
 			full: supportedLocales.full[index],
@@ -56,24 +58,28 @@ const API = {
 	// Returns supported locales in all formats
 	// ==========================================
 	//
-	getSupportedLocales: function() {
+	getSupportedLocales: (expanded) => {
+		if (!expanded) {
+			return Locales;
+		}
 		const supportedLocales = {};
-
 		supportedLocales.full = Locales.map(locale => locale.full);
 		supportedLocales.legible = Locales.map(locale => locale.legible);
 		supportedLocales.prefix = supportedLocales.full.map(locale => locale.split('-')[0]);
-
 		return supportedLocales;
 	},
 
 	// Guesses & returns desired locale in full format (i.e. 'en-us')
 	// ==========================================
 	//
-	guessLocale: function() {
+	guessLocale: () => {
 		// Get supported locales
-		const supportedLocales = API.getSupportedLocales();
+		const supportedLocales = API.getSupportedLocales(true);
 
 		// Try to guess desired locale, falling back to default
+		// Guesses are made in this order:
+		// 1. localStorage (previously stored locale)
+		// 2. navigator
 		const locale = typeof navigator === 'undefined' && typeof localStorage === 'undefined' ?
 			DEFAULT_LOCALE :
 			(localStorage.getItem('locale') ||
@@ -98,35 +104,33 @@ const API = {
 	// Sets up our i18n library to use desired locale
 	// ==========================================
 	//
-	initPolyglot: function(locale) {
+	initPolyglot: (locale) => {
 		// Init polyglot (register as global var for template access)
 		const polyglot = new Polyglot();
 		_.bindAll(polyglot, 't');
 		window.t = polyglot.t;
 
-		// Get user locale
-		guessedLocale = locale || API.guessLocale();
-
 		// Index locales by their 'full' attr
 		const indexedLocales = _.indexBy(Locales, 'full');
 		// Get language package for guessed locale
-		const lang = indexedLocales[guessedLocale].lang;
+		const lang = indexedLocales[locale].lang;
 
 		// Pass language pack to polyglot
 		polyglot.extend(lang);
-
-		console.info('nls: locale set: ', guessedLocale);
 	},
 
 	// Main method for setting locale
 	// ==========================================
 	//
-	setLocale: function(locale) {
+	setLocale: (locale) => {
+		// Get user locale
+		locale = locale || API.guessLocale();
+
 		// Get supported locales
-		const supportedLocales = API.getSupportedLocales();
+		const supportedLocales = API.getSupportedLocales(true);
 
 		// Assume locale is in full format (i.e. 'en-us')
-		let index = supportedLocales.full.indexOf(locale);
+		let index =supportedLocales.full.indexOf(locale);
 
 		// Fallback to legible format (i.e. 'English')
 		if ( index === -1 ) {
@@ -145,22 +149,29 @@ const API = {
 
 		const localeToSet = supportedLocales.full[index];
 
+		// Update guessed locale
+		guessedLocale = localeToSet;
+
 		API.initPolyglot(localeToSet);
 		localStorage.setItem('locale', localeToSet);
 		GC.trigger('nls:locale:changed', API.getGuessedLocale());
+
+		console.info('nls: locale set: ', localeToSet);
+
+		return API.getGuessedLocale();
 	}
 };
 
-GC.reply('nls:supported:locales', () => {
-	return API.getSupportedLocales();
+GC.reply('nls:supported:locales', (expanded) => {
+	return API.getSupportedLocales(expanded);
 });
 
-GC.reply('nls:current:locale', () => {
+GC.reply('nls:get:locale', () => {
 	return API.getGuessedLocale();
 });
 
-GC.reply('nls:set:locale', locale =>
-	API.setLocale(locale)
-);
+GC.reply('nls:set:locale', (locale) => {
+	return API.setLocale(locale);
+});
 
-module.exports = API;
+export default API;
