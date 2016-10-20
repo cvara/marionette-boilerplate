@@ -6,19 +6,37 @@ const NpmInstallPlugin = require('npm-install-webpack-plugin');
 
 
 // Auto generates html that will include output bundles
-exports.indexTemplate = function(options) {
+exports.createHtml = function(options) {
 	return {
 		plugins: [
 			new HtmlWebpackPlugin({
 				template: require('html-webpack-template'),
 				title: options.title,
-				appMountId: options.appMountId,
+				appMountId: 'app',
 				inject: false,
 				meta : {
 					description: options.description,
 					viewport: 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no',
 					robots: 'INDEX, FOLLOW'
 				},
+				links: [
+					options.fonts,
+					{
+						href: '/apple-touch-icon.png',
+						rel: 'apple-touch-icon',
+						sizes: '180x180'
+					}, {
+						href: '/favicon-32x32.png',
+						rel: 'icon',
+						sizes: '32x32',
+						type: 'image/png'
+					}, {
+						href: '/favicon-16x16.png',
+						rel: 'icon',
+						sizes: '16x16',
+						type: 'image/png'
+					}
+				]
 			})]
 	};
 };
@@ -148,13 +166,47 @@ exports.loadJS = function(include) {
 };
 
 // LESS & image loaders
-exports.setupCSS = function(paths) {
+exports.loadCSS = function(paths) {
 	return {
 		module: {
 			loaders: [
-				{ test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
+				{
+					test: /\.less$/,
+					loader: 'style-loader!css-loader!less-loader',
+					include: paths
+				}
+			]
+		}
+	};
+};
+
+// Image loaders
+exports.loadImages = function(paths) {
+	return {
+		module: {
+			loaders: [
 				// inline base64 URLs for <=8k images, direct URLs for the rest
-				{ test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' }
+				{
+					test: /\.(png|jpg)$/,
+					loader: 'url-loader?limit=8192',
+					include: paths
+				}
+			]
+		}
+	};
+};
+
+// Favicon loaders
+exports.loadFavicon = function(paths) {
+	return {
+		module: {
+			loaders: [
+				// inline base64 URLs for <=8k images, direct URLs for the rest
+				{
+					test: /\.(png|ico)$/,
+					loader: 'file-loader?name=[name].[ext]',
+					include: paths
+				}
 			]
 		}
 	};

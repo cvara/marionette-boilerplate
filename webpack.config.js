@@ -9,6 +9,8 @@ const TARGET = process.env.npm_lifecycle_event;
 const ENABLE_POLLING = process.env.ENABLE_POLLING;
 const PATHS = {
 	scripts: path.join(__dirname, '/assets/js'),
+	favicons: path.join(__dirname, '/favicons'),
+	img: path.join(__dirname, '/assets/img'),
 	app: path.join(__dirname, '/assets/js', 'main.js'),
 	style: path.join(__dirname, '/assets/css', 'style.less'),
 	build: path.join(__dirname, 'dist'),
@@ -39,7 +41,7 @@ const common = merge(
 		},
 
 		resolve: {
-			root: [ PATHS.scripts ],
+			root: [ PATHS.scripts, PATHS.favicons ],
 			extensions: ['', '.js', '.tpl'],
 			alias: {
 				// npm backbone.syphon depends on an older backbone version which results in 2
@@ -69,10 +71,10 @@ const common = merge(
 			}
 		}
 	},
-	parts.indexTemplate({
+	parts.createHtml({
 		title: 'Marionette Boilerplate',
 		description: 'A starting point for new Marionette based apps',
-		appMountId: 'app'
+		fonts: 'https://fonts.googleapis.com/css?family=Roboto:400,500,700|Open+Sans:400,300,400italic,600,700'
 	}),
 	parts.provide({
 		_: 'underscore',
@@ -87,7 +89,8 @@ const common = merge(
 	}),
 	parts.keepMomentLocales(['el', 'en-gb']),
 	parts.loadJS(PATHS.scripts),
-	parts.loadTpl()
+	parts.loadTpl(),
+	parts.loadFavicon(PATHS.favicons)
 );
 
 let config;
@@ -112,6 +115,7 @@ switch (TARGET) {
 				}
 			},
 			parts.clean(PATHS.build),
+			parts.loadImages(PATHS.img),
 			parts.setFreeVariable('process.env.NODE_ENV', 'production'),
 			parts.minify(),
 			parts.extractCSS(PATHS.style)
@@ -134,7 +138,8 @@ switch (TARGET) {
 			{
 				devtool: 'eval-source-map',
 			},
-			parts.setupCSS(PATHS.style),
+			parts.loadCSS(PATHS.style),
+			parts.loadImages(PATHS.img),
 			parts.devServer({
 				// Customize host/port here if needed
 				host: process.env.HOST,

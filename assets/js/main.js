@@ -1,3 +1,7 @@
+import 'apple-touch-icon.png';
+import 'favicon-32x32.png';
+import 'favicon-16x16.png';
+
 import App from 'app';
 import Backbone from 'backbone';
 import HeaderApp from 'apps/header/header_app';
