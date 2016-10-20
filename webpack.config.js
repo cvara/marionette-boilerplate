@@ -22,8 +22,7 @@ process.env.BABEL_ENV = TARGET;
 const common = merge(
 	{
 		entry: {
-			app: PATHS.app,
-			style: PATHS.style
+			app: PATHS.app
 		},
 
 		output: {
@@ -126,6 +125,9 @@ switch (TARGET) {
 	case 'test:tdd':
 		config = merge(common,
 			{
+				entry: {
+					app: PATHS.app
+				},
 				devtool: 'inline-source-map'
 			},
 			parts.loadIsparta(PATHS.app),
@@ -136,6 +138,10 @@ switch (TARGET) {
 	default:
 		config = merge(common,
 			{
+				entry: {
+					app: PATHS.app,
+					style: PATHS.style
+				},
 				devtool: 'eval-source-map',
 			},
 			parts.loadCSS(PATHS.style),
