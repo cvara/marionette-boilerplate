@@ -9,7 +9,7 @@ const TARGET = process.env.npm_lifecycle_event;
 const ENABLE_POLLING = process.env.ENABLE_POLLING;
 const PATHS = {
 	scripts: path.join(__dirname, '/assets/js'),
-	favicons: path.join(__dirname, '/favicons'),
+	favicons: path.join(__dirname, '/assets/favicons'),
 	fonts: path.join(__dirname, '/assets/fonts'),
 	img: path.join(__dirname, '/assets/img'),
 	app: path.join(__dirname, '/assets/js', 'main.js'),
@@ -115,8 +115,11 @@ switch (TARGET) {
 				}
 			},
 			parts.clean(PATHS.build),
-			parts.loadImages(PATHS.img),
-			parts.loadFonts(PATHS.fonts),
+			parts.copy([
+				PATHS.img,
+				PATHS.fonts,
+				PATHS.favicons
+			]),
 			parts.setFreeVariable('process.env.NODE_ENV', 'production'),
 			parts.minify(),
 			parts.extractCSS(PATHS.style)
@@ -141,14 +144,11 @@ switch (TARGET) {
 		config = merge(common,
 			{
 				entry: {
-					app: PATHS.app,
 					style: PATHS.style
 				},
 				devtool: 'eval-source-map',
 			},
 			parts.loadCSS(PATHS.style),
-			parts.loadImages(PATHS.img),
-			parts.loadFonts(PATHS.fonts),
 			parts.devServer({
 				// Customize host/port here if needed
 				host: process.env.HOST,

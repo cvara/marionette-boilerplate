@@ -1,5 +1,7 @@
 const webpack = require('webpack');
+const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const NpmInstallPlugin = require('npm-install-webpack-plugin');
@@ -22,16 +24,16 @@ exports.createHtml = function(options) {
 				links: [
 					options.fonts,
 					{
-						href: '/apple-touch-icon.png',
+						href: '/assets/favicons/apple-touch-icon.png',
 						rel: 'apple-touch-icon',
 						sizes: '180x180'
 					}, {
-						href: '/favicon-32x32.png',
+						href: '/assets/favicons/favicon-32x32.png',
 						rel: 'icon',
 						sizes: '32x32',
 						type: 'image/png'
 					}, {
-						href: '/favicon-16x16.png',
+						href: '/assets/favicons/favicon-16x16.png',
 						rel: 'icon',
 						sizes: '16x16',
 						type: 'image/png'
@@ -138,7 +140,7 @@ exports.loadTpl = function(paths) {
 			loaders: [
 				{
 					test: /\.tpl$/,
-					loader: 'ejs'
+					loader: 'underscore-template-loader'
 				}
 			]
 		}
@@ -177,6 +179,22 @@ exports.loadCSS = function(paths) {
 				}
 			]
 		}
+	};
+};
+
+exports.copy = function(paths) {
+	return {
+		plugins: [
+			new CopyWebpackPlugin(
+				paths.map( p => {
+					return {
+						context: p,
+						from: '**/*',
+						to: p.replace(path.join(__dirname, '/'), '')
+					};
+				})
+			)
+		]
 	};
 };
 
