@@ -119,7 +119,7 @@ switch (TARGET) {
 				PATHS.img,
 				PATHS.fonts,
 				PATHS.favicons
-			]),
+			], path.join(__dirname, '/')),
 			parts.setFreeVariable('process.env.NODE_ENV', 'production'),
 			parts.minify(),
 			parts.extractCSS(PATHS.style)

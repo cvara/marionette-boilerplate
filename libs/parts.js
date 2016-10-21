@@ -182,7 +182,7 @@ exports.loadCSS = function(paths) {
 	};
 };
 
-exports.copy = function(paths) {
+exports.copy = function(paths, context = '') {
 	return {
 		plugins: [
 			new CopyWebpackPlugin(
@@ -190,7 +190,7 @@ exports.copy = function(paths) {
 					return {
 						context: p,
 						from: '**/*',
-						to: p.replace(path.join(__dirname, '/'), '')
+						to: p.replace(context, '')
 					};
 				})
 			)
