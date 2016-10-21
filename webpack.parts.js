@@ -131,7 +131,7 @@ exports.keepMomentLocales = function(locales) {
 	};
 };
 
-// Tpl (underscore template) loaders
+// Tpl (underscore template) loader
 exports.loadTpl = function(paths) {
 	return {
 		module: {
@@ -165,7 +165,7 @@ exports.loadJS = function(include) {
 	};
 };
 
-// LESS & image loaders
+// LESS & image loader
 exports.loadCSS = function(paths) {
 	return {
 		module: {
@@ -180,7 +180,7 @@ exports.loadCSS = function(paths) {
 	};
 };
 
-// Image loaders
+// Image loader
 exports.loadImages = function(paths) {
 	return {
 		module: {
@@ -188,7 +188,7 @@ exports.loadImages = function(paths) {
 				// inline base64 URLs for <=8k images, direct URLs for the rest
 				{
 					test: /\.(png|jpg)$/,
-					loader: 'url-loader?limit=8192',
+					loader: 'file-loader?name=[path][name].[ext]',
 					include: paths
 				}
 			]
@@ -196,8 +196,23 @@ exports.loadImages = function(paths) {
 	};
 };
 
-// Favicon loaders
-exports.loadFavicon = function(paths) {
+// Font loader
+exports.loadFonts = function(paths) {
+	return {
+		module: {
+			loaders: [
+				{
+					test: /(\.woff(2)?|\.ttf|\.eot)(\?(((#iefix&)?v=[0-9]\.[0-9]\.[0-9])|(#iefix)?[0-9a-zA-Z]+))?/,
+					loader: 'file-loader?name=[path][name].[ext]',
+					include: paths
+				}
+			]
+		}
+	};
+};
+
+// Favicon loader
+exports.loadFavicons = function(paths) {
 	return {
 		module: {
 			loaders: [
@@ -220,7 +235,7 @@ exports.extractCSS = function(paths) {
 				{
 					test: /\.less/,
 					loader: ExtractTextPlugin.extract(
-						'css?sourceMap!less?sourceMap'
+						'css-loader?sourceMap!less-loader?sourceMap'
 					),
 					include: paths
 				}

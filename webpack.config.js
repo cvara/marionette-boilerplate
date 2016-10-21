@@ -10,6 +10,7 @@ const ENABLE_POLLING = process.env.ENABLE_POLLING;
 const PATHS = {
 	scripts: path.join(__dirname, '/assets/js'),
 	favicons: path.join(__dirname, '/favicons'),
+	fonts: path.join(__dirname, '/assets/fonts'),
 	img: path.join(__dirname, '/assets/img'),
 	app: path.join(__dirname, '/assets/js', 'main.js'),
 	style: path.join(__dirname, '/assets/css', 'style.less'),
@@ -40,7 +41,7 @@ const common = merge(
 		},
 
 		resolve: {
-			root: [ PATHS.scripts, PATHS.favicons ],
+			root: [ PATHS.scripts, PATHS.favicons, PATHS.fonts, PATHS.img ],
 			extensions: ['', '.js', '.tpl'],
 			alias: {
 				// npm backbone.syphon depends on an older backbone version which results in 2
@@ -89,7 +90,7 @@ const common = merge(
 	parts.keepMomentLocales(['el', 'en-gb']),
 	parts.loadJS(PATHS.scripts),
 	parts.loadTpl(),
-	parts.loadFavicon(PATHS.favicons)
+	parts.loadFavicons(PATHS.favicons)
 );
 
 let config;
@@ -106,7 +107,7 @@ switch (TARGET) {
 					PATHS.app,
 					PATHS.style
 				],
-				devtool: 'source-map',
+				devtool: false,
 				output: {
 					path: PATHS.build,
 					filename: '[name].[chunkhash].js',
@@ -115,6 +116,7 @@ switch (TARGET) {
 			},
 			parts.clean(PATHS.build),
 			parts.loadImages(PATHS.img),
+			parts.loadFonts(PATHS.fonts),
 			parts.setFreeVariable('process.env.NODE_ENV', 'production'),
 			parts.minify(),
 			parts.extractCSS(PATHS.style)
@@ -146,13 +148,13 @@ switch (TARGET) {
 			},
 			parts.loadCSS(PATHS.style),
 			parts.loadImages(PATHS.img),
+			parts.loadFonts(PATHS.fonts),
 			parts.devServer({
 				// Customize host/port here if needed
 				host: process.env.HOST,
 				port: process.env.PORT || 4000,
 				poll: ENABLE_POLLING
 			})
-			// parts.npmInstall()
 		);
 }
 
