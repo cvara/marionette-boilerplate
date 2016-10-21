@@ -22,10 +22,12 @@ export default Mn.Region.extend({
 		const modalClass = view.getOption('modalClass') || 'modal-lg';
 		const emptyHeader = modalTitle.length === 0;
 
-		el.addClass('modal-body')
-			.wrap('<div id="' + this.modalId + '" class="modal ' + (Env.isMobile.any() ? '' : 'fade') + '" tabindex="-1" role="dialog"></div>')
-			.wrap('<div class="modal-dialog ' + modalClass + '"></div>')
-			.wrap('<div class="modal-content"></div>');
+		console.log(el);
+
+		el.addClass('modal-body');
+		el.wrap(`<div id="${this.modalId}" class="modal ${Env.isMobile.any() ? '' : 'fade'}" tabindex="-1" role="dialog" />`);
+		el.wrap(`<div class="modal-dialog ${modalClass}" />`);
+		el.wrap('<div class="modal-content" />');
 
 		const modalHeader = [];
 		modalHeader.push(
@@ -33,7 +35,7 @@ export default Mn.Region.extend({
 			'<button type="button" class="close" data-dismiss="modal">',
 			'<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>',
 			'</button>',
-			'<h4 class="modal-title" id="modal-label">', modalTitle, '</h4>',
+			`<h4 class="modal-title" id="modal-label">${modalTitle}</h4>`,
 			'</div>'
 		);
 		const headerEl = $(modalHeader.join(''));
@@ -44,6 +46,7 @@ export default Mn.Region.extend({
 	},
 
 	_initModal: function(view) {
+		console.log(view);
 		$('#' + this.modalId)
 			.modal()
 			.on('shown.bs.modal', () => {
@@ -52,8 +55,8 @@ export default Mn.Region.extend({
 			.on('hidden.bs.modal', () => {
 				// Purge listeners on view 'close' events
 				this.stopListening(view);
-				// properly destroy view inside modal
-				view.destroy();
+				// Empty region
+				this.empty();
 				// don't empty remaining bootstrap markup to allow
 				// opening of a modal while another is still active
 				// NOTE: the 2 modals still won't overlap
@@ -70,7 +73,7 @@ export default Mn.Region.extend({
 		this._initModal(view);
 	},
 
-	onShow: function(view) {
+	onShow: function(self, view) {
 		this.showAsModal(view);
 	},
 
