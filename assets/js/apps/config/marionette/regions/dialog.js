@@ -1,5 +1,6 @@
 import Mn from 'backbone.marionette';
 import Env from 'common/environment';
+import dialogTpl from './templates/dialog';
 import 'bootstrap';
 
 
@@ -15,66 +16,41 @@ export default Mn.Region.extend({
 		return this.modalId;
 	},
 
-	_addModalMarkup: function(view) {
-		const self = this;
-		const el = view.$el;
-		const modalTitle = view.getOption('modalTitle') || '';
-		const modalClass = view.getOption('modalClass') || 'modal-lg';
-		const emptyHeader = modalTitle.length === 0;
-
-		console.log(el);
-
-		el.addClass('modal-body');
-		el.wrap(`<div id="${this.modalId}" class="modal ${Env.isMobile.any() ? '' : 'fade'}" tabindex="-1" role="dialog" />`);
-		el.wrap(`<div class="modal-dialog ${modalClass}" />`);
-		el.wrap('<div class="modal-content" />');
-
-		const modalHeader = [];
-		modalHeader.push(
-			'<div class="modal-header">',
-			'<button type="button" class="close" data-dismiss="modal">',
-			'<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>',
-			'</button>',
-			`<h4 class="modal-title" id="modal-label">${modalTitle}</h4>`,
-			'</div>'
-		);
-		const headerEl = $(modalHeader.join(''));
-		if (emptyHeader) {
-			headerEl.addClass('empty');
-		}
-		el.closest('.modal-content').prepend(headerEl);
-	},
-
-	_initModal: function(view) {
-		console.log(view);
-		$('#' + this.modalId)
-			.modal()
-			.on('shown.bs.modal', () => {
-				$('body').addClass('modal-open');
-			})
-			.on('hidden.bs.modal', () => {
-				// Purge listeners on view 'close' events
-				this.stopListening(view);
-				// Empty region
-				this.empty();
-				// don't empty remaining bootstrap markup to allow
-				// opening of a modal while another is still active
-				// NOTE: the 2 modals still won't overlap
-				// self.$el.empty();
-			});
+	initModal: function(view) {
+		$('#' + this.modalId).modal().on('shown.bs.modal', () => {
+			$('body').addClass('modal-open');
+		}).on('hidden.bs.modal', () => {
+			// Purge listeners on view 'close' events
+			this.stopListening(view);
+			// Empty region
+			this.empty();
+			// don't empty remaining bootstrap markup to allow
+			// opening of a modal while another is still active
+			// NOTE: the 2 modals still won't overlap
+			// self.$el.empty();
+		});
 		this.listenTo(view, 'cancel', () => {
 			this.closeModal();
 		});
 	},
 
-	showAsModal: function(view) {
-		this._setModalId();
-		this._addModalMarkup(view);
-		this._initModal(view);
+	attachHtml: function(view) {
+		const title = view.getOption('modalTitle') || '';
+		const className = view.getOption('modalClass') || 'modal-lg';
+		const modalId = this._setModalId();
+		const fade = !Env.isMobile.any();
+
+		const html = dialogTpl({ title, className, fade, modalId });
+
+		const $modalEl = $($.parseHTML(html));
+
+		$modalEl.find('.modal-body').append(view.el);
+
+		this.el.appendChild($modalEl[0]);
 	},
 
 	onShow: function(self, view) {
-		this.showAsModal(view);
+		this.initModal(view);
 	},
 
 	// This method is used when other modules wish
