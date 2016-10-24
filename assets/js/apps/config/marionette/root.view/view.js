@@ -11,11 +11,18 @@ export const Body = Mn.View.extend({
 
 	initialize: function() {
 		this.addRegion('app', this.getOption('rootEl'));
+	},
+
+	onChildviewOverlayShow: function() {
+		this.$el.css('overflow-y', 'hidden');
+	},
+
+	onChildviewOverlayHide: function() {
+		this.$el.css('overflow-y', 'auto');
 	}
 });
 
 export const Layout = Mn.View.extend({
-
 	id: 'page-wrap',
 	template: rootViewTpl,
 
@@ -30,6 +37,17 @@ export const Layout = Mn.View.extend({
 	initialize: function() {
 		this.getRegion('header').on('show', () => {
 			this.$el.addClass('with-header');
+		});
+		this.getRegion('header').on('empty', () => {
+			this.$el.removeClass('with-header');
+		});
+		this.getRegion('overlay').on('overlay:show', () => {
+			this.triggerMethod('overlay:show');
+			this.getRegion('main').$el.addClass('shadowed');
+		});
+		this.getRegion('overlay').on('overlay:hide', () => {
+			this.triggerMethod('overlay:hide');
+			this.getRegion('main').$el.removeClass('shadowed');
 		});
 	}
 });
