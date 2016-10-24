@@ -12,7 +12,8 @@
     "commonjs": true
   },
   "globals": {
-    "_": false
+    "_": false,
+    "t": false
   },
   "plugins": [
 

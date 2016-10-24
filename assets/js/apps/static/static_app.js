@@ -15,7 +15,7 @@ const Router = Mn.AppRouter.extend({
 // API
 // ------------------
 const API = {
-	showStaticView: (view) => {
+	showStaticView(view) {
 		require.ensure([], () => {
 			const ShowController = require('./show/controller').default;
 			ShowController.showStaticView({

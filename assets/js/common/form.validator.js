@@ -1,7 +1,7 @@
 import Validation from 'backbone.validation';
 
 export default {
-	validateShareForm: (data) => {
+	validateShareForm(data) {
 		const errors = {};
 		if (!Validation.patterns.email.test(data.sender)) {
 			errors.sender = t('invalid.email');
@@ -12,7 +12,7 @@ export default {
 		return errors;
 	},
 
-	validateSubscribeForm: (data) => {
+	validateSubscribeForm(data) {
 		const errors = {};
 		if (!Validation.patterns.email.test(data.email)) {
 			errors.email = t('invalid.email');
@@ -20,7 +20,7 @@ export default {
 		return errors;
 	},
 
-	validateContactForm: (data) => {
+	validateContactForm(data) {
 		const errors = {};
 		if (!Validation.patterns.email.test(data.sender)) {
 			errors.sender = t('invalid.email');

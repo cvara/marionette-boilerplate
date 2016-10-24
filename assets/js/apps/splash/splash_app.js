@@ -15,7 +15,7 @@ const Router = Mn.AppRouter.extend({
 // API
 // ------------------
 const API = {
-	showSplash: () => {
+	showSplash() {
 		require.ensure([], () => {
 			const ShowController = require('./show/controller').default;
 			ShowController.showSplash();

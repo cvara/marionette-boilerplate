@@ -3,13 +3,13 @@ import Radio from 'backbone.radio';
 const GC = Radio.channel('global');
 
 const API = {
-	showMainLoader: () => {
+	showMainLoader() {
 		ShowController.showMainLoader();
 	},
-	hideMainLoader: () => {
+	hideMainLoader() {
 		ShowController.hideMainLoader();
 	},
-	hideAllLoaders: () => {
+	hideAllLoaders() {
 		ShowController.hideAllLoaders();
 	}
 };

@@ -1,34 +1,33 @@
 import App from 'app';
 import View from './view';
-import Authenticate from 'common/authenticate';
+import Authenticator from 'common/authenticator';
 import Notify from 'common/notify';
 
 
-var Controller = {};
+const Controller = {
+	showLogin() {
 
-Controller.showLogin = function() {
+		const loginView = new View.Login();
 
-	var loginView = new View.Login();
+		loginView.on('submit', data => {
+			console.log(data);
+			loginView.triggerMethod('clear:validation:errors');
+			loginView.triggerMethod('show:preloader');
+			
+			// Log user in
+			Authenticator.login(data).done(response => {
 
-	loginView.on('submit', function(data) {
-		console.log(data);
-		loginView.triggerMethod('clear:validation:errors');
-		loginView.triggerMethod('show:preloader');
-		// Log user in
-		var authenticating = Authenticate.login(data);
-		authenticating.done(function(response) {
+			}).fail(() => {
 
+			});
 		});
-		authenticating.fail(function() {
 
+		loginView.on('cancel', () => {
+			App.Nav.showLanding();
 		});
-	});
 
-	loginView.on('cancel', function() {
-		App.Nav.showLanding();
-	});
-
-	App.rootView.showChildView('main', loginView);
+		App.rootView.showChildView('main', loginView);
+	}
 };
 
-module.exports = Controller;
+export default Controller;

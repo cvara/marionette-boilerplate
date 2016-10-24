@@ -15,7 +15,7 @@ const Router = Mn.AppRouter.extend({
 // API
 // ------------------
 const API = {
-	showLogin: (user) => {
+	showLogin(user) {
 		require.ensure([], () => {
 			const LoginController = require('./login/controller').default;
 			LoginController.showLogin();

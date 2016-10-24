@@ -15,7 +15,7 @@ const Router = Mn.AppRouter.extend({
 // API
 // ------------------
 const API = {
-	showTest: () => {
+	showTest() {
 		require.ensure([], () => {
 			const ShowController = require('./show/controller').default;
 			ShowController.showTest();

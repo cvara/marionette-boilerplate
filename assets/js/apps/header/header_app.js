@@ -6,7 +6,7 @@ const GC = Radio.channel('global');
 // Header API
 // ------------------
 const API = {
-	showHeader: () => {
+	showHeader() {
 		ShowController.showHeader();
 	}
 };

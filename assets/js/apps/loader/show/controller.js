@@ -1,19 +1,21 @@
 import App from 'app';
 import View from './view';
 
-const Controller = {};
+const Controller = {
+	showMainLoader() {
+		const loaderView = new View.Loader();
+		App.rootView.showChildView('loading', loaderView);
+	},
 
-Controller.showMainLoader = function() {
-	const loaderView = new View.Loader();
-	App.rootView.showChildView('loading', loaderView);
+	hideMainLoader() {
+		App.rootView.getRegion('loading').empty();
+	},
+
+	hideAllLoaders() {
+		App.rootView.getRegion('loading').empty();
+	}
 };
 
-Controller.hideMainLoader = function() {
-	App.rootView.getRegion('loading').empty();
-};
 
-Controller.hideAllLoaders = function() {
-	App.rootView.getRegion('loading').empty();
-};
 
 export default Controller;
