@@ -85,7 +85,7 @@ export default Mn.Region.extend({
 		});
 	},
 
-	onShow: function(view) {
+	onShow: function(self, view) {
 		this.initOverlay(view);
 		this._gracefullyShow(view);
 	},
