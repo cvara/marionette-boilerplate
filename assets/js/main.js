@@ -48,32 +48,22 @@ App.on('start', options => {
 		return;
 	}
 
-	GC.request('loggedUser:entity')
-		.done(user => {
-			// User was found
-			if (user) {
-				App.initForMember(user);
-			}
-			// User is a guest
-			else {
-				App.initForGuest();
-			}
-		})
-
-		.fail(() => {
+	GC.request('loggedUser:entity').done(user => {
+		// User was found
+		if (user) {
+			App.initForMember(user);
+		}
+		// User is a guest
+		else {
 			App.initForGuest();
-		})
-
-		.always(() => {
-			// Manually start header app
-			GC.trigger('header:render');
-			// Detect browser back/fwd buttons and close dialog & overlay
-			Backbone.history.on('route', () => {
-				App.rootView.getRegion('dialog').closeModal();
-				App.rootView.getRegion('overlay').closeOverlay();
-			});
-			console.info('App: post-start tasks complete.');
-		});
+		}
+	}).fail(() => {
+		App.initForGuest();
+	}).always(() => {
+		// Manually start header app
+		GC.trigger('header:render');
+		console.info('App: post-start tasks complete.');
+	});
 });
 
 // Don't start app if running as mobile app (i.e. over cordova)

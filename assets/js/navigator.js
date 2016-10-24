@@ -90,7 +90,7 @@ export default Mn.Object.extend({
 
 	// Shows landing page based on user model
 	showLanding: function(user) {
-		const role = !!user ? user.get('role') : 'guest';
+		const role = user ? user.get('role') : 'guest';
 		const landing = Settings.landingTrigger[role];
 		GC.trigger(landing);
 	},
