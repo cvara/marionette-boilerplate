@@ -52,7 +52,7 @@ export default Mn.Object.extend({
 		// Notify the rest of the app that navigate is about to happen
 		// NOTE: 'route' events are fired by backbone only when {trigger:true} option is passed
 		// and when browser address bar and back/fwd buttons are used
-		GC.trigger('before:navigate', route, opts);
+		GC.trigger('before:navigate', this.getCurrentRoute(), route);
 
 		Backbone.history.navigate(route, options);
 
@@ -66,7 +66,7 @@ export default Mn.Object.extend({
 		// Notify the rest of the app that a navigate has happened
 		// NOTE: 'route' events are fired by backbone only when {trigger:true} option is passed
 		// and when browser address bar and back/fwd buttons are used
-		GC.trigger('navigate', route, opts);
+		GC.trigger('navigate', route);
 	},
 
 	// Navigates to previous route
