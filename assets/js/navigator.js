@@ -48,6 +48,12 @@ export default Mn.Object.extend({
 	// Navigates to route
 	navigate: function(route, opts) {
 		const options = opts || {};
+
+		// Notify the rest of the app that navigate is about to happen
+		// NOTE: 'route' events are fired by backbone only when {trigger:true} option is passed
+		// and when browser address bar and back/fwd buttons are used
+		GC.trigger('before:navigate', route, opts);
+
 		Backbone.history.navigate(route, options);
 
 		// In case of replace, remove last history entry before adding the new one
@@ -57,9 +63,9 @@ export default Mn.Object.extend({
 
 		this.pushHistoryState(route, options);
 
-		// Notify the rest of the app that a navigate happened
-		// NOTE: 'route' events are fired by backbone only when
-		// the trigger:true option is passed
+		// Notify the rest of the app that a navigate has happened
+		// NOTE: 'route' events are fired by backbone only when {trigger:true} option is passed
+		// and when browser address bar and back/fwd buttons are used
 		GC.trigger('navigate', route, opts);
 	},
 
