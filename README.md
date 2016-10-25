@@ -11,6 +11,9 @@ A starting point for new Marionette v3 based projects.
 * `npm run build`  
    Builds for production
 
+* `npm start:prod`  
+   Builds for production & starts a simple production-like server
+
 * `npm run test`  
    Tests with karma spec runner
 
