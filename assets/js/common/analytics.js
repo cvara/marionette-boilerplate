@@ -10,12 +10,12 @@ const runningOnProduction = !/localhost/.test(location.href);
 // Should we enable tracking ?
 const enableTracking = Boolean(ga) && runningOnProduction;
 
-const Analytics = {
+const API = {
 
 	// Sends page hits to analytics.
 	// - url   : the page url (for one page app can be the url fragment, i.e. "/#artist/minddeparture")
 	// - title : (optional) the page title (i.e. "Artist Page | Mind Departure")
-	trackPageView: function(url, title) {
+	trackPageView(url, title) {
 		url = App.decode(url);
 		title = Utility.toTitleCase(App.decode(title));
 		console.info('Analytics: tracking pageview: ', url, '|', title);
@@ -38,7 +38,7 @@ const Analytics = {
 	// - label    : (optional) the event labe (i.e. the label of a button clicked, "Vote")
 	// - value    : (optional) event related value (i.e. number of times a button was clicked)
 	// - opts     : (optional) extra analytics options object (i.e. "nonInteraction")
-	trackEvent: function(category, action, label, value, opts) {
+	trackEvent(category, action, label, value, opts) {
 		console.info('Analytics: tracking event: ', category, '|', action, '|', label, '|', value, '|', opts);
 		if (!enableTracking) {
 			return;
@@ -47,12 +47,12 @@ const Analytics = {
 	}
 };
 
-GC.on('analytics:track:pageview', function(url, title) {
-	Analytics.trackPageView(url, title);
+GC.on('analytics:track:pageview', (...args) => {
+	API.trackPageView(...args);
 });
 
-GC.on('analytics:track:event', function(category, action, label, value, opts) {
-	Analytics.trackEvent(category, action, label, value, opts);
+GC.on('analytics:track:event', (...args) => {
+	API.trackEvent(...args);
 });
 
-export default Analytics;
+export default API;
