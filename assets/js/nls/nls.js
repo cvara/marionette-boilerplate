@@ -1,26 +1,10 @@
 import App from 'app';
 import Polyglot from 'node-polyglot';
-import locales from './locales';
+import Locales from './locales';
 import Radio from 'backbone.radio';
 import Settings from 'settings';
 const GC = Radio.channel('global');
 
-
-// All supported locales. First is default.
-// ==========================================
-//
-const Locales = [
-	{
-		full    : 'el',
-		legible : 'Ελληνικά',
-		lang    : locales.el
-	},
-	{
-		full    : 'en-gb',
-		legible : 'English',
-		lang    : locales.en_gb
-	}
-];
 
 
 // Currently guessed / set locale
