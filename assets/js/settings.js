@@ -3,6 +3,8 @@
 
 const Settings = {
 
+	HTML5History: true,
+
 	// Enable CORS client-side
 	EnableCORS: true,
 
