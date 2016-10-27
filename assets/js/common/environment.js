@@ -1,103 +1,90 @@
-const Env = window.Env = {};
+class Environment {
 
-Env.enableTransforms = true;
-Env.enableTransitions = true;
+	constructor() {
+		// browser detection regexes
+		this.browser = {
+			bot: /bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent),
+			mobile: {
+				// to detect more mobile devices or update detection code extend/update this object
+				Android: /Android/i.test(navigator.userAgent),
+				BlackBerry: /BlackBerry/i.test(navigator.userAgent),
+				iOS: /iPhone|iPad|iPod/i.test(navigator.userAgent),
+				Windows: /IEMobile/i.test(navigator.userAgent)
+			}
+		};
 
-Env.browser = {
-	bot: /bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent),
-	mobile: {
-		android: /Android/i.test(navigator.userAgent),
-		BlackBerry: /BlackBerry/i.test(navigator.userAgent),
-		iOS: /iPhone|iPad|iPod/i.test(navigator.userAgent),
-		Windows: /IEMobile/i.test(navigator.userAgent)
+		// decide what to enable
+		this.enableTransforms = this.cssTransforms();
+		this.enableTransitions = !this.isMobile();
+
+		// add environment classes
+		this.addEnvClasses();
 	}
-};
 
-Env.detectTouch = () => {
-	return ('ontouchstart' in window) ||
-		(navigator.maxTouchPoints > 0) ||
-		(navigator.msMaxTouchPoints > 0);
-};
-
-Env.isMobile = {
-	Android: () => {
-		return Env.browser.mobile.android;
-	},
-	BlackBerry: () => {
-		return Env.browser.mobile.BlackBerry;
-	},
-	iOS: () => {
-		return Env.browser.mobile.iOS;
-	},
-	Windows: () => {
-		return Env.browser.mobile.Windows;
-	},
-	any: () => {
-		return (Env.browser.mobile.android ||
-			Env.browser.mobile.BlackBerry ||
-			Env.browser.mobile.iOS ||
-			Env.browser.mobile.Windows);
+	isMobile(type) {
+		if (type) {
+			return this.browser.mobile[type];
+		}
+		return Object.keys(this.browser.mobile).reduce((isMobile, mobile) => {
+			return isMobile || this.isMobile(mobile);
+		}, false);
 	}
-};
 
-Env.isMobileApp = () => {
-	return document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
-};
+	detectTouch() {
+		return ('ontouchstart' in window) ||
+			(navigator.maxTouchPoints > 0) ||
+			(navigator.msMaxTouchPoints > 0);
+	}
 
-Env.isBot = () => {
-	return Env.browser.bot;
-};
+	isMobileApp() {
+		return !/^http(s)?:\/\//.test(document.URL);
+	}
 
-Env.cssTransforms = () => {
-	var prefixes = 'transform WebkitTransform MozTransform OTransform msTransform'.split(' ');
-	var div = document.createElement('div');
-	for (var i = 0; i < prefixes.length; i++) {
-		if (div && div.style[prefixes[i]] !== undefined) {
-			return true;
-			// return prefixes[i];
+	isBot() {
+		return this.browser.bot;
+	}
+
+	cssTransforms() {
+		var prefixes = 'transform WebkitTransform MozTransform OTransform msTransform'.split(' ');
+		var div = document.createElement('div');
+		for (var i = 0; i < prefixes.length; i++) {
+			if (div && div.style[prefixes[i]] !== undefined) {
+				return true;
+				// return prefixes[i];
+			}
+		}
+		return false;
+	}
+
+	addMobileClasses() {
+		if (!this.isMobile()) {
+			return;
+		}
+
+		const classes = Object.keys(this.browser.mobile).reduce((className, mobile) => {
+			return `${className} ${this.isMobile(mobile) ? mobile : ''}`;
+		}, 'mobile');
+
+		$('body').addClass(classes);
+	}
+
+	addCss3Classes() {
+		if (!this.cssTransforms()) {
+			$('body').addClass('no-csstransforms');
+		}
+
+		if (this.isMobile()) {
+			$('body').addClass('no-transitions');
 		}
 	}
-	return false;
-};
 
-Env.addMobileClasses = () => {
-	var classes = '';
+	addEnvClasses() {
+		this.addMobileClasses();
+		this.addCss3Classes();
+	}
+}
 
-	if (!Env.isMobile.any()) {
-		return;
-	}
-	classes += ' mobile';
+// Environment Singleton
+const environment = window.env = new Environment();
 
-	if (Env.isMobile.Android()) {
-		classes += ' Android';
-	}
-	if (Env.isMobile.BlackBerry()) {
-		classes += ' BlackBerry';
-	}
-	if (Env.isMobile.iOS()) {
-		classes += ' iOS';
-	}
-	if (Env.isMobile.Windows()) {
-		classes += ' Windows';
-	}
-	$('body').addClass(classes);
-};
-
-Env.addCss3Classes = () => {
-	if (!Env.cssTransforms()) {
-		$('body').addClass('no-csstransforms');
-		Env.enableTransforms = false;
-	}
-
-	if (Env.isMobile.any()) {
-		$('body').addClass('no-transitions');
-		Env.enableTransitions = false;
-	}
-};
-
-Env.addEnvironmentClasses = () => {
-	Env.addMobileClasses();
-	Env.addCss3Classes();
-};
-
-export default Env;
+export default environment;

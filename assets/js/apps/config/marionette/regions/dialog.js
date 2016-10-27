@@ -38,7 +38,7 @@ export default Mn.Region.extend({
 		const title = view.getOption('modalTitle') || '';
 		const className = view.getOption('modalClass') || 'modal-lg';
 		const modalId = this._setModalId();
-		const fade = !Env.isMobile.any();
+		const fade = !Env.isMobile();
 
 		const html = dialogTpl({ title, className, fade, modalId });
 

@@ -35,8 +35,6 @@ App.on('before:start', options => {
 	if (Settings.EnableCORS) {
 		AjaxUtility.enableCORS();
 	}
-	// Add enironment classes to body
-	Environment.addEnvironmentClasses();
 	// Set app locale
 	GC.request('nls:set:locale');
 	console.info('App: pre-start tasks complete.');
