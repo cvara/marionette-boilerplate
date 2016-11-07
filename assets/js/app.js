@@ -36,7 +36,7 @@ App.isLoggedIn = false;
 App.requestedGuestUrl = false;
 
 // Inits app for member
-App.initForMember = (user) => {
+App.initForMember = function (user) {
 	// Notify all modules that user logged in
 	GC.trigger('login', user, false);
 	// Initialize history and cause the triggering of a route
@@ -50,7 +50,7 @@ App.initForMember = (user) => {
 };
 
 // Inits app for guest
-App.initForGuest = () => {
+App.initForGuest = function () {
 	Backbone.history.start({silent: true, pushState: Settings.HTML5History});
 	// Are they accessing a protected URL?
 	if (!Settings.unprotectedURL.test(App.Nav.getCurrentRoute())) {
@@ -92,12 +92,6 @@ GC.on('login', (user, refresh) => {
 GC.on('logout', () => {
 	App.isLoggedIn = false;
 	GC.trigger('splash:show');
-});
-
-// Get notified when user logs out
-GC.on('close:overlapping:interfaces', maintainState => {
-	App.rootView.getRegion('dialog').closeModal();
-	App.rootView.getRegion('overlay').closeOverlay(maintainState);  // close without changing state
 });
 
 // Listen to 'history:back' events fired from overlay region

@@ -1,22 +1,17 @@
-import jquery from 'jquery';
-import jqueryCookie from 'jquery.cookie';
 
-
-const Utility = {};
-
-Utility.csrfSafeMethod = function(method) {
-	// these HTTP methods do not require CSRF protection
+// Tests if a method requires csrf protection
+export const csrfSafeMethod = (method) => {
 	return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 };
 
+// Test that a given url is a same-origin URL
+export const sameOrigin = (url) => {
 
-Utility.sameOrigin = function(url) {
-	// test that a given url is a same-origin URL
 	// url could be relative or scheme relative or absolute
-	var host = document.location.host; // host + port
-	var protocol = document.location.protocol;
-	var sr_origin = '//' + host;
-	var origin = protocol + sr_origin;
+	const host = document.location.host; // host + port
+	const protocol = document.location.protocol;
+	const sr_origin = '//' + host;
+	const origin = protocol + sr_origin;
 	// console.log('url: ', url);
 	// console.log('origin: ', origin);
 	// Allow absolute or scheme relative URLs to same origin
@@ -26,8 +21,7 @@ Utility.sameOrigin = function(url) {
 		!(/^(\/\/|http:|https:).*/.test(url));
 };
 
-
-Utility.enableCORS = function() {
+export const enableCORS = (jquery) => {
 	// enable CORS requests & attach cookies to them
 	jquery.ajaxSetup({
 		xhrFields: {
@@ -38,14 +32,12 @@ Utility.enableCORS = function() {
 };
 
 
-Utility.setupCSRFToken = function() {
-	var csrftoken = jquery.cookie('csrftoken');
-	console.log('csrftoken: ', csrftoken);
+export const setupCSRFToken = (jquery) => {
+	const csrftoken = jquery.cookie('csrftoken');
 	// enable CORS requests & attach cookies to them
 	jquery.ajaxSetup({
-		beforeSend: function(xhr, settings) {
-			if (!Utility.csrfSafeMethod(settings.type) &&
-				Utility.sameOrigin(settings.url)) {
+		beforeSend(xhr, settings) {
+			if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
 				// Send the token to same-origin, relative URLs only.
 				// Send the token only if the method warrants CSRF protection
 				// Using the CSRFToken value acquired earlier
@@ -55,5 +47,3 @@ Utility.setupCSRFToken = function() {
 		}
 	});
 };
-
-export default Utility;

@@ -1,16 +1,12 @@
 import App from 'app';
 import Backbone from 'backbone';
-import HeaderApp from 'apps/header/header_app';
-import SplashApp from 'apps/splash/splash_app';
-import TestApp from 'apps/test/test_app';
-import UsersApp from 'apps/users/users_app';
-import StaticApp from 'apps/static/static_app';
-import LoaderApp from 'apps/loader/loader_app';
-import ErrorsApp from 'apps/errors/errors_app';
+import jquery from 'jquery';
+import jqueryCookie from 'jquery.cookie';
+import Apps from 'apps';
 import Notify from 'common/notify';
 import Media from 'common/media';
 import User from 'data/user';
-import AjaxUtility from 'common/ajax.utility';
+import { enableCORS } from 'common/ajax.utility';
 import Environment from 'common/environment';
 import Settings from 'settings';
 import nls from 'nls/nls';
@@ -34,7 +30,7 @@ attachFastClick.attach(document.body);
 App.on('before:start', options => {
 	// Enable CORS for xhr requests
 	if (Settings.EnableCORS) {
-		AjaxUtility.enableCORS();
+		enableCORS(jquery);
 	}
 	// Set app locale
 	GC.request('nls:set:locale');
