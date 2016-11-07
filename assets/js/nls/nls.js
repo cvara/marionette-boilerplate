@@ -29,7 +29,7 @@ const API = {
 	// 	 legible: 'English',
 	// 	 prefix: 'en'
 	// }
-	getGuessedLocale: () => {
+	getGuessedLocale() {
 		const supportedLocales = API.getSupportedLocales(true);
 		const index = supportedLocales.full.indexOf(guessedLocale);
 		return {
@@ -42,7 +42,7 @@ const API = {
 	// Returns supported locales in all formats
 	// ==========================================
 	//
-	getSupportedLocales: (expanded) => {
+	getSupportedLocales(expanded) {
 		if (!expanded) {
 			return Locales;
 		}
@@ -56,19 +56,34 @@ const API = {
 	// Guesses & returns desired locale in full format (i.e. 'en-us')
 	// ==========================================
 	//
-	guessLocale: () => {
+	guessLocale() {
 		// Get supported locales
 		const supportedLocales = API.getSupportedLocales(true);
 
-		// Try to guess desired locale, falling back to default
-		// Guesses are made in this order:
-		// 1. localStorage (previously stored locale)
-		// 2. navigator
-		const locale = typeof navigator === 'undefined' && typeof localStorage === 'undefined' ?
-			DEFAULT_LOCALE :
-			(localStorage.getItem('locale') ||
-				navigator.language ||
-				navigator.userLanguage || DEFAULT_LOCALE).toLowerCase();
+		// Do the guessing
+		let locale;
+		// Ignore navigator locale
+		if (Settings.IgnoreNavigatorLocale) {
+			locale = typeof localStorage === 'undefined' ?
+				DEFAULT_LOCALE : (
+					localStorage.getItem('locale') ||
+					DEFAULT_LOCALE
+				).toLowerCase();
+		}
+		// Take navigator locale into account
+		else {
+			// Try to guess desired locale, falling back to default
+			// Guesses are made in this order:
+			// 1. localStorage (previously stored locale)
+			// 2. navigator
+			locale = typeof navigator === 'undefined' && typeof localStorage === 'undefined' ?
+				DEFAULT_LOCALE : (
+					localStorage.getItem('locale') ||
+					navigator.language ||
+					navigator.userLanguage ||
+					DEFAULT_LOCALE
+				).toLowerCase();
+		}
 
 		// If full locale was a match
 		if (supportedLocales.full.indexOf(locale) !== -1) {
@@ -88,7 +103,7 @@ const API = {
 	// Sets up our i18n library to use desired locale
 	// ==========================================
 	//
-	initPolyglot: (locale) => {
+	initPolyglot(locale) {
 		// Init polyglot (register as global var for template access)
 		const polyglot = new Polyglot();
 		_.bindAll(polyglot, 't');
@@ -106,7 +121,7 @@ const API = {
 	// Main method for setting locale
 	// ==========================================
 	//
-	setLocale: (locale) => {
+	setLocale(locale) {
 		// Get user locale
 		locale = locale || API.guessLocale();
 

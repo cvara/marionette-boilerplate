@@ -21,7 +21,11 @@ const Settings = {
 	// Global file size limit
 	FileSizeLimit: 2 * 1024 * 1024, // 2mb
 
+	// Default locale
 	DefaultLocale: 'en-gb',
+
+	// Ignore navigator locale when detecting locale for the first time
+	IgnoreNavigatorLocale: false,
 
 	// Location of the API
 	// RootURL: 'http://localhost:3000',
