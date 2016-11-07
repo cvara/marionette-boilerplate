@@ -6,6 +6,7 @@ import TestApp from 'apps/test/test_app';
 import UsersApp from 'apps/users/users_app';
 import StaticApp from 'apps/static/static_app';
 import LoaderApp from 'apps/loader/loader_app';
+import ErrorsApp from 'apps/errors/errors_app';
 import Notify from 'common/notify';
 import Media from 'common/media';
 import User from 'data/user';
