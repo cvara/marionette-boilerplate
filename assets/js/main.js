@@ -1,3 +1,10 @@
+import 'rAF-polyfill';
+import 'date-polyfill';
+import 'storage-polyfill';
+import 'trim-polyfill';
+import 'JSON2';
+
+import 'bootstrap';
 import App from 'app';
 import Backbone from 'backbone';
 import jquery from 'jquery';
@@ -12,12 +19,6 @@ import Settings from 'settings';
 import nls from 'nls/nls';
 import attachFastClick from 'fastclick';
 
-import 'rAF-polyfill';
-import 'date-polyfill';
-import 'storage-polyfill';
-import 'trim-polyfill';
-import 'JSON2';
-import 'bootstrap';
 
 import Radio from 'backbone.radio';
 const GC = Radio.channel('global');
